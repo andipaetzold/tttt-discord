@@ -1,6 +1,4 @@
-import { Message, VoiceChannel, VoiceConnection } from "discord.js";
-import { client } from "../client";
-import { getConfig, saveConfig } from "../config";
+import { Message } from "discord.js";
 import { DEFAULT_PREFIX } from "../constants";
 import { log } from "../log";
 import { addTimer } from "../timer";
