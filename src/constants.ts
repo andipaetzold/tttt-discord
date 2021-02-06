@@ -1,4 +1,4 @@
-export const PREFIX = "tttt!";
+export const PREFIX = "!tt ";
 
 export const DEFAULT_ATHLETE_NAMES = ["Amelia", "Bowie", "Coco", "Dan", "Emma", "Finn", "Grace", "Henry", "Irene", "Jack"];
 
