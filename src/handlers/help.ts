@@ -14,6 +14,7 @@ export async function help(channel: TextChannel) {
         .addField(`\`${DEFAULT_PREFIX}config <name> <time>\``, "Set the lead time of an athlete")
 
         .addField(`\`${DEFAULT_PREFIX}reset\``, "Resets the bot")
+        .addField(`\`${DEFAULT_PREFIX}invite\``, "Print link to invite this bot to another server")
         .addField(`\`${DEFAULT_PREFIX}help\``, "Show this message")
         .addField(
             "Links",

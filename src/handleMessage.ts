@@ -2,6 +2,7 @@ import { Message, TextChannel } from "discord.js";
 import { DEFAULT_PREFIX, PREFIXES } from "./constants";
 import { config } from "./handlers/config";
 import { help } from "./handlers/help";
+import { invite } from "./handlers/invite";
 import { reset } from "./handlers/reset";
 import { start } from "./handlers/start";
 import { stop } from "./handlers/stop";
@@ -12,6 +13,7 @@ const commandsMap: { [command: string]: (message: Message, args: string[]) => Pr
     stop,
     config,
     reset: (message) => reset(message.guild!.id, message),
+    invite,
     help: (message) => help(message.channel as TextChannel),
 };
 

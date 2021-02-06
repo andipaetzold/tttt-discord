@@ -33,5 +33,8 @@ Set the lead time of an athlete
 ### `!t reset`
 Resets the bot
 
+### `!t invite`
+Print link to invite this bot to another server
+
 ### `!t help`
 Show help message with available commands
