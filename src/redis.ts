@@ -1,7 +1,7 @@
 import { createClient } from "redis";
 
 const client = createClient({
-    url: process.env.REDIS_TLS_URL,
+    url: process.env.REDIS_URL,
 });
 
 export async function write<T = any>(key: string, value: T): Promise<void> {
