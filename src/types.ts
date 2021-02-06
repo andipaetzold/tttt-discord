@@ -5,5 +5,6 @@ export interface Config {
     athletes: {
         name: string;
         time: number;
+        userId?: string;
     }[];
 }
