@@ -1,5 +1,5 @@
 import { DEFAULT_ATHLETE_NAMES, DEFAULT_START_DELAY, DEFAULT_TIME_PER_ATHLETE } from "./constants";
-import { write, createConfigKey, read } from "./redis";
+import { createConfigKey, read, remove, write } from "./redis";
 import { Config } from "./types";
 
 const DEFAULT_CONFIG: Omit<Config, "guildId"> = {
@@ -22,4 +22,8 @@ export async function getConfig(guildId: string): Promise<Config> {
 
 export async function saveConfig(guildId: string, config: Config): Promise<void> {
     await write(createConfigKey(guildId), config);
+}
+
+export async function removeConfig(guildId: string): Promise<void> {
+    await remove(createConfigKey(guildId));
 }

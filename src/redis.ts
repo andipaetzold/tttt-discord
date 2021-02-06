@@ -30,6 +30,18 @@ export async function read<T = any>(key: string): Promise<T | undefined> {
     });
 }
 
+export async function remove(key: string): Promise<void> {
+    return await new Promise((resolve, reject) => {
+        client.del(key, (err, reply) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve();
+            }
+        });
+    });
+}
+
 export function createConfigKey(guildId: string): string {
     return `config/${guildId}`;
 }

@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import { client } from "./client";
+import { removeConfig } from "./config";
 import { handleMessage } from "./handleMessage";
 import { log } from "./log";
 
@@ -10,6 +11,10 @@ client.once("reconnecting", () => log("Reconnecting", "Server"));
 client.once("disconnect", () => log("Disconnect", "Server"));
 client.on("error", (e) => console.error("Error", e));
 client.on("message", handleMessage);
+
+client.on("guildDelete", async (guild) => {
+    await removeConfig(guild.id);
+});
 
 client.login(process.env.DISCORD_TOKEN);
 
