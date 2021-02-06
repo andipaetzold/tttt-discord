@@ -15,7 +15,7 @@ client.login(process.env.DISCORD_TOKEN);
 
 function ready() {
     client.user!.setActivity({
-        name: "Zwift",
+        name: "WTRL on Zwift",
         type: "WATCHING",
     });
 
