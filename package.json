@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/index.js",
   "engines": {
-    "node": "14.x"
+    "node": "14.5.4"
   },
   "scripts": {
     "start": "node .",
