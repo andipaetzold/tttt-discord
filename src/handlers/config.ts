@@ -1,5 +1,5 @@
 import { Message, MessageEmbed, TextChannel } from "discord.js";
-import { client } from "../client";
+import { client } from "../discord";
 import { getConfig, saveConfig } from "../config";
 import { DEFAULT_PREFIX, DEFAULT_TIME_PER_ATHLETE } from "../constants";
 import { Athlete } from "../types";

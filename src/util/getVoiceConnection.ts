@@ -1,5 +1,5 @@
 import { VoiceChannel, VoiceConnection } from "discord.js";
-import { client } from "../client";
+import { client } from "../discord";
 import { getConfig, saveConfig } from "../config";
 import { log } from "../log";
 

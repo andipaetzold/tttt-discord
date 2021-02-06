@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import { client } from "./client";
+import { client } from "./discord";
 import { handleMessage } from "./handleMessage";
 import { reset } from "./handlers/reset";
 import { log } from "./log";

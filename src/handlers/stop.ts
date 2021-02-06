@@ -1,5 +1,5 @@
 import { Message } from "discord.js";
-import { client } from "../client";
+import { client } from "../discord";
 import { log } from "../log";
 import { stopTimer } from "../timer";
 import { EMOJI_SUCCESS } from "../util/emojis";
