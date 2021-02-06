@@ -1,79 +1,81 @@
 import { client } from "./client";
 import { getConfig } from "./config";
 import { speakCommand } from "./speak";
-import { Config } from "./types";
-
-let prevTickTime: number = Date.now();
 
 interface Timer {
     guildId: string;
     lastChangeTime: number;
     athleteIndex: number;
-    config: Config;
     started: boolean;
 }
 
-const timers: Record<string, Timer> = {};
+const timers: { [guildId: string]: Timer } = {};
 
+let prevTickTime: number = getTime();
 setInterval(() => {
-    const now = Date.now();
+    const time = getTime();
 
-    for (const timer of Object.values(timers)) {
-        const connection = client.voice?.connections.find((c) => c.channel.guild.id === timer.guildId);
-
-        if (connection === undefined) {
-            stopTimer(timer.guildId);
-            return;
-        }
-
-        const secondsSinceLastChange = Math.round((now - timer.lastChangeTime) / 1_000);
-        const prevSecondsSinceLastChange = Math.round((prevTickTime - timer.lastChangeTime) / 1_000);
-
-        if (secondsSinceLastChange === prevSecondsSinceLastChange) {
-            return;
-        }
-
-        if (timer.started) {
-            const nextAthleteIndex = (timer.athleteIndex + 1) % timer.config.athletes.length;
-            const nextAthlete = timer.config.athletes[nextAthleteIndex].name;
-            const remainingSeconds = timer.config.athletes[timer.athleteIndex].time - secondsSinceLastChange;
-            speakCommand(`${remainingSeconds}`, { nextAthlete }, connection);
-
-            if (remainingSeconds === 0) {
-                timer.athleteIndex = nextAthleteIndex;
-                timer.lastChangeTime = now;
-            }
-        } else {
-            const nextAthlete = timer.config.athletes[timer.athleteIndex].name;
-            const remainingSeconds = timer.config.startDelay - secondsSinceLastChange;
-
-            if (remainingSeconds === 0) {
-                timer.started = true;
-                timer.lastChangeTime = now;
-
-                speakCommand("start", { nextAthlete }, connection);
-            } else {
-                speakCommand(`${remainingSeconds}`, { nextAthlete }, connection);
-            }
+    if (time !== prevTickTime) {
+        for (const timer of Object.values(timers)) {
+            tick(timer, time);
         }
     }
 
-    prevTickTime = Date.now();
+    prevTickTime = time;
 }, 500);
 
 export async function addTimer(guildId: string): Promise<void> {
     const config = await getConfig(guildId);
 
-    const now = Date.now();
+    const now = getTime();
     timers[guildId] = {
         guildId,
         lastChangeTime: now,
         athleteIndex: 0,
-        config,
         started: config.startDelay === 0,
     };
 }
 
 export async function stopTimer(guildId: string): Promise<void> {
     delete timers[guildId];
+}
+
+async function tick(timer: Timer, time: number): Promise<void> {
+    const config = await getConfig(timer.guildId);
+    const connection = client.voice?.connections.find((c) => c.channel.guild.id === timer.guildId);
+
+    if (connection === undefined) {
+        stopTimer(timer.guildId);
+        return;
+    }
+
+    const timeSinceLastChange = time - timer.lastChangeTime;
+
+    if (timer.started) {
+        const nextAthleteIndex = (timer.athleteIndex + 1) % config.athletes.length;
+        const nextAthlete = config.athletes[nextAthleteIndex].name;
+        const remainingSeconds = config.athletes[timer.athleteIndex].time - timeSinceLastChange;
+        await speakCommand(`${remainingSeconds}`, { nextAthlete }, connection);
+
+        if (remainingSeconds === 0) {
+            timer.athleteIndex = nextAthleteIndex;
+            timer.lastChangeTime = time;
+        }
+    } else {
+        const nextAthlete = config.athletes[timer.athleteIndex].name;
+        const remainingSeconds = config.startDelay - timeSinceLastChange;
+
+        if (remainingSeconds === 0) {
+            timer.started = true;
+            timer.lastChangeTime = time;
+
+            await speakCommand("start", { nextAthlete }, connection);
+        } else {
+            await speakCommand(`${remainingSeconds}`, { nextAthlete }, connection);
+        }
+    }
+}
+
+function getTime() {
+    return Math.round(Date.now() / 1_000);
 }
