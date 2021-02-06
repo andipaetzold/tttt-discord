@@ -1,9 +1,8 @@
 import { client } from "./client";
 
+const inviteUrlPromise = client.generateInvite({ permissions: ["SEND_MESSAGES", "CONNECT", "SPEAK"] });
 export async function getInviteUrl(): Promise<string> {
-    return await client.generateInvite({
-        permissions: ["SEND_MESSAGES", "CONNECT", "SPEAK"],
-    });
+    return await inviteUrlPromise;
 }
 
 export async function hasSendMessagePermission(guildId: string): Promise<boolean> {
