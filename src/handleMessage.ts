@@ -7,6 +7,14 @@ import { start } from "./handlers/start";
 import { stop } from "./handlers/stop";
 import { log } from "./log";
 
+const commandsMap: { [command: string]: (message: Message, args: string[]) => Promise<void> } = {
+    start,
+    stop,
+    config,
+    reset: (message) => reset(message.guild!.id, message),
+    help: (message) => help(message.channel as TextChannel),
+};
+
 export async function handleMessage(message: Message) {
     if (message.author.bot) {
         // ignore bot messages
@@ -38,25 +46,5 @@ export async function handleMessage(message: Message) {
 
     log(`Command: ${command} ${args}`, `TC:${message.channel.id}`);
 
-    switch (command) {
-        case "start":
-            await start(message);
-            break;
-
-        case "stop":
-            await stop(message);
-            break;
-
-        case "config":
-            await config(message, args);
-            break;
-
-        case "reset":
-            await reset(message.guild!.id, message);
-            break;
-
-        case "help":
-            await help(message.channel as TextChannel);
-            break;
-    }
+    await commandsMap[command]?.(message, args);
 }
