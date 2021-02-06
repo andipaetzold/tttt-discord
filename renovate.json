@@ -1,0 +1,7 @@
+{
+  "extends": ["config:js-app"],
+  "dependencyDashboard": true,
+  "lockFileMaintenance": {
+    "enabled": true
+  }
+}

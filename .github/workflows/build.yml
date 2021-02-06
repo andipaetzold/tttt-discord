@@ -1,0 +1,17 @@
+name: Build
+
+on: [push]
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Switch node version
+        shell: bash -l {0}
+        run: nvm install
+      - name: Install
+        run: npm ci
+      - name: Build
+        run: npm run build
