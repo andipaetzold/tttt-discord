@@ -3,6 +3,20 @@
   "version": "0.0.0",
   "description": "",
   "main": "dist/index.js",
+  "license": "MIT",
+  "author": {
+      "name": "Andi Pätzold",
+      "email": "github@andipaetzold.com",
+      "url": "https://github.com/andipaetzold"
+  },
+  "repository": {
+      "type": "git",
+      "url": "https://github.com/andipaetzold/race-evaluator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/andipaetzold/tttt/issues",
+    "email": "github@andipaetzold.com"
+  },
   "engines": {
     "node": "14.15.4"
   },
