@@ -2,6 +2,7 @@ import { Message, MessageEmbed, TextChannel } from "discord.js";
 import { client } from "../client";
 import { getConfig, saveConfig } from "../config";
 import { DEFAULT_PREFIX, DEFAULT_TIME_PER_ATHLETE } from "../constants";
+import { Athlete } from "../types";
 
 export async function config(message: Message, args: string[]): Promise<void> {
     if (args.length === 0) {
@@ -118,7 +119,7 @@ async function sendError(text: string, message: Message): Promise<void> {
     await Promise.all([message.channel.send(text), message.react("🤷‍♂️")]);
 }
 
-async function parseUser(s: string): Promise<{ name: string; userId?: string }> {
+async function parseUser(s: string): Promise<Pick<Athlete, 'name' | 'userId'>> {
     if (s.startsWith(`<@!`) && s.endsWith(`>`)) {
         const userId = s.slice(3, -1);
         const user = await client.users.fetch(userId);
@@ -135,7 +136,7 @@ async function parseUser(s: string): Promise<{ name: string; userId?: string }> 
     }
 }
 
-function isSameAthlete(a: { name: string; userId?: string }, b: { name: string; userId?: string }): boolean {
+function isSameAthlete(a: Pick<Athlete, 'name' | 'userId'>, b: Pick<Athlete, 'name' | 'userId'>): boolean {
     if (a.userId && b.userId) {
         return a.userId === b.userId;
     } else {
@@ -143,7 +144,7 @@ function isSameAthlete(a: { name: string; userId?: string }, b: { name: string; 
     }
 }
 
-function athleteToString(athlete: { name: string; userId?: string }): string {
+function athleteToString(athlete: Pick<Athlete, 'name' | 'userId'>): string {
     if (athlete.userId) {
         return `<@!${athlete.userId}>`;
     } else {
