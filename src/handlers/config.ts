@@ -34,7 +34,7 @@ async function updateConfig(message: Message, args: string[]) {
             const newStartDelay = +args[1];
 
             if (isNaN(newStartDelay)) {
-                await Promise.allSettled([message.channel.send(`"${args[1]} is not a valid number"`), message.react("🤷‍♂️")]);
+                await sendError(`"${args[1]} is not a valid number"`, message);
                 return;
             }
 
@@ -43,7 +43,7 @@ async function updateConfig(message: Message, args: string[]) {
                 startDelay: newStartDelay,
             });
 
-            await message.react("✅");
+            await confirmMessage(message);
             break;
         }
 
@@ -51,12 +51,14 @@ async function updateConfig(message: Message, args: string[]) {
             const athletes = args.slice(1);
 
             if (athletes.length === 0) {
-                message.channel.send(config.athletes.map((athlete) => `• ${athlete.name} (${athlete.time}s)`).join("\n"));
+                await message.channel.send(
+                    config.athletes.map((athlete) => `• ${athlete.name} (${athlete.time}s)`).join("\n")
+                );
                 return;
             }
 
             if (athletes.length === 1) {
-                message.channel.send("You can't ride a team time trial alone. Go and join a team!");
+                await sendError("You can't ride a team time trial alone. Go and join a team!", message);
                 return;
             }
 
@@ -71,17 +73,46 @@ async function updateConfig(message: Message, args: string[]) {
                 athletes: newAthletes,
             });
 
-            await message.react("✅");
+            await confirmMessage(message);
             break;
         }
 
-        default:
-            await Promise.allSettled([
-                message.channel.send(
-                    `I am not sure what you want to do. Use \`${DEFAULT_PREFIX}help\` for more details on how to use me.`
-                ),
-                message.react("🤷‍♂️"),
-            ]);
+        default: {
+            if (config.athletes.map((a) => a.name).includes(args[0])) {
+                const athleteName = args[0];
+                const newTime = +args[1];
+                if (isNaN(newTime)) {
+                    await sendError(`"${args[1]} is not a valid number"`, message);
+                    return;
+                }
+
+                await saveConfig(message.guild!.id, {
+                    ...config,
+                    athletes: config.athletes.map((a) =>
+                        a.name === athleteName
+                            ? {
+                                  ...a,
+                                  time: newTime,
+                              }
+                            : a
+                    ),
+                });
+                await confirmMessage(message);
+            } else {
+                await sendError(
+                    `I am not sure what you want to do. Use \`${DEFAULT_PREFIX}help\` for more details on how to update the configuration.`,
+                    message
+                );
+            }
             break;
+        }
     }
+}
+
+async function confirmMessage(message: Message): Promise<void> {
+    await confirmMessage(message);
+}
+
+async function sendError(text: string, message: Message): Promise<void> {
+    await Promise.all([message.channel.send(text), message.react("🤷‍♂️")]);
 }

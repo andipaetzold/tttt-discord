@@ -11,6 +11,7 @@ export async function help(channel: TextChannel) {
         .addField(`\`${DEFAULT_PREFIX}config\``, "Get the current configuration")
         .addField(`\`${DEFAULT_PREFIX}config startDelay <number>\``, "Sets the start delay in seconds")
         .addField(`\`${DEFAULT_PREFIX}config athletes <name>:[<time>] ...\``, "Set the athletes and their lead times")
+        .addField(`\`${DEFAULT_PREFIX}config <name> <time>\``, "Set the lead time of an athlete")
 
         .addField(`\`${DEFAULT_PREFIX}reset\``, "Resets the bot")
         .addField(`\`${DEFAULT_PREFIX}help\``, "Show this message")
