@@ -10,7 +10,7 @@ export async function start(message: Message, sendMessage: (message: string) => 
     const connection = await getVoiceConnection(message);
 
     if (connection === undefined) {
-        await sendMessage(`Looks like I am not in a voice channel on this server. Use \`${DEFAULT_PREFIX}join\` to add me.`);
+        await sendMessage(`I don't know which voice channel to join. Join a voice channel and run \`${DEFAULT_PREFIX}start\` again.`);
         return;
     }
 
