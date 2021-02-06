@@ -1,6 +1,7 @@
 import { client } from "./client";
-import { Config, getConfig } from "./config";
-import { speak, speakCommand } from "./speak";
+import { getConfig } from "./config";
+import { speakCommand } from "./speak";
+import { Config } from "./types";
 
 let prevTickTime: number = Date.now();
 

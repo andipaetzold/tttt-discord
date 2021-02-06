@@ -5,13 +5,13 @@
   "main": "dist/index.js",
   "license": "MIT",
   "author": {
-      "name": "Andi Pätzold",
-      "email": "github@andipaetzold.com",
-      "url": "https://github.com/andipaetzold"
+    "name": "Andi Pätzold",
+    "email": "github@andipaetzold.com",
+    "url": "https://github.com/andipaetzold"
   },
   "repository": {
-      "type": "git",
-      "url": "https://github.com/andipaetzold/race-evaluator.git"
+    "type": "git",
+    "url": "https://github.com/andipaetzold/race-evaluator.git"
   },
   "bugs": {
     "url": "https://github.com/andipaetzold/tttt/issues",
@@ -33,9 +33,11 @@
   },
   "dependencies": {
     "@discordjs/opus": "0.4.0",
+    "@types/redis": "2.8.28",
     "discord.js": "12.5.1",
     "dotenv": "8.2.0",
     "ffmpeg-static": "4.2.7",
-    "google-tts-api": "2.0.1"
+    "google-tts-api": "2.0.1",
+    "redis": "3.0.2"
   }
 }

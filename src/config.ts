@@ -1,15 +1,8 @@
 import { DEFAULT_ATHLETE_NAMES, DEFAULT_START_DELAY, DEFAULT_TIME_PER_ATHLETE } from "./constants";
+import { write, createConfigKey, read } from "./redis";
+import { Config } from "./types";
 
-export interface Config {
-    voiceChannelId?: string;
-    startDelay: number;
-    athletes: {
-        name: string;
-        time: number;
-    }[];
-}
-
-const DEFAULT_CONFIG: Config = {
+const DEFAULT_CONFIG: Omit<Config, "guildId"> = {
     startDelay: DEFAULT_START_DELAY,
     athletes: DEFAULT_ATHLETE_NAMES.slice(0, 6).map((name) => ({
         name,
@@ -17,13 +10,16 @@ const DEFAULT_CONFIG: Config = {
     })),
 };
 
-const store: Record<string, Config> = {};
-
-export async function getConfig(guidId: string): Promise<Config> {
-    const config = store[guidId] ?? DEFAULT_CONFIG;
-    return Promise.resolve(config);
+export async function getConfig(guildId: string): Promise<Config> {
+    const config = await read(createConfigKey(guildId));
+    return (
+        config ?? {
+            ...DEFAULT_CONFIG,
+            guildId,
+        }
+    );
 }
 
-export async function saveConfig(guidId: string, config: Config): Promise<void> {
-    store[guidId] = config;
+export async function saveConfig(guildId: string, config: Config): Promise<void> {
+    await write(createConfigKey(guildId), config);
 }
