@@ -1,21 +1,23 @@
 import type { TextChannel } from "discord.js";
-import { PREFIX } from "../constants";
+import { DEFAULT_PREFIX } from "../constants";
 
 export async function help(channel: TextChannel) {
     await channel.send(`
 Commands:
 \`\`\`
-${PREFIX}join                                : I'll join your voice channel
-${PREFIX}leave                               : Leave the voice channel
-${PREFIX}start                               : Start the timer
-${PREFIX}stop                                : Stop the timer
+${DEFAULT_PREFIX}join                                : I'll join your voice channel
+${DEFAULT_PREFIX}leave                               : Leave the voice channel
+${DEFAULT_PREFIX}start                               : Start the timer
+${DEFAULT_PREFIX}stop                                : Stop the timer
 
-${PREFIX}config                              : Get the current configuration
-${PREFIX}config startDelay <number>          : Sets the start delay in seconds
-${PREFIX}config athletes <name>:[<time>] ... : Set the athletes and their lead times
+${DEFAULT_PREFIX}config                              : Get the current configuration
+${DEFAULT_PREFIX}config startDelay <number>          : Sets the start delay in seconds
+${DEFAULT_PREFIX}config athletes <name>:[<time>] ... : Set the athletes and their lead times
 
-${PREFIX}help                                : Show this message
+${DEFAULT_PREFIX}help                                : Show this message
 \`\`\`
+If \`!t\` is already used by another bot, use \`!tttt\` as command prefix.
+
 *Made by Andi Pätzold*
 Web App: <https://andipaetzold.github.io/tttt/>
 Support this project: <https://paypal.me/andipaetzold>

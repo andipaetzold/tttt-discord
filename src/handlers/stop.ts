@@ -1,6 +1,6 @@
 import { Message } from "discord.js";
 import { client } from "../client";
-import { PREFIX } from "../constants";
+import { DEFAULT_PREFIX } from "../constants";
 import { log } from "../log";
 import { stopTimer } from "../timer";
 
@@ -9,7 +9,7 @@ export async function stop(message: Message, sendMessage: (message: string) => P
     const connection = client.voice?.connections.find((c) => c.channel.guild.id === guildId);
 
     if (connection === undefined) {
-        await sendMessage(`Looks like I am not in a voice channel on this server. Use \`${PREFIX}join\` to add me.`);
+        await sendMessage(`Looks like I am not in a voice channel on this server. Use \`${DEFAULT_PREFIX}join\` to add me.`);
         return;
     }
 

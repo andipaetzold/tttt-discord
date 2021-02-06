@@ -1,6 +1,6 @@
 import type { Message, TextChannel } from "discord.js";
 import { getConfig, saveConfig } from "../config";
-import { DEFAULT_TIME_PER_ATHLETE, PREFIX } from "../constants";
+import { DEFAULT_TIME_PER_ATHLETE, DEFAULT_PREFIX } from "../constants";
 
 export async function config(message: Message, args: string[]): Promise<void> {
     if (args.length === 0) {
@@ -77,7 +77,7 @@ async function updateConfig(message: Message, args: string[]) {
         default:
             await Promise.allSettled([
                 message.channel.send(
-                    `I am not sure what you want to do. Use \`${PREFIX}help\` for more details on how to use me.`
+                    `I am not sure what you want to do. Use \`${DEFAULT_PREFIX}help\` for more details on how to use me.`
                 ),
                 message.react("🤷‍♂️"),
             ]);

@@ -1,5 +1,5 @@
 import { Message, TextChannel } from "discord.js";
-import { PREFIX } from "./constants";
+import { DEFAULT_PREFIX, PREFIXES } from "./constants";
 import { config } from "./handlers/config";
 import { help } from "./handlers/help";
 import { joinVoiceChannel } from "./handlers/joinVoiceChannel";
@@ -16,7 +16,7 @@ export async function handleMessage(message: Message) {
 
     if (!message.member) {
         message.channel.send(
-            `The timer can only be used in voice channels - not in direct messages. Add me to a server/guild and type \`${PREFIX}help\` for more details.`
+            `The timer can only be used in voice channels - not in direct messages. Add me to a server/guild and type \`${DEFAULT_PREFIX}help\` for more details.`
         );
         return;
     }
@@ -25,11 +25,12 @@ export async function handleMessage(message: Message) {
         return;
     }
 
-    if (!message.content.startsWith(PREFIX)) {
+    const usedPrefix = PREFIXES.find((prefix) => message.content.startsWith(prefix));
+    if (!usedPrefix) {
         return;
     }
 
-    const strippedPrefix = message.content.slice(PREFIX.length);
+    const strippedPrefix = message.content.slice(usedPrefix.length);
     const command = strippedPrefix.split(" ")[0];
     const args = strippedPrefix
         .split(" ")
@@ -61,10 +62,6 @@ export async function handleMessage(message: Message) {
 
         case "help":
             await help(message.channel as TextChannel);
-            break;
-
-        default:
-            await message.channel.send(`Unknown command. Type \`${PREFIX}help\` for more details.`);
             break;
     }
 }

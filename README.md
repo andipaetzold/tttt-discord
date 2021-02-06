@@ -10,26 +10,28 @@
 
 ## Usage
 
-### `!tt join`
+If `!t` is already used by another bot, use `!tttt` as command prefix.
+
+### `!t join`
 I'll join your voice channel
 
-### `!tt leave`
+### `!t leave`
 Leave the voice channel
 
-### `!tt start`
+### `!t start`
 Start the timer
 
-### `!tt stop`
+### `!t stop`
 Stop the timer
 
-### `!tt config`
+### `!t config`
 Get the current configuration
 
-### `!tt startDelay <number>`
+### `!t startDelay <number>`
 Sets the start delay in seconds
 
-### `!tt athletes <name>:[<time>] ...`
+### `!t athletes <name>:[<time>] ...`
 Set the athletes and their lead times
 
-### `!tt help`
+### `!t help`
 Show help message with available commands
