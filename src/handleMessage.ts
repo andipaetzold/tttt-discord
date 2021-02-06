@@ -40,11 +40,11 @@ export async function handleMessage(message: Message) {
 
     switch (command) {
         case "start":
-            await start(message, (text: string) => message.channel.send(text));
+            await start(message);
             break;
 
         case "stop":
-            await stop(message, (text: string) => message.channel.send(text));
+            await stop(message);
             break;
 
         case "config":

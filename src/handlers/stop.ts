@@ -2,8 +2,11 @@ import { Message } from "discord.js";
 import { client } from "../client";
 import { log } from "../log";
 import { stopTimer } from "../timer";
+import { EMOJI_SUCCESS } from "../util/emojis";
 
-export async function stop(message: Message, sendMessage: (message: string) => Promise<Message>): Promise<void> {
+export async function stop(message: Message): Promise<void> {
+    await message.react(EMOJI_SUCCESS);
+
     const guildId = message.guild!.id;
     const connection = client.voice?.connections.find((c) => c.channel.guild.id === guildId);
 
@@ -12,10 +15,8 @@ export async function stop(message: Message, sendMessage: (message: string) => P
     }
 
     log("Stop", `G:${connection.channel.guild.id}`);
-    await message.react("🏁");
 
     await stopTimer(guildId);
-
 
     log("Disconnect", `VC:${connection.channel.id}`);
     connection.disconnect();

@@ -3,6 +3,7 @@ import { client } from "../client";
 import { getConfig, saveConfig } from "../config";
 import { DEFAULT_PREFIX, DEFAULT_TIME_PER_ATHLETE } from "../constants";
 import { Athlete } from "../types";
+import { EMOJI_ERROR, EMOJI_SUCCESS } from "../util/emojis";
 
 export async function config(message: Message, args: string[]): Promise<void> {
     if (args.length === 0) {
@@ -39,7 +40,7 @@ async function updateConfig(message: Message, args: string[]) {
             const newStartDelay = +args[1];
 
             if (isNaN(newStartDelay)) {
-                await sendError(`"${args[1]} is not a valid number"`, message);
+                await sendError(`${args[1]} is not a valid number`, message);
                 return;
             }
 
@@ -84,7 +85,7 @@ async function updateConfig(message: Message, args: string[]) {
             if (config.athletes.some((a) => isSameAthlete(a, parsedUser))) {
                 const newTime = +args[1];
                 if (isNaN(newTime)) {
-                    await sendError(`"${args[1]} is not a valid number"`, message);
+                    await sendError(`${args[1]} is not a valid number`, message);
                     return;
                 }
 
@@ -112,14 +113,14 @@ async function updateConfig(message: Message, args: string[]) {
 }
 
 async function confirmMessage(message: Message): Promise<void> {
-    await message.react("✅");
+    await message.react(EMOJI_SUCCESS);
 }
 
 async function sendError(text: string, message: Message): Promise<void> {
-    await Promise.all([message.channel.send(text), message.react("🤷‍♂️")]);
+    await Promise.all([message.channel.send(text), message.react(EMOJI_ERROR)]);
 }
 
-async function parseUser(s: string): Promise<Pick<Athlete, 'name' | 'userId'>> {
+async function parseUser(s: string): Promise<Pick<Athlete, "name" | "userId">> {
     if (s.startsWith(`<@!`) && s.endsWith(`>`)) {
         const userId = s.slice(3, -1);
         const user = await client.users.fetch(userId);
@@ -136,7 +137,7 @@ async function parseUser(s: string): Promise<Pick<Athlete, 'name' | 'userId'>> {
     }
 }
 
-function isSameAthlete(a: Pick<Athlete, 'name' | 'userId'>, b: Pick<Athlete, 'name' | 'userId'>): boolean {
+function isSameAthlete(a: Pick<Athlete, "name" | "userId">, b: Pick<Athlete, "name" | "userId">): boolean {
     if (a.userId && b.userId) {
         return a.userId === b.userId;
     } else {
@@ -144,7 +145,7 @@ function isSameAthlete(a: Pick<Athlete, 'name' | 'userId'>, b: Pick<Athlete, 'na
     }
 }
 
-function athleteToString(athlete: Pick<Athlete, 'name' | 'userId'>): string {
+function athleteToString(athlete: Pick<Athlete, "name" | "userId">): string {
     if (athlete.userId) {
         return `<@!${athlete.userId}>`;
     } else {
