@@ -27,5 +27,8 @@ Sets the start delay in seconds
 ### `!t athletes <name>:[<time>] ...`
 Set the athletes and their lead times
 
+### `!t reset`
+Resets the bot
+
 ### `!t help`
 Show help message with available commands

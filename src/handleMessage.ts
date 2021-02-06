@@ -2,6 +2,7 @@ import { Message, TextChannel } from "discord.js";
 import { DEFAULT_PREFIX, PREFIXES } from "./constants";
 import { config } from "./handlers/config";
 import { help } from "./handlers/help";
+import { reset } from "./handlers/reset";
 import { start } from "./handlers/start";
 import { stop } from "./handlers/stop";
 import { log } from "./log";
@@ -48,6 +49,10 @@ export async function handleMessage(message: Message) {
 
         case "config":
             await config(message, args);
+            break;
+
+        case "reset":
+            await reset(message.guild!.id, message);
             break;
 
         case "help":

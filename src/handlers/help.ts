@@ -12,6 +12,7 @@ ${DEFAULT_PREFIX}config                              : Get the current configura
 ${DEFAULT_PREFIX}config startDelay <number>          : Sets the start delay in seconds
 ${DEFAULT_PREFIX}config athletes <name>:[<time>] ... : Set the athletes and their lead times
 
+${DEFAULT_PREFIX}reset                               : Resets the bot
 ${DEFAULT_PREFIX}help                                : Show this message
 \`\`\`
 If \`!t\` is already used by another bot, use \`!tttt\` as command prefix.

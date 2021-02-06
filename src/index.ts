@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import { client } from "./client";
-import { removeConfig } from "./config";
 import { handleMessage } from "./handleMessage";
+import { reset } from "./handlers/reset";
 import { log } from "./log";
 
 dotenv.config();
@@ -12,9 +12,7 @@ client.once("disconnect", () => log("Disconnect", "Server"));
 client.on("error", (e) => console.error("Error", e));
 client.on("message", handleMessage);
 
-client.on("guildDelete", async (guild) => {
-    await removeConfig(guild.id);
-});
+client.on("guildDelete", (guild) => reset(guild.id));
 
 client.login(process.env.DISCORD_TOKEN);
 
