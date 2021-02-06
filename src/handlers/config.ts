@@ -1,6 +1,6 @@
-import type { Message, TextChannel } from "discord.js";
+import { Message, MessageEmbed, TextChannel } from "discord.js";
 import { getConfig, saveConfig } from "../config";
-import { DEFAULT_TIME_PER_ATHLETE, DEFAULT_PREFIX } from "../constants";
+import { DEFAULT_PREFIX, DEFAULT_TIME_PER_ATHLETE } from "../constants";
 
 export async function config(message: Message, args: string[]): Promise<void> {
     if (args.length === 0) {
@@ -12,13 +12,13 @@ export async function config(message: Message, args: string[]): Promise<void> {
 
 async function printConfig(channel: TextChannel): Promise<void> {
     const config = await getConfig(channel.guild.id);
-    const text = `
-Start Delay: ${config.startDelay}s
-
-Athletes:
-${config.athletes.map((athlete) => `• ${athlete.name} (${athlete.time}s)`).join("\n")}
-`;
-    await channel.send(text);
+    const embed = new MessageEmbed()
+        .setDescription(`Use \`${DEFAULT_PREFIX}help\` to learn how to change the configuration`)
+        .setTitle("Configuration")
+        .addField("Start Delay", `Start Delay: ${config.startDelay}s`)
+        .addField("Athletes", config.athletes.map((athlete) => `• ${athlete.name} (${athlete.time}s)`).join("\n"))
+        .setFooter("Made by Andi Pätzold");
+    await channel.send(embed);
 }
 
 async function updateConfig(message: Message, args: string[]) {
@@ -57,6 +57,7 @@ async function updateConfig(message: Message, args: string[]) {
 
             if (athletes.length === 1) {
                 message.channel.send("You can't ride a team time trial alone. Go and join a team!");
+                return;
             }
 
             const splitAthletes = athletes.map((athlete) => athlete.split(":"));
