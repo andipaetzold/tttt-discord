@@ -1,6 +1,6 @@
-import { client } from "./client";
 import { getConfig } from "./config";
 import { speakCommand } from "./speak";
+import { getVoiceConnection } from "./util/getVoiceConnection";
 
 interface Timer {
     guildId: string;
@@ -42,7 +42,7 @@ export async function stopTimer(guildId: string): Promise<void> {
 
 async function tick(timer: Timer, time: number): Promise<void> {
     const config = await getConfig(timer.guildId);
-    const connection = client.voice?.connections.find((c) => c.channel.guild.id === timer.guildId);
+    const connection = await getVoiceConnection(timer.guildId);
 
     if (connection === undefined) {
         stopTimer(timer.guildId);
