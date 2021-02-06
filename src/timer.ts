@@ -35,25 +35,25 @@ setInterval(() => {
 
         if (timer.started) {
             const nextAthleteIndex = (timer.athleteIndex + 1) % timer.config.athletes.length;
-            const nextAthlete = timer.config.athletes[nextAthleteIndex];
-            const remainingSeconds = nextAthlete.time - secondsSinceLastChange;
-            speakCommand(`${remainingSeconds}`, { nextAthlete: nextAthlete.name }, connection);
+            const nextAthlete = timer.config.athletes[nextAthleteIndex].name;
+            const remainingSeconds = timer.config.athletes[timer.athleteIndex].time - secondsSinceLastChange;
+            speakCommand(`${remainingSeconds}`, { nextAthlete }, connection);
 
             if (remainingSeconds === 0) {
                 timer.athleteIndex = nextAthleteIndex;
                 timer.lastChangeTime = now;
             }
         } else {
-            const nextAthlete = timer.config.athletes[timer.athleteIndex];
+            const nextAthlete = timer.config.athletes[timer.athleteIndex].name;
             const remainingSeconds = timer.config.startDelay - secondsSinceLastChange;
 
             if (remainingSeconds === 0) {
                 timer.started = true;
                 timer.lastChangeTime = now;
 
-                speakCommand("start", { nextAthlete: nextAthlete.name }, connection);
+                speakCommand("start", { nextAthlete }, connection);
             } else {
-                speakCommand(`${remainingSeconds}`, { nextAthlete: nextAthlete.name }, connection);
+                speakCommand(`${remainingSeconds}`, { nextAthlete }, connection);
             }
         }
     }
