@@ -5,8 +5,6 @@ export async function help(channel: TextChannel) {
     await channel.send(`
 Commands:
 \`\`\`
-${DEFAULT_PREFIX}join                                : I'll join your voice channel
-${DEFAULT_PREFIX}leave                               : Leave the voice channel
 ${DEFAULT_PREFIX}start                               : Start the timer
 ${DEFAULT_PREFIX}stop                                : Stop the timer
 

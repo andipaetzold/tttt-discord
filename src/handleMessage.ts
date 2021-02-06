@@ -2,8 +2,6 @@ import { Message, TextChannel } from "discord.js";
 import { DEFAULT_PREFIX, PREFIXES } from "./constants";
 import { config } from "./handlers/config";
 import { help } from "./handlers/help";
-import { joinVoiceChannel } from "./handlers/joinVoiceChannel";
-import { leaveVoiceChannel } from "./handlers/leaveVoiceChannel";
 import { start } from "./handlers/start";
 import { stop } from "./handlers/stop";
 import { log } from "./log";
@@ -40,24 +38,16 @@ export async function handleMessage(message: Message) {
     log(`Command: ${command} ${args}`, `TC:${message.channel.id}`);
 
     switch (command) {
-        case "join":
-            await joinVoiceChannel(message.member.voice.channel, (text: string) => message.channel.send(text));
-            break;
-
-        case "leave":
-            await leaveVoiceChannel(message.member.guild.id, (text: string) => message.channel.send(text));
-            break;
-
-        case "config":
-            await config(message, args);
-            break;
-
         case "start":
             await start(message, (text: string) => message.channel.send(text));
             break;
 
         case "stop":
             await stop(message, (text: string) => message.channel.send(text));
+            break;
+
+        case "config":
+            await config(message, args);
             break;
 
         case "help":

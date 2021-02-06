@@ -12,12 +12,6 @@
 
 If `!t` is already used by another bot, use `!tttt` as command prefix.
 
-### `!t join`
-I'll join your voice channel
-
-### `!t leave`
-Leave the voice channel
-
 ### `!t start`
 Start the timer
 

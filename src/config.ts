@@ -1,6 +1,7 @@
 import { DEFAULT_ATHLETE_NAMES, DEFAULT_START_DELAY, DEFAULT_TIME_PER_ATHLETE } from "./constants";
 
 export interface Config {
+    voiceChannelId?: string;
     startDelay: number;
     athletes: {
         name: string;
