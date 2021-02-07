@@ -14,7 +14,7 @@ interface Timer {
 }
 
 export function startTimer() {
-    log("Starting interval", "Server");
+    log("Starting timer", "Server");
     let prevTickTime: number = getTime();
     setInterval(async () => {
         const time = getTime();

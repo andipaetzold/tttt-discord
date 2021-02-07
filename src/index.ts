@@ -13,6 +13,9 @@ client.once("disconnect", () => log("Disconnect", "Server"));
 client.on("error", (e) => console.error("Error", e));
 client.on("message", handleMessage);
 
+client.on("guildCreate", (guild) => {
+    log(`Joined ${guild.id}: ${guild.name}`, "Server");
+});
 client.on("guildDelete", (guild) => reset(guild.id));
 
 client.login(process.env.DISCORD_TOKEN);
@@ -22,6 +25,7 @@ function ready() {
         name: "WTRL on Zwift",
         type: "WATCHING",
     });
+    client.user!.setStatus("online");
 
     startTimer();
 
