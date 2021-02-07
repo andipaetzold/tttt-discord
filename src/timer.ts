@@ -1,7 +1,11 @@
 import { getConfig } from "./config";
+import { client } from "./discord";
+import { log } from "./log";
 import { createTimerKey, keys, readMany, remove, write } from "./redis";
 import { speakCommand } from "./speak";
 import { getVoiceConnection } from "./util/getVoiceConnection";
+
+const INTERVAL = 750;
 
 interface Timer {
     guildId: string;
@@ -11,20 +15,23 @@ interface Timer {
 }
 
 let prevTickTime: number = getTime();
-setInterval(async () => {
-    const time = getTime();
+client.once("ready", () => {
+    log("Starting interval", "Server");
+    setInterval(async () => {
+        const time = getTime();
 
-    if (time !== prevTickTime) {
-        const timerKeys = await keys(createTimerKey("*"));
-        const timers = await readMany(timerKeys);
+        if (time !== prevTickTime) {
+            const timerKeys = await keys(createTimerKey("*"));
+            const timers = await readMany(timerKeys);
 
-        for (const timer of Object.values(timers)) {
-            tick(timer, time);
+            for (const timer of Object.values(timers)) {
+                tick(timer, time);
+            }
         }
-    }
 
-    prevTickTime = time;
-}, 500);
+        prevTickTime = time;
+    }, INTERVAL);
+});
 
 export async function addTimer(guildId: string): Promise<void> {
     const config = await getConfig(guildId);
@@ -60,10 +67,10 @@ async function tick(timer: Timer, time: number): Promise<void> {
     if (timer.started) {
         const nextAthleteIndex = (timer.athleteIndex + 1) % config.athletes.length;
         const nextAthlete = config.athletes[nextAthleteIndex].name;
-        const remainingSeconds = config.athletes[timer.athleteIndex].time - timeSinceLastChange;
+        const remainingSeconds = Math.max(0, config.athletes[timer.athleteIndex].time - timeSinceLastChange);
         await speakCommand(`${remainingSeconds}`, { nextAthlete }, connection);
 
-        if (remainingSeconds <= 0) {
+        if (remainingSeconds === 0) {
             updateTimer({
                 ...timer,
                 athleteIndex: nextAthleteIndex,
@@ -72,9 +79,9 @@ async function tick(timer: Timer, time: number): Promise<void> {
         }
     } else {
         const nextAthlete = config.athletes[timer.athleteIndex].name;
-        const remainingSeconds = config.startDelay - timeSinceLastChange;
+        const remainingSeconds = Math.max(0, config.startDelay - timeSinceLastChange);
 
-        if (remainingSeconds <= 0) {
+        if (remainingSeconds === 0) {
             updateTimer({
                 ...timer,
                 started: true,
