@@ -6,6 +6,7 @@ import { createTimerKey, keys, read, readMany, remove, write } from "./redis";
 import { speakCommand } from "./speak";
 import { createStatusMessage } from "./status";
 import { Timer } from "./types";
+import { EMOJI_PLUS10, EMOJI_SKIP } from "./util/emojis";
 import { getVoiceConnection } from "./util/getVoiceConnection";
 import { getTime } from "./util/time";
 
@@ -44,6 +45,9 @@ export async function addTimer(guildId: string, channel: TextChannel): Promise<v
     };
 
     const message = await channel.send(createStatusMessage(config, timer));
+    message.react(EMOJI_PLUS10);
+    message.react(EMOJI_SKIP);
+
     timer.status = {
         channelId: channel.id,
         messageId: message.id,

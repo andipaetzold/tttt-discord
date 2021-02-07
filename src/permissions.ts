@@ -1,6 +1,6 @@
 import { client } from "./discord";
 
-const inviteUrlPromise = client.generateInvite({ permissions: ["SEND_MESSAGES", "CONNECT", "SPEAK"] });
+const inviteUrlPromise = client.generateInvite({ permissions: ["SEND_MESSAGES", 'MANAGE_MESSAGES', "CONNECT", "SPEAK"] });
 export async function getInviteUrl(): Promise<string> {
     return await inviteUrlPromise;
 }
@@ -14,3 +14,7 @@ export async function hasVoicePermissions(guildId: string): Promise<boolean> {
     const guild = await client.guilds.fetch(guildId);
     return guild.me?.hasPermission(["CONNECT", "SPEAK"]) ?? false;
 }
+
+export async function hasManageMessagesPermissions(guildId: string): Promise<boolean> {
+    const guild = await client.guilds.fetch(guildId);
+    return guild.me?.hasPermission('MANAGE_MESSAGES') ?? false;}
