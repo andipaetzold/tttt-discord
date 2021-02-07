@@ -1,9 +1,9 @@
 import dotenv from "dotenv";
+import { removeConfig } from "./config";
 import { client } from "./discord";
 import { handleMessage } from "./handleMessage";
-import { reset } from "./handlers/reset";
 import { log } from "./log";
-import { startTimer } from "./timer";
+import { startTimer, stopTimer } from "./timer";
 
 dotenv.config();
 
@@ -16,7 +16,9 @@ client.on("message", handleMessage);
 client.on("guildCreate", (guild) => {
     log(`Joined ${guild.id}: ${guild.name}`, "Server");
 });
-client.on("guildDelete", (guild) => reset(guild.id));
+client.on("guildDelete", async (guild) => {
+    await Promise.all([stopTimer(guild.id), removeConfig(guild.id)]);
+});
 
 client.login(process.env.DISCORD_TOKEN);
 

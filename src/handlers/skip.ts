@@ -7,7 +7,8 @@ import { EMOJI_ERROR, EMOJI_SUCCESS } from "../util/emojis";
 import { getVoiceConnection } from "../util/getVoiceConnection";
 import { getTime } from "../util/time";
 
-export async function skip(guildId: string, message: Message): Promise<void> {
+export async function skip(message: Message): Promise<void> {
+    const guildId = message.guild!.id
     const timer = await getTimer(guildId);
 
     if (timer === undefined) {

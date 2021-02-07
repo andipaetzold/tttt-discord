@@ -1,23 +1,24 @@
-import { Message, TextChannel } from "discord.js";
-import { DEFAULT_PREFIX, PREFIXES } from "./constants";
+import { Message } from "discord.js";
+import { DEFAULT_PREFIX } from "./constants";
 import { config } from "./handlers/config";
 import { help } from "./handlers/help";
 import { invite } from "./handlers/invite";
+import { plus } from "./handlers/plus";
 import { reset } from "./handlers/reset";
+import { skip } from "./handlers/skip";
 import { start } from "./handlers/start";
 import { stop } from "./handlers/stop";
-import { skip } from "./handlers/skip";
-import { plus } from "./handlers/plus";
 import { log } from "./log";
+import { parseMessage } from "./util/message";
 
-const commandsMap: { [command: string]: (message: Message, args: string[]) => Promise<void> } = {
+const commandsMap: { [command: string]: (message: Message) => Promise<void> } = {
     start,
     stop,
     config,
-    reset: (message) => reset(message.guild!.id, message),
-    skip: (message) => skip(message.guild!.id, message),
+    reset,
+    skip,
     invite,
-    help: (message) => help(message.channel as TextChannel),
+    help,
 };
 
 export async function handleMessage(message: Message) {
@@ -37,23 +38,17 @@ export async function handleMessage(message: Message) {
         return;
     }
 
-    const usedPrefix = PREFIXES.find((prefix) => message.content.startsWith(prefix));
-    if (!usedPrefix) {
+    const parsedMessage = parseMessage(message);
+    if (!parsedMessage) {
         return;
     }
-
-    const strippedPrefix = message.content.slice(usedPrefix.length);
-    const command = strippedPrefix.split(" ")[0];
-    const args = strippedPrefix
-        .split(" ")
-        .slice(1)
-        .filter((s) => s.length !== 0);
+    const { command, args } = parsedMessage;
 
     log(`Command: ${command} ${args}`, `TC:${message.channel.id}`);
 
-    await commandsMap[command]?.(message, args);
+    await commandsMap[command]?.(message);
 
     if (command.startsWith("+")) {
-        plus(command, message);
+        plus(message);
     }
 }

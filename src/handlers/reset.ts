@@ -3,10 +3,8 @@ import { removeConfig } from "../config";
 import { stopTimer } from "../timer";
 import { EMOJI_SUCCESS } from "../util/emojis";
 
-export async function reset(guildId: string, message?: Message): Promise<void> {
-    stopTimer(guildId);
-    await removeConfig(guildId);
-    await stopTimer(guildId);
+export async function reset(message: Message): Promise<void> {
+    const guildId = message.guild!.id;
 
-    await message?.react(EMOJI_SUCCESS);
+    await Promise.all([stopTimer(guildId), removeConfig(guildId), message.react(EMOJI_SUCCESS)]);
 }

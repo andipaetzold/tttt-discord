@@ -1,7 +1,7 @@
-import { MessageEmbed, TextChannel } from "discord.js";
+import { Message, MessageEmbed } from "discord.js";
 import { DEFAULT_PREFIX } from "../constants";
 
-export async function help(channel: TextChannel) {
+export async function help(message: Message) {
     const embed = new MessageEmbed()
         .setTitle("Help")
         .setDescription(`If \`!t\` is already used by another bot, use \`!tttt\` as command prefix.`)
@@ -25,5 +25,5 @@ Support this project: <https://paypal.me/andipaetzold>`
         )
         .setFooter("Made by Andi Pätzold");
 
-    await channel.send(embed);
+    await message.channel.send(embed);
 }

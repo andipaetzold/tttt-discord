@@ -2,8 +2,11 @@ import { Message } from "discord.js";
 import { DEFAULT_PREFIX } from "../constants";
 import { getTimer, updateTimer } from "../timer";
 import { EMOJI_ERROR } from "../util/emojis";
+import { parseMessage } from "../util/message";
 
-export async function plus(command: string, message: Message): Promise<void> {
+export async function plus(message: Message): Promise<void> {
+    const { command } = parseMessage(message)!;
+
     const time = +command.slice(1);
     if (isNaN(time)) {
         await Promise.all([message.channel.send(`"${command.slice(1)}" is not a valid time`), message.react(EMOJI_ERROR)]);

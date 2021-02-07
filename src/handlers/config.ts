@@ -4,8 +4,11 @@ import { DEFAULT_PREFIX, DEFAULT_TIME_PER_ATHLETE } from "../constants";
 import { client } from "../discord";
 import { Athlete } from "../types";
 import { EMOJI_ERROR, EMOJI_SUCCESS } from "../util/emojis";
+import { parseMessage } from "../util/message";
 
-export async function config(message: Message, args: string[]): Promise<void> {
+export async function config(message: Message): Promise<void> {
+    const { args } = parseMessage(message)!;
+
     if (args.length === 0) {
         await printConfig(message.channel as TextChannel);
     } else {
