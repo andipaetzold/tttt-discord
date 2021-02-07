@@ -30,6 +30,34 @@ export async function read<T = any>(key: string): Promise<T | undefined> {
     });
 }
 
+export async function readMany<T = any>(keys: string[]): Promise<(T | undefined)[]> {
+    if (keys.length === 0) {
+        return [];
+    }
+
+    return await new Promise((resolve, reject) => {
+        client.mget(keys, (err, values) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(values.map((value) => (value ? JSON.parse(value) : undefined)));
+            }
+        });
+    });
+}
+
+export async function keys(pattern: string): Promise<string[]> {
+    return await new Promise((resolve, reject) => {
+        client.keys(pattern, (err, value) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(value);
+            }
+        });
+    });
+}
+
 export async function remove(key: string): Promise<void> {
     return await new Promise((resolve, reject) => {
         client.del(key, (err) => {
@@ -43,5 +71,9 @@ export async function remove(key: string): Promise<void> {
 }
 
 export function createConfigKey(guildId: string): string {
-    return `config/${guildId}`;
+    return `config:${guildId}`;
+}
+
+export function createTimerKey(guildId: string): string {
+    return `timer:${guildId}`;
 }

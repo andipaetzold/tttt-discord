@@ -1,4 +1,5 @@
 import { Message } from "discord.js";
+import { getConfig } from "../config";
 import { DEFAULT_PREFIX } from "../constants";
 import { log } from "../log";
 import { getInviteUrl, hasVoicePermissions } from "../permissions";
@@ -21,7 +22,8 @@ export async function start(message: Message): Promise<void> {
         return;
     }
 
-    const connection = await getVoiceConnection(guildId, message.member!.voice.channel ?? undefined);
+    const config = await getConfig(guildId);
+    const connection = await getVoiceConnection(config, message.member!.voice.channel ?? undefined);
 
     if (connection === undefined) {
         await message.channel.send(

@@ -1,7 +1,7 @@
 import { Message, MessageEmbed, TextChannel } from "discord.js";
-import { client } from "../discord";
 import { getConfig, saveConfig } from "../config";
 import { DEFAULT_PREFIX, DEFAULT_TIME_PER_ATHLETE } from "../constants";
+import { client } from "../discord";
 import { Athlete } from "../types";
 import { EMOJI_ERROR, EMOJI_SUCCESS } from "../util/emojis";
 
@@ -44,7 +44,7 @@ async function updateConfig(message: Message, args: string[]) {
                 return;
             }
 
-            await saveConfig(message.guild!.id, {
+            await saveConfig({
                 ...config,
                 startDelay: newStartDelay,
             });
@@ -70,7 +70,7 @@ async function updateConfig(message: Message, args: string[]) {
                 time: isNaN(+time) ? DEFAULT_TIME_PER_ATHLETE : +time,
             }));
 
-            await saveConfig(message.guild!.id, {
+            await saveConfig({
                 ...config,
                 athletes: newAthletes,
             });
@@ -89,7 +89,7 @@ async function updateConfig(message: Message, args: string[]) {
                     return;
                 }
 
-                await saveConfig(message.guild!.id, {
+                await saveConfig({
                     ...config,
                     athletes: config.athletes.map((a) =>
                         isSameAthlete(a, parsedUser)

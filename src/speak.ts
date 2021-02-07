@@ -1,7 +1,9 @@
 import type { VoiceConnection } from "discord.js";
 import { getAudioUrl } from "google-tts-api";
+import { log } from "./log";
 
 export async function speak(text: string, connection: VoiceConnection): Promise<void> {
+    log(`Speak: "${text}"`, `VC:${connection.channel.id}`);
     await new Promise((resolve, reject) => {
         const url = getAudioUrl(text, {
             lang: "en-US",

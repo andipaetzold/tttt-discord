@@ -1,17 +1,16 @@
 import { VoiceChannel, VoiceConnection } from "discord.js";
+import { saveConfig } from "../config";
 import { client } from "../discord";
-import { getConfig, saveConfig } from "../config";
 import { log } from "../log";
+import { Config } from "../types";
 
 export async function getVoiceConnection(
-    guildId: string,
+    config: Config,
     userVoiceChannel?: VoiceChannel
 ): Promise<VoiceConnection | undefined> {
     let connection: VoiceConnection | undefined = undefined;
 
-    const config = await getConfig(guildId);
-
-    connection = client.voice?.connections.find((c) => c.channel.guild.id === guildId);
+    connection = client.voice?.connections.find((c) => c.channel.guild.id === config.guildId);
 
     if (connection === undefined) {
         const voiceChannel = userVoiceChannel;
@@ -32,7 +31,7 @@ export async function getVoiceConnection(
         }
     }
     if (connection === undefined) {
-        const guild = await client.guilds.fetch(guildId);
+        const guild = await client.guilds.fetch(config.guildId);
         const voiceChannels = guild.channels.cache.filter((channel) => channel.type === "voice");
         if (voiceChannels.size === 1) {
             const voiceChannel = voiceChannels.first()! as VoiceChannel;
@@ -41,10 +40,12 @@ export async function getVoiceConnection(
         }
     }
 
-    saveConfig(guildId, {
-        ...config,
-        voiceChannelId: connection?.channel.id,
-    });
+    if (config.voiceChannelId !== connection?.channel.id) {
+        saveConfig({
+            ...config,
+            voiceChannelId: connection?.channel.id,
+        });
+    }
 
     return connection;
 }

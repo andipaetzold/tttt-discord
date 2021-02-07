@@ -20,8 +20,8 @@ export async function getConfig(guildId: string): Promise<Config> {
     );
 }
 
-export async function saveConfig(guildId: string, config: Config): Promise<void> {
-    await write(createConfigKey(guildId), config);
+export async function saveConfig(config: Config): Promise<void> {
+    await write(createConfigKey(config.guildId), config);
 }
 
 export async function removeConfig(guildId: string): Promise<void> {
