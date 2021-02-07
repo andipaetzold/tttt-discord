@@ -8,7 +8,7 @@ import { getVoiceConnection } from "../util/getVoiceConnection";
 import { getTime } from "../util/time";
 
 export async function skip(message: Message): Promise<void> {
-    const guildId = message.guild!.id
+    const guildId = message.guild!.id;
     const timer = await getTimer(guildId);
 
     if (timer === undefined) {
@@ -25,7 +25,7 @@ export async function skip(message: Message): Promise<void> {
     await Promise.all([
         updateTimer({
             ...timer,
-            lastChangeTime: getTime(),
+            nextChangeTime: getTime() + config.athletes[nextAthleteIndex].time,
             athleteIndex: nextAthleteIndex,
             started: true,
         }),

@@ -25,6 +25,6 @@ export async function plus(message: Message): Promise<void> {
 
     await updateTimer({
         ...timer,
-        lastChangeTime: timer.lastChangeTime + time,
+        nextChangeTime: timer.nextChangeTime + time,
     });
 }

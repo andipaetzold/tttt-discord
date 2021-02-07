@@ -13,7 +13,7 @@ export interface Athlete {
 
 export interface Timer {
     guildId: string;
-    lastChangeTime: number;
+    nextChangeTime: number;
     athleteIndex: number;
     started: boolean;
     status?: {

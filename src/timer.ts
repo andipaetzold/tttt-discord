@@ -19,10 +19,12 @@ export function startTimer() {
 
         if (time !== prevTickTime) {
             const timerKeys = await keys(createTimerKey("*"));
-            const timers = await readMany(timerKeys);
+            const timers = await readMany<Timer>(timerKeys);
 
             for (const timer of Object.values(timers)) {
-                tick(timer, time);
+                if (timer) {
+                    tick(timer, time);
+                }
             }
         }
 
@@ -36,7 +38,7 @@ export async function addTimer(guildId: string, channel: TextChannel): Promise<v
 
     const timer: Timer = {
         guildId,
-        lastChangeTime: now,
+        nextChangeTime: now + (config.startDelay === 0 ? config.athletes[0].time : config.startDelay),
         athleteIndex: 0,
         started: config.startDelay === 0,
     };
@@ -78,7 +80,7 @@ export async function getTimer(guildId: string): Promise<Timer | undefined> {
 /**
  * - Do not await `speakCommand`
  */
-async function tick(timer: Timer, time: number): Promise<void> {
+async function tick(timer: Timer, now: number): Promise<void> {
     const config = await getConfig(timer.guildId);
     const connection = await getVoiceConnection(config);
 
@@ -87,27 +89,23 @@ async function tick(timer: Timer, time: number): Promise<void> {
         return;
     }
 
-    const timeSinceLastChange = time - timer.lastChangeTime;
-
     let nextAthleteIndex: number;
     let nextAthleteName: string;
-    let remainingSeconds: number;
+    const remainingSeconds = Math.max(timer.nextChangeTime - now, 0);
 
     if (timer.started) {
         nextAthleteIndex = (timer.athleteIndex + 1) % config.athletes.length;
         nextAthleteName = config.athletes[nextAthleteIndex].name;
-        remainingSeconds = Math.max(0, config.athletes[timer.athleteIndex].time - timeSinceLastChange);
     } else {
         nextAthleteIndex = timer.athleteIndex;
         nextAthleteName = config.athletes[timer.athleteIndex].name;
-        remainingSeconds = Math.max(0, config.startDelay - timeSinceLastChange);
     }
 
     if (remainingSeconds === 0) {
         await updateTimer({
             ...timer,
             athleteIndex: nextAthleteIndex,
-            lastChangeTime: time,
+            nextChangeTime: now + config.athletes[nextAthleteIndex].time,
             started: true,
         });
     }
