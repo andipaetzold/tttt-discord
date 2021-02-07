@@ -3,6 +3,7 @@ import { client } from "./discord";
 import { handleMessage } from "./handleMessage";
 import { reset } from "./handlers/reset";
 import { log } from "./log";
+import { startTimer } from "./timer";
 
 dotenv.config();
 
@@ -21,6 +22,8 @@ function ready() {
         name: "WTRL on Zwift",
         type: "WATCHING",
     });
+
+    startTimer();
 
     log(`Member of ${client.guilds.cache.size} server(s)`, "Server");
     client.guilds.cache.forEach((guild) => {

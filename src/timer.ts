@@ -1,5 +1,4 @@
 import { getConfig } from "./config";
-import { client } from "./discord";
 import { log } from "./log";
 import { createTimerKey, keys, readMany, remove, write } from "./redis";
 import { speakCommand } from "./speak";
@@ -14,9 +13,9 @@ interface Timer {
     started: boolean;
 }
 
-let prevTickTime: number = getTime();
-client.once("ready", () => {
+export function startTimer() {
     log("Starting interval", "Server");
+    let prevTickTime: number = getTime();
     setInterval(async () => {
         const time = getTime();
 
@@ -31,7 +30,7 @@ client.once("ready", () => {
 
         prevTickTime = time;
     }, INTERVAL);
-});
+}
 
 export async function addTimer(guildId: string): Promise<void> {
     const config = await getConfig(guildId);
