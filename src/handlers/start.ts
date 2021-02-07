@@ -1,4 +1,4 @@
-import { Message } from "discord.js";
+import { Message, TextChannel } from "discord.js";
 import { getConfig } from "../config";
 import { DEFAULT_PREFIX } from "../constants";
 import { log } from "../log";
@@ -35,5 +35,5 @@ export async function start(message: Message): Promise<void> {
     log("Start", `G:${guildId}`);
     await message.react(EMOJI_SUCCESS);
 
-    await addTimer(guildId);
+    await addTimer(guildId, message.channel as TextChannel);
 }

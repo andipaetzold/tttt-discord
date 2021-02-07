@@ -16,4 +16,8 @@ export interface Timer {
     lastChangeTime: number;
     athleteIndex: number;
     started: boolean;
+    status?: {
+        channelId: string;
+        messageId: string;
+    }
 }
