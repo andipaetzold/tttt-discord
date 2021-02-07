@@ -18,6 +18,9 @@ Start the timer
 ### `!t skip`
 Skips the current athlete
 
+### `!t +<seconds>`
+Add tiemt to the timer
+
 ### `!t stop`
 Stop the timer
 
@@ -30,7 +33,7 @@ Sets the start delay in seconds
 ### `!t athletes <name>:[<time>] ...`
 Set the athletes and their lead times
 
-### `!t athletes <name> <time>`
+### `!t athletes <name> <seconds>`
 Set the lead time of an athlete
 
 ### `!t reset`

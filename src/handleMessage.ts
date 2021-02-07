@@ -7,6 +7,7 @@ import { reset } from "./handlers/reset";
 import { start } from "./handlers/start";
 import { stop } from "./handlers/stop";
 import { skip } from "./handlers/skip";
+import { plus } from "./handlers/plus";
 import { log } from "./log";
 
 const commandsMap: { [command: string]: (message: Message, args: string[]) => Promise<void> } = {
@@ -51,4 +52,8 @@ export async function handleMessage(message: Message) {
     log(`Command: ${command} ${args}`, `TC:${message.channel.id}`);
 
     await commandsMap[command]?.(message, args);
+
+    if (command.startsWith("+")) {
+        plus(command, message);
+    }
 }
