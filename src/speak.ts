@@ -36,5 +36,6 @@ const voiceCommands: Record<string, (args: Record<string, unknown>) => string> =
     5: () => "Five",
     2: () => "Two",
     1: () => "One",
-    0: ({ nextAthlete, started }) => (started ? `Change to ${nextAthlete}` : 'Start'),
+    0: ({ nextAthlete, started }) => (started ? `Change to ${nextAthlete}` : "Start"),
+    skip: ({ nextAthlete }) => `Go ${nextAthlete}!`,
 };

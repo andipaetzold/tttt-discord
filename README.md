@@ -15,6 +15,9 @@ If `!t` is already used by another bot, use `!tttt` as command prefix.
 ### `!t start`
 Start the timer
 
+### `!t skip`
+Skips the current athlete
+
 ### `!t stop`
 Stop the timer
 

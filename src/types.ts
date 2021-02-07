@@ -10,3 +10,10 @@ export interface Athlete {
     time: number;
     userId?: string;
 }
+
+export interface Timer {
+    guildId: string;
+    lastChangeTime: number;
+    athleteIndex: number;
+    started: boolean;
+}

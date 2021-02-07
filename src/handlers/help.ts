@@ -6,6 +6,7 @@ export async function help(channel: TextChannel) {
         .setTitle("Help")
         .setDescription(`If \`!t\` is already used by another bot, use \`!tttt\` as command prefix.`)
         .addField(`\`${DEFAULT_PREFIX}start\``, "Start the timer")
+        .addField(`\`${DEFAULT_PREFIX}skip\``, "Skip the current athlete")
         .addField(`\`${DEFAULT_PREFIX}stop\``, "Stop the timer")
 
         .addField(`\`${DEFAULT_PREFIX}config\``, "Get the current configuration")

@@ -1,17 +1,12 @@
 import { getConfig } from "./config";
 import { log } from "./log";
-import { createTimerKey, keys, readMany, remove, write } from "./redis";
+import { createTimerKey, keys, read, readMany, remove, write } from "./redis";
 import { speakCommand } from "./speak";
+import { Timer } from "./types";
 import { getVoiceConnection } from "./util/getVoiceConnection";
+import { getTime } from "./util/time";
 
 const INTERVAL = 750;
-
-interface Timer {
-    guildId: string;
-    lastChangeTime: number;
-    athleteIndex: number;
-    started: boolean;
-}
 
 export function startTimer() {
     log("Starting timer", "Server");
@@ -52,6 +47,10 @@ export async function stopTimer(guildId: string): Promise<void> {
     await remove(createTimerKey(guildId));
 }
 
+export async function getTimer(guildId: string): Promise<Timer | undefined> {
+    return await read(createTimerKey(guildId));
+}
+
 /**
  * - Do not await `speakCommand`
  */
@@ -89,8 +88,4 @@ async function tick(timer: Timer, time: number): Promise<void> {
         });
     }
     speakCommand(remainingSeconds.toString(), { nextAthlete: nextAthleteName, started: timer.started }, connection);
-}
-
-function getTime() {
-    return Math.round(Date.now() / 1_000);
 }

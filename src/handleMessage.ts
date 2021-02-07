@@ -6,6 +6,7 @@ import { invite } from "./handlers/invite";
 import { reset } from "./handlers/reset";
 import { start } from "./handlers/start";
 import { stop } from "./handlers/stop";
+import { skip } from "./handlers/skip";
 import { log } from "./log";
 
 const commandsMap: { [command: string]: (message: Message, args: string[]) => Promise<void> } = {
@@ -13,6 +14,7 @@ const commandsMap: { [command: string]: (message: Message, args: string[]) => Pr
     stop,
     config,
     reset: (message) => reset(message.guild!.id, message),
+    skip: (message) => skip(message.guild!.id, message),
     invite,
     help: (message) => help(message.channel as TextChannel),
 };
