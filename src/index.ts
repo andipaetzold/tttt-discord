@@ -5,7 +5,7 @@ import { handleError } from "./handlers/error";
 import { handleGuildCreate } from "./handlers/guildCreate";
 import { handleGuildDelete } from "./handlers/guildDelete";
 import { handleMessage } from "./handlers/message";
-import { handleMessageReactionAdd } from "./handlers/MessageReactionAdd";
+import { handleMessageReactionAdd } from "./handlers/messageReactionAdd";
 import { handleReady } from "./handlers/ready";
 import { handleReconnecting } from "./handlers/reconnecting";
 
