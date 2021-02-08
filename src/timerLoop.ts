@@ -13,7 +13,7 @@ import { getTime } from "./util/time";
 
 const INTERVAL = 750;
 
-export function startTimer() {
+export function startTimerLoop() {
     log("Starting timer", "Server");
     let prevTickTime: number = getTime();
     setInterval(async () => {

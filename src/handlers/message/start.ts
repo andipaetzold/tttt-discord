@@ -3,7 +3,7 @@ import { getConfig } from "../../config";
 import { DEFAULT_PREFIX } from "../../constants";
 import { log } from "../../services/log";
 import { getInviteUrl, hasVoicePermissions } from "../../services/permissions";
-import { addTimer } from "../../timer";
+import { addTimer } from "../../timerLoop";
 import { EMOJI_ERROR, EMOJI_SUCCESS } from "../../util/emojis";
 import { getVoiceConnection } from "../../util/getVoiceConnection";
 

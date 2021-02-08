@@ -2,7 +2,7 @@ import { client } from "../../discord";
 import { log } from "../../services/log";
 import { createTimerKey, keys } from "../../services/redis";
 import { fetchStatusMessages } from "../../services/statusMessage";
-import { startTimer } from "../../timer";
+import { startTimerLoop } from "../../timerLoop";
 
 export async function handleReady() {
     client.user!.setActivity({
@@ -11,7 +11,7 @@ export async function handleReady() {
     });
     client.user!.setStatus("online");
 
-    startTimer();
+    startTimerLoop();
 
     log(`Member of ${client.guilds.cache.size} server(s)`, "Server");
     client.guilds.cache.forEach((guild) => {
