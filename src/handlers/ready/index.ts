@@ -1,7 +1,7 @@
 import { client } from "../../discord";
 import { log } from "../../services/log";
 import { createTimerKey, keys } from "../../services/redis";
-import { fetchStatusMessages } from "../../services/status";
+import { fetchStatusMessages } from "../../services/statusMessage";
 import { startTimer } from "../../timer";
 
 export async function handleReady() {

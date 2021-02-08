@@ -2,7 +2,7 @@ import { TextChannel } from "discord.js";
 import { getConfig } from "./config";
 import { log } from "./services/log";
 import { createTimerKey, keys, read, readMany, remove, write } from "./services/redis";
-import { deleteStatusMessage, sendStatusMessage, updateStatusMessage } from "./services/status";
+import { deleteStatusMessage, sendStatusMessage, updateStatusMessage } from "./services/statusMessage";
 import { setTimer } from "./services/timer";
 import { speakCommand } from "./speak";
 import { Timer } from "./types";
