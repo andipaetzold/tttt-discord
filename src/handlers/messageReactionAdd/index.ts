@@ -1,15 +1,12 @@
 import { MessageReaction, PartialUser, User } from "discord.js";
+import { getConfig } from "../../config";
 import { hasManageMessagesPermissions } from "../../services/permissions";
 import { updateStatusMessage } from "../../services/statusMessage";
-import { addTimeToCurrentAthlete, getTimer, skipCurrentAthlete } from "../../services/timer";
-import { EMOJI_PLUS10, EMOJI_SKIP } from "../../util/emojis";
+import { addTimeToCurrentAthlete, getTimer, setAthleteAsToast, skipCurrentAthlete } from "../../services/timer";
+import { EMOJI_PLUS10, EMOJI_SKIP, EMOJI_TOAST } from "../../util/emojis";
 
 export async function handleMessageReactionAdd(messageReaction: MessageReaction, user: User | PartialUser) {
     if (messageReaction.me) {
-        return;
-    }
-
-    if (![EMOJI_SKIP, EMOJI_PLUS10].includes(messageReaction.emoji.name)) {
         return;
     }
 
@@ -27,26 +24,37 @@ export async function handleMessageReactionAdd(messageReaction: MessageReaction,
         return;
     }
 
-    removeReaction(messageReaction, user);
-
     switch (messageReaction.emoji.name) {
         case EMOJI_SKIP: {
             await skipCurrentAthlete(guildId);
             await updateStatusMessage(guildId);
-            if (await hasManageMessagesPermissions(guildId)) {
-                await messageReaction.users.remove(user.id);
-            }
-
+            await removeReaction(messageReaction, user);
             break;
         }
 
         case EMOJI_PLUS10: {
             await addTimeToCurrentAthlete(guildId, 10);
             await updateStatusMessage(guildId);
-            if (await hasManageMessagesPermissions(guildId)) {
-                await messageReaction.users.remove(user.id);
+            await removeReaction(messageReaction, user);
+            break;
+        }
+
+        case EMOJI_TOAST: {
+            const config = await getConfig(guildId);
+            const athleteIndex = config.athletes.findIndex((a) => a.userId === user.id);
+
+            if (athleteIndex === -1) {
+                await removeReaction(messageReaction, user);
+                return;
             }
 
+            await setAthleteAsToast(guildId, athleteIndex);
+            await updateStatusMessage(guildId);
+            break;
+        }
+
+        default: {
+            await removeReaction(messageReaction, user);
             break;
         }
     }

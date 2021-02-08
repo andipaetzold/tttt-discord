@@ -6,6 +6,7 @@ import { handleGuildCreate } from "./handlers/guildCreate";
 import { handleGuildDelete } from "./handlers/guildDelete";
 import { handleMessage } from "./handlers/message";
 import { handleMessageReactionAdd } from "./handlers/messageReactionAdd";
+import { handleMessageReactionRemove } from "./handlers/messageReactionRemove";
 import { handleReady } from "./handlers/ready";
 import { handleReconnecting } from "./handlers/reconnecting";
 
@@ -17,6 +18,7 @@ client.once("disconnect", handleDisconnect);
 client.on("error", handleError);
 client.on("message", handleMessage);
 client.on("messageReactionAdd", handleMessageReactionAdd);
+client.on("messageReactionRemove", handleMessageReactionRemove);
 client.on("guildCreate", handleGuildCreate);
 client.on("guildDelete", handleGuildDelete);
 

@@ -2,7 +2,7 @@ import { MessageEmbed, TextChannel } from "discord.js";
 import { getConfig } from "../config";
 import { client } from "../discord";
 import type { Config, Timer } from "../types";
-import { EMOJI_PLUS10, EMOJI_SKIP } from "../util/emojis";
+import { EMOJI_PLUS10, EMOJI_SKIP, EMOJI_TOAST } from "../util/emojis";
 import { createTimerKey, keys, readMany } from "./redis";
 import { getNextAthleteIndex, getTimer, setTimer } from "./timer";
 
@@ -44,6 +44,7 @@ export async function sendStatusMessage(channel: TextChannel) {
     const message = await channel.send(createStatusMessage(config, timer));
     message.react(EMOJI_PLUS10);
     message.react(EMOJI_SKIP);
+    message.react(EMOJI_TOAST);
 
     await setTimer({
         ...timer,
