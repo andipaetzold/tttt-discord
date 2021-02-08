@@ -53,9 +53,8 @@ export async function updateTimer(timer: Timer): Promise<void> {
 }
 
 export async function stopTimer(guildId: string): Promise<void> {
-    await read<Timer>(createTimerKey(guildId));
-    await remove(createTimerKey(guildId));
     await deleteStatusMessage(guildId);
+    await remove(createTimerKey(guildId));
 }
 
 /**
