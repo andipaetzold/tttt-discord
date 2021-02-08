@@ -4,6 +4,6 @@ import { log } from "../../services/log";
 import { stopTimer } from "../../timer";
 
 export async function handleGuildDelete(guild: Guild) {
-    log(`Left ${guild.name}`, `G:${guild.id}`);
+    log(`Left Guild "${guild.name}"`, `G:${guild.id}`);
     await Promise.all([stopTimer(guild.id), removeConfig(guild.id)]);
 }
