@@ -1,13 +1,16 @@
 import { MessageReaction, PartialUser, User } from "discord.js";
 import { getConfig } from "../../config";
+import { log } from "../../services/log";
 import { updateStatusMessage } from "../../services/statusMessage";
 import { getTimer, setAthleteAsFresh } from "../../services/timer";
-import { EMOJI_PLUS10, EMOJI_SKIP, EMOJI_TOAST } from "../../util/emojis";
+import { EMOJI_TOAST } from "../../util/emojis";
 
 export async function handleMessageReactionRemove(messageReaction: MessageReaction, user: User | PartialUser) {
     if (messageReaction.me) {
         return;
     }
+
+    log(`Message Reaction Remove: ${messageReaction.emoji.name}`, `TC:${messageReaction.message.channel.id}`);
 
     const guildId = messageReaction.message.guild!.id;
 

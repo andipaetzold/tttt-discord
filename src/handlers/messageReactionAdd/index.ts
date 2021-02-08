@@ -1,5 +1,6 @@
 import { MessageReaction, PartialUser, User } from "discord.js";
 import { getConfig } from "../../config";
+import { log } from "../../services/log";
 import { hasManageMessagesPermissions } from "../../services/permissions";
 import { updateStatusMessage } from "../../services/statusMessage";
 import { addTimeToCurrentAthlete, getTimer, setAthleteAsToast, skipCurrentAthlete } from "../../services/timer";
@@ -9,6 +10,8 @@ export async function handleMessageReactionAdd(messageReaction: MessageReaction,
     if (messageReaction.me) {
         return;
     }
+    
+    log(`Message Reaction Add: ${messageReaction.emoji.name}`, `TC:${messageReaction.message.channel.id}`);
 
     const guildId = messageReaction.message.guild!.id;
 
