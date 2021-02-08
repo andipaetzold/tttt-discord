@@ -1,8 +1,8 @@
 import { Message } from "discord.js";
-import { client } from "../discord";
-import { log } from "../log";
-import { stopTimer } from "../timer";
-import { EMOJI_SUCCESS } from "../util/emojis";
+import { client } from "../../discord";
+import { log } from "../../services/log";
+import { stopTimer } from "../../timer";
+import { EMOJI_SUCCESS } from "../../util/emojis";
 
 export async function stop(message: Message): Promise<void> {
     await message.react(EMOJI_SUCCESS);

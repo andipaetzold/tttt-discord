@@ -1,7 +1,7 @@
 import { VoiceChannel, VoiceConnection } from "discord.js";
 import { saveConfig } from "../config";
 import { client } from "../discord";
-import { log } from "../log";
+import { log } from "../services/log";
 import { Config } from "../types";
 
 export async function getVoiceConnection(

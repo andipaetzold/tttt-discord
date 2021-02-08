@@ -1,11 +1,12 @@
 import { Message } from "discord.js";
-import { DEFAULT_PREFIX } from "../constants";
-import { getTimer, updateTimer } from "../timer";
-import { EMOJI_ERROR } from "../util/emojis";
-import { parseMessage } from "../util/message";
+import { DEFAULT_PREFIX } from "../../constants";
+import { addTimeToCurrentAthlete, hasTimer } from "../../services/timer";
+import { EMOJI_ERROR, EMOJI_SUCCESS } from "../../util/emojis";
+import { parseMessage } from "../../util/message";
 
 export async function plus(message: Message): Promise<void> {
     const { command } = parseMessage(message)!;
+    const guildId = message.guild!.id;
 
     const time = +command.slice(1);
     if (isNaN(time)) {
@@ -13,9 +14,7 @@ export async function plus(message: Message): Promise<void> {
         return;
     }
 
-    const timer = await getTimer(message.guild!.id);
-
-    if (timer === undefined) {
+    if (!(await hasTimer(guildId))) {
         await Promise.all([
             message.channel.send(`Start the timer first using \`${DEFAULT_PREFIX}start\``),
             message.react(EMOJI_ERROR),
@@ -23,8 +22,5 @@ export async function plus(message: Message): Promise<void> {
         return;
     }
 
-    await updateTimer({
-        ...timer,
-        nextChangeTime: timer.nextChangeTime + time,
-    });
+    await Promise.all([addTimeToCurrentAthlete(guildId, time), message.react(EMOJI_SUCCESS)]);
 }

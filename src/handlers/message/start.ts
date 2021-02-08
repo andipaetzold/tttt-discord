@@ -1,11 +1,11 @@
 import { Message, TextChannel } from "discord.js";
-import { getConfig } from "../config";
-import { DEFAULT_PREFIX } from "../constants";
-import { log } from "../log";
-import { getInviteUrl, hasVoicePermissions } from "../permissions";
-import { addTimer } from "../timer";
-import { EMOJI_ERROR, EMOJI_SUCCESS } from "../util/emojis";
-import { getVoiceConnection } from "../util/getVoiceConnection";
+import { getConfig } from "../../config";
+import { DEFAULT_PREFIX } from "../../constants";
+import { log } from "../../services/log";
+import { getInviteUrl, hasVoicePermissions } from "../../services/permissions";
+import { addTimer } from "../../timer";
+import { EMOJI_ERROR, EMOJI_SUCCESS } from "../../util/emojis";
+import { getVoiceConnection } from "../../util/getVoiceConnection";
 
 export async function start(message: Message): Promise<void> {
     const guildId = message.guild!.id;

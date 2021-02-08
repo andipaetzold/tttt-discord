@@ -1,5 +1,5 @@
 import { DEFAULT_ATHLETE_NAMES, DEFAULT_START_DELAY, DEFAULT_TIME_PER_ATHLETE } from "./constants";
-import { createConfigKey, read, remove, write } from "./redis";
+import { createConfigKey, read, remove, write } from "./services/redis";
 import { Config } from "./types";
 
 const DEFAULT_CONFIG: Omit<Config, "guildId"> = {

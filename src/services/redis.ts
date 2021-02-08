@@ -70,6 +70,18 @@ export async function remove(key: string): Promise<void> {
     });
 }
 
+export async function exists(key: string): Promise<boolean> {
+    return await new Promise((resolve, reject) => {
+        client.exists(key, (err, reply) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(reply === 1);
+            }
+        });
+    });
+}
+
 export function createConfigKey(guildId: string): string {
     return `config:${guildId}`;
 }

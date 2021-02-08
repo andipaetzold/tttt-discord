@@ -1,10 +1,10 @@
 import { Message, MessageEmbed, TextChannel } from "discord.js";
-import { getConfig, saveConfig } from "../config";
-import { DEFAULT_PREFIX, DEFAULT_TIME_PER_ATHLETE } from "../constants";
-import { client } from "../discord";
-import { Athlete } from "../types";
-import { EMOJI_ERROR, EMOJI_SUCCESS } from "../util/emojis";
-import { parseMessage } from "../util/message";
+import { getConfig, saveConfig } from "../../config";
+import { DEFAULT_PREFIX, DEFAULT_TIME_PER_ATHLETE } from "../../constants";
+import { client } from "../../discord";
+import { Athlete } from "../../types";
+import { EMOJI_ERROR, EMOJI_SUCCESS } from "../../util/emojis";
+import { parseMessage } from "../../util/message";
 
 export async function config(message: Message): Promise<void> {
     const { args } = parseMessage(message)!;

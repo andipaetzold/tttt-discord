@@ -1,4 +1,4 @@
-import { client } from "./discord";
+import { client } from "../discord";
 
 const inviteUrlPromise = client.generateInvite({ permissions: ["SEND_MESSAGES", 'MANAGE_MESSAGES', "CONNECT", "SPEAK"] });
 export async function getInviteUrl(): Promise<string> {

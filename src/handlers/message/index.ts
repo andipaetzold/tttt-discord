@@ -1,15 +1,15 @@
 import { Message } from "discord.js";
-import { DEFAULT_PREFIX } from "./constants";
-import { config } from "./handlers/config";
-import { help } from "./handlers/help";
-import { invite } from "./handlers/invite";
-import { plus } from "./handlers/plus";
-import { reset } from "./handlers/reset";
-import { skip } from "./handlers/skip";
-import { start } from "./handlers/start";
-import { stop } from "./handlers/stop";
-import { log } from "./log";
-import { parseMessage } from "./util/message";
+import { DEFAULT_PREFIX } from "../../constants";
+import { config } from "./config";
+import { help } from "./help";
+import { invite } from "./invite";
+import { plus } from "./plus";
+import { reset } from "./reset";
+import { skip } from "./skip";
+import { start } from "./start";
+import { stop } from "./stop";
+import { log } from "../../services/log";
+import { parseMessage } from "../../util/message";
 
 const commandsMap: { [command: string]: (message: Message) => Promise<void> } = {
     start,

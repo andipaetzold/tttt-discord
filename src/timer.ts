@@ -1,12 +1,11 @@
 import { TextChannel } from "discord.js";
 import { getConfig } from "./config";
-import { client } from "./discord";
-import { log } from "./log";
-import { createTimerKey, keys, read, readMany, remove, write } from "./redis";
+import { log } from "./services/log";
+import { createTimerKey, keys, read, readMany, remove, write } from "./services/redis";
+import { deleteStatusMessage, sendStatusMessage, updateStatusMessage } from "./services/status";
+import { setTimer } from "./services/timer";
 import { speakCommand } from "./speak";
-import { createStatusMessage } from "./status";
 import { Timer } from "./types";
-import { EMOJI_PLUS10, EMOJI_SKIP } from "./util/emojis";
 import { getVoiceConnection } from "./util/getVoiceConnection";
 import { getTime } from "./util/time";
 
@@ -44,41 +43,19 @@ export async function addTimer(guildId: string, channel: TextChannel): Promise<v
         started: config.startDelay === 0,
     };
 
-    const message = await channel.send(createStatusMessage(config, timer));
-    message.react(EMOJI_PLUS10);
-    message.react(EMOJI_SKIP);
-
-    timer.status = {
-        channelId: channel.id,
-        messageId: message.id,
-    };
     await write(createTimerKey(guildId), timer);
+    await sendStatusMessage(channel);
 }
 
 export async function updateTimer(timer: Timer): Promise<void> {
-    await write(createTimerKey(timer.guildId), timer);
-
-    if (timer.status) {
-        const config = await getConfig(timer.guildId);
-        const channel = (await client.channels.fetch(timer.status.channelId)) as TextChannel;
-        const message = await channel.messages.fetch(timer.status.messageId);
-        await message.edit(createStatusMessage(config, timer));
-    }
+    await setTimer(timer);
+    await updateStatusMessage(timer.guildId);
 }
 
 export async function stopTimer(guildId: string): Promise<void> {
-    const timer = await read<Timer>(createTimerKey(guildId));
+    await read<Timer>(createTimerKey(guildId));
     await remove(createTimerKey(guildId));
-
-    if (timer?.status) {
-        const channel = (await client.channels.fetch(timer.status.channelId)) as TextChannel;
-        const message = await channel.messages.fetch(timer.status.messageId);
-        await message.delete();
-    }
-}
-
-export async function getTimer(guildId: string): Promise<Timer | undefined> {
-    return await read(createTimerKey(guildId));
+    await deleteStatusMessage(guildId);
 }
 
 /**
