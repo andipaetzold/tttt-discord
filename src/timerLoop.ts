@@ -1,11 +1,10 @@
-import { TextChannel } from "discord.js";
 import { getConfig } from "./config";
 import { client } from "./discord";
 import { log } from "./services/log";
 import { hasVoicePermissions } from "./services/permissions";
-import { createTimerKey, keys, readMany, remove, write } from "./services/redis";
-import { deleteStatusMessage, sendStatusMessage, updateStatusMessage } from "./services/statusMessage";
-import { getNextAthleteIndex, setTimer } from "./services/timer";
+import { createTimerKey, keys, readMany } from "./services/redis";
+import { updateStatusMessage } from "./services/statusMessage";
+import { getNextAthleteIndex, setTimer, stopTimer } from "./services/timer";
 import { speakCommand } from "./speak";
 import { Timer } from "./types";
 import { getVoiceConnection } from "./util/getVoiceConnection";
@@ -34,32 +33,6 @@ export function startTimerLoop() {
     }, INTERVAL);
 }
 
-export async function addTimer(guildId: string, channel: TextChannel): Promise<void> {
-    const config = await getConfig(guildId);
-    const now = getTime();
-
-    const timer: Timer = {
-        guildId,
-        nextChangeTime: now + (config.startDelay === 0 ? config.athletes[0].time : config.startDelay),
-        currentAthleteIndex: 0,
-        started: config.startDelay === 0,
-        disabledAthletes: [],
-    };
-
-    await write(createTimerKey(guildId), timer);
-    await sendStatusMessage(channel);
-}
-
-export async function updateTimer(timer: Timer): Promise<void> {
-    await setTimer(timer);
-    await updateStatusMessage(timer.guildId);
-}
-
-export async function stopTimer(guildId: string): Promise<void> {
-    await deleteStatusMessage(guildId);
-    await remove(createTimerKey(guildId));
-}
-
 /**
  * - Do not await `speakCommand`
  */
@@ -84,12 +57,13 @@ async function tick(timer: Timer, now: number): Promise<void> {
 
     const remainingSeconds = Math.max(timer.nextChangeTime - now, 0);
     if (remainingSeconds === 0) {
-        await updateTimer({
+        await setTimer({
             ...timer,
             currentAthleteIndex: nextAthleteIndex,
             nextChangeTime: now + config.athletes[nextAthleteIndex].time,
             started: true,
         });
+        await updateStatusMessage(timer.guildId);
     }
     speakCommand(remainingSeconds.toString(), { nextAthlete: nextAthleteName, started: timer.started }, connection);
 }

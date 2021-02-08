@@ -1,6 +1,6 @@
 import { Message } from "discord.js";
 import { removeConfig } from "../../config";
-import { stopTimer } from "../../timerLoop";
+import { stopTimer } from "../../services/timer";
 import { EMOJI_SUCCESS } from "../../util/emojis";
 
 export async function reset(message: Message): Promise<void> {

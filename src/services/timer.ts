@@ -1,9 +1,11 @@
+import { TextChannel } from "discord.js";
 import { getConfig } from "../config";
 import { speakCommand } from "../speak";
 import { Config, Timer } from "../types";
 import { getVoiceConnection } from "../util/getVoiceConnection";
 import { getTime } from "../util/time";
-import { createTimerKey, exists, read, write } from "./redis";
+import { createTimerKey, exists, read, remove, write } from "./redis";
+import { deleteStatusMessage, sendStatusMessage } from "./statusMessage";
 
 export async function skipCurrentAthlete(guildId: string): Promise<void> {
     const [timer, config] = await Promise.all([getTimer(guildId), getConfig(guildId)]);
@@ -23,7 +25,6 @@ export async function skipCurrentAthlete(guildId: string): Promise<void> {
     if (voiceConnection) {
         await speakCommand("skip", { nextAthlete: config.athletes[nextAthleteIndex].name }, voiceConnection);
     }
-
 }
 
 export function getNextAthleteIndex(config: Config, timer: Timer): number {
@@ -91,4 +92,25 @@ export async function setTimer(timer: Timer): Promise<void> {
 
 export async function getTimer(guildId: string): Promise<Timer | undefined> {
     return await read(createTimerKey(guildId));
+}
+
+export async function addTimer(guildId: string, channel: TextChannel): Promise<void> {
+    const config = await getConfig(guildId);
+    const now = getTime();
+
+    const timer: Timer = {
+        guildId,
+        nextChangeTime: now + (config.startDelay === 0 ? config.athletes[0].time : config.startDelay),
+        currentAthleteIndex: 0,
+        started: config.startDelay === 0,
+        disabledAthletes: [],
+    };
+
+    await write(createTimerKey(guildId), timer);
+    await sendStatusMessage(channel);
+}
+
+export async function stopTimer(guildId: string): Promise<void> {
+    await deleteStatusMessage(guildId);
+    await remove(createTimerKey(guildId));
 }
