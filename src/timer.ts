@@ -1,7 +1,9 @@
 import { TextChannel } from "discord.js";
 import { getConfig } from "./config";
+import { client } from "./discord";
 import { log } from "./services/log";
-import { createTimerKey, keys, read, readMany, remove, write } from "./services/redis";
+import { hasVoicePermissions } from "./services/permissions";
+import { createTimerKey, keys, readMany, remove, write } from "./services/redis";
 import { deleteStatusMessage, sendStatusMessage, updateStatusMessage } from "./services/statusMessage";
 import { getNextAthleteIndex, setTimer } from "./services/timer";
 import { speakCommand } from "./speak";
@@ -66,6 +68,13 @@ async function tick(timer: Timer, now: number): Promise<void> {
     const connection = await getVoiceConnection(config);
 
     if (connection === undefined) {
+        await stopTimer(timer.guildId);
+        return;
+    }
+
+    const guild = await client.guilds.fetch(timer.guildId);
+    if (!hasVoicePermissions(guild)) {
+        log("Missing voice permissions", `G:${timer.guildId}`);
         await stopTimer(timer.guildId);
         return;
     }

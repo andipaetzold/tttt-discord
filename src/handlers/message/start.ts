@@ -9,7 +9,7 @@ import { getVoiceConnection } from "../../util/getVoiceConnection";
 
 export async function start(message: Message): Promise<void> {
     const guildId = message.guild!.id;
-    const hasPermissions = await hasVoicePermissions(guildId);
+    const hasPermissions = hasVoicePermissions(message.guild!);
 
     if (!hasPermissions) {
         const invite = await getInviteUrl();

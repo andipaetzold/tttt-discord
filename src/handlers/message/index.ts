@@ -12,6 +12,7 @@ import { start } from "./start";
 import { stop } from "./stop";
 import { log } from "../../services/log";
 import { parseMessage } from "../../util/message";
+import { hasSendMessagePermission } from "../../services/permissions";
 
 const commandsMap: { [command: string]: (message: Message) => Promise<void> } = {
     start,
@@ -33,12 +34,17 @@ export async function handleMessage(message: Message) {
 
     if (!message.member) {
         message.channel.send(
-            `The timer can only be used in voice channels - not in direct messages. Add me to a server/guild and type \`${DEFAULT_PREFIX}help\` for more details.`
+            `The timer can only be on servers/guilds - not in direct messages. Add me to a server/guild and type \`${DEFAULT_PREFIX}help\` for more details.`
         );
         return;
     }
 
     if (!message.guild) {
+        return;
+    }
+
+    if (!hasSendMessagePermission(message.guild)) {
+        log("Missing SEND_MESSAGES permission", `G:${message.guild}`);
         return;
     }
 
@@ -53,6 +59,6 @@ export async function handleMessage(message: Message) {
     await commandsMap[command]?.(message);
 
     if (command.startsWith("+")) {
-        plus(message);
+        await plus(message);
     }
 }

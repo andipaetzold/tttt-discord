@@ -10,7 +10,7 @@ export async function handleMessageReactionAdd(messageReaction: MessageReaction,
     if (messageReaction.me) {
         return;
     }
-    
+
     log(`Message Reaction Add: ${messageReaction.emoji.name}`, `TC:${messageReaction.message.channel.id}`);
 
     const guildId = messageReaction.message.guild!.id;
@@ -64,7 +64,7 @@ export async function handleMessageReactionAdd(messageReaction: MessageReaction,
 }
 
 async function removeReaction(messageReaction: MessageReaction, user: User | PartialUser) {
-    if (await hasManageMessagesPermissions(messageReaction.message.guild!.id)) {
+    if (hasManageMessagesPermissions(messageReaction.message.guild!)) {
         await messageReaction.users.remove(user.id);
     }
 }
