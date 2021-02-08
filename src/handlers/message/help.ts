@@ -4,7 +4,6 @@ import { DEFAULT_PREFIX } from "../../constants";
 export async function help(message: Message) {
     const embed = new MessageEmbed()
         .setTitle("Help")
-        .setDescription(`If \`!t\` is already used by another bot, use \`!tttt\` as command prefix.`)
         .addField(`\`${DEFAULT_PREFIX}start\``, "Start the timer")
         .addField(`\`${DEFAULT_PREFIX}skip\``, "Skip the current athlete")
         .addField(`\`${DEFAULT_PREFIX}+<seconds>\``, "Add time to the timer")
@@ -20,6 +19,13 @@ export async function help(message: Message) {
         .addField(`\`${DEFAULT_PREFIX}reset\``, "Resets the bot")
         .addField(`\`${DEFAULT_PREFIX}invite\``, "Print link to invite this bot to another server")
         .addField(`\`${DEFAULT_PREFIX}help\``, "Show this message")
+
+        .addField(
+            "Remarks",
+            `• If \`!t\` is already used by another bot, use \`!tttt\` as command prefix
+• The bot can only join a single voice channel per server/guild at a time`
+        )
+
         .addField(
             "Links",
             `Web App: <https://andipaetzold.github.io/tttt/>
