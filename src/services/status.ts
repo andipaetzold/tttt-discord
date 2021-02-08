@@ -3,7 +3,6 @@ import { getConfig } from "../config";
 import { client } from "../discord";
 import type { Config, Timer } from "../types";
 import { EMOJI_PLUS10, EMOJI_SKIP } from "../util/emojis";
-import { log } from "./log";
 import { createTimerKey, keys, readMany } from "./redis";
 import { getTimer, setTimer } from "./timer";
 
@@ -78,8 +77,6 @@ export async function deleteStatusMessage(guildId: string) {
 export async function fetchStatusMessages() {
     const timerKeys = await keys(createTimerKey("*"));
     const timers = await readMany<Timer>(timerKeys);
-
-    log(`${timers.length} running timer(s)`, "Server");
 
     for (const timer of timers) {
         if (timer?.status) {
