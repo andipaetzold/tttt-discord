@@ -1,5 +1,6 @@
 import { MessageReaction, PartialUser, User } from "discord.js";
 import { hasManageMessagesPermissions } from "../../services/permissions";
+import { updateStatusMessage } from "../../services/statusMessage";
 import { addTimeToCurrentAthlete, getTimer, skipCurrentAthlete } from "../../services/timer";
 import { EMOJI_PLUS10, EMOJI_SKIP } from "../../util/emojis";
 
@@ -31,7 +32,7 @@ export async function handleMessageReactionAdd(messageReaction: MessageReaction,
     switch (messageReaction.emoji.name) {
         case EMOJI_SKIP: {
             await skipCurrentAthlete(guildId);
-
+            await updateStatusMessage(guildId);
             if (await hasManageMessagesPermissions(guildId)) {
                 await messageReaction.users.remove(user.id);
             }
@@ -41,7 +42,7 @@ export async function handleMessageReactionAdd(messageReaction: MessageReaction,
 
         case EMOJI_PLUS10: {
             await addTimeToCurrentAthlete(guildId, 10);
-
+            await updateStatusMessage(guildId);
             if (await hasManageMessagesPermissions(guildId)) {
                 await messageReaction.users.remove(user.id);
             }

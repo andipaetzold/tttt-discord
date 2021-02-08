@@ -22,6 +22,12 @@ Skips the current athlete
 ### `!t +<seconds>`
 Add tiemt to the timer
 
+### `!t toast [<name>]`
+The athlete is skipped until calling `!t fresh [<name>]`
+
+### `!t fresh [<name>]`
+The athlete won't be skipped anymore
+
 ### `!t stop`
 Stop the timer
 

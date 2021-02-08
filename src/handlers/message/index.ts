@@ -6,6 +6,8 @@ import { invite } from "./invite";
 import { plus } from "./plus";
 import { reset } from "./reset";
 import { skip } from "./skip";
+import { fresh } from "./fresh";
+import { toast } from "./toast";
 import { start } from "./start";
 import { stop } from "./stop";
 import { log } from "../../services/log";
@@ -13,10 +15,12 @@ import { parseMessage } from "../../util/message";
 
 const commandsMap: { [command: string]: (message: Message) => Promise<void> } = {
     start,
+    skip,
+    fresh,
+    toast,
     stop,
     config,
     reset,
-    skip,
     invite,
     help,
 };

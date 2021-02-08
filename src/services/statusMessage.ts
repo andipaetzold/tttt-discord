@@ -4,24 +4,35 @@ import { client } from "../discord";
 import type { Config, Timer } from "../types";
 import { EMOJI_PLUS10, EMOJI_SKIP } from "../util/emojis";
 import { createTimerKey, keys, readMany } from "./redis";
-import { getTimer, setTimer } from "./timer";
+import { getNextAthleteIndex, getTimer, setTimer } from "./timer";
 
 export function createStatusMessage(config: Config, timer: Timer): MessageEmbed {
-    const currentAthlete = config.athletes[timer.athleteIndex];
+    const currentAthlete = config.athletes[timer.currentAthleteIndex];
 
+    let messageEmbed: MessageEmbed;
     if (timer.started) {
-        const nextAthlete = config.athletes[(timer.athleteIndex + 1) % config.athletes.length];
+        const nextAthlete = config.athletes[getNextAthleteIndex(config, timer)];
 
-        return new MessageEmbed()
+        messageEmbed = new MessageEmbed()
             .setTitle(`${currentAthlete.name} (${currentAthlete.time}s)`)
             .addField("Next athlete", `${nextAthlete.name} (${nextAthlete.time}s)`)
             .setFooter(`Click ${EMOJI_PLUS10} to add 10 seconds and ${EMOJI_SKIP} to go to the next rider.`);
     } else {
-        return new MessageEmbed()
+        messageEmbed = new MessageEmbed()
             .setTitle("Waiting for the start...")
             .addField("First athlete", `${currentAthlete.name} (${currentAthlete.time}s)`)
             .setFooter(`Click ${EMOJI_PLUS10} to add 10 seconds and ${EMOJI_SKIP} to start.`);
-    }    
+    }
+
+    return messageEmbed.addField(
+        "Toasted athletes",
+        timer.disabledAthletes.length === 0
+            ? "*Everybody's still fresh*"
+            : config.athletes
+                  .filter((_, ai) => timer.disabledAthletes.includes(ai))
+                  .map((a) => `• ${a.name}`)
+                  .join("\n")
+    );
 }
 
 export async function sendStatusMessage(channel: TextChannel) {

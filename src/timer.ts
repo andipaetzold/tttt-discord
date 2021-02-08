@@ -3,7 +3,7 @@ import { getConfig } from "./config";
 import { log } from "./services/log";
 import { createTimerKey, keys, read, readMany, remove, write } from "./services/redis";
 import { deleteStatusMessage, sendStatusMessage, updateStatusMessage } from "./services/statusMessage";
-import { setTimer } from "./services/timer";
+import { getNextAthleteIndex, setTimer } from "./services/timer";
 import { speakCommand } from "./speak";
 import { Timer } from "./types";
 import { getVoiceConnection } from "./util/getVoiceConnection";
@@ -39,8 +39,9 @@ export async function addTimer(guildId: string, channel: TextChannel): Promise<v
     const timer: Timer = {
         guildId,
         nextChangeTime: now + (config.startDelay === 0 ? config.athletes[0].time : config.startDelay),
-        athleteIndex: 0,
+        currentAthleteIndex: 0,
         started: config.startDelay === 0,
+        disabledAthletes: [],
     };
 
     await write(createTimerKey(guildId), timer);
@@ -69,22 +70,14 @@ async function tick(timer: Timer, now: number): Promise<void> {
         return;
     }
 
-    let nextAthleteIndex: number;
-    let nextAthleteName: string;
+    const nextAthleteIndex = getNextAthleteIndex(config, timer);
+    const nextAthleteName = config.athletes[nextAthleteIndex].name;
+
     const remainingSeconds = Math.max(timer.nextChangeTime - now, 0);
-
-    if (timer.started) {
-        nextAthleteIndex = (timer.athleteIndex + 1) % config.athletes.length;
-        nextAthleteName = config.athletes[nextAthleteIndex].name;
-    } else {
-        nextAthleteIndex = timer.athleteIndex;
-        nextAthleteName = config.athletes[timer.athleteIndex].name;
-    }
-
     if (remainingSeconds === 0) {
         await updateTimer({
             ...timer,
-            athleteIndex: nextAthleteIndex,
+            currentAthleteIndex: nextAthleteIndex,
             nextChangeTime: now + config.athletes[nextAthleteIndex].time,
             started: true,
         });

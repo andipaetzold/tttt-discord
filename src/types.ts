@@ -14,10 +14,11 @@ export interface Athlete {
 export interface Timer {
     guildId: string;
     nextChangeTime: number;
-    athleteIndex: number;
+    currentAthleteIndex: number;
     started: boolean;
     status?: {
         channelId: string;
         messageId: string;
-    }
+    };
+    disabledAthletes: number[];
 }

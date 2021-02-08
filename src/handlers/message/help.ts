@@ -8,6 +8,8 @@ export async function help(message: Message) {
         .addField(`\`${DEFAULT_PREFIX}start\``, "Start the timer")
         .addField(`\`${DEFAULT_PREFIX}skip\``, "Skip the current athlete")
         .addField(`\`${DEFAULT_PREFIX}+<seconds>\``, "Add time to the timer")
+        .addField(`\`${DEFAULT_PREFIX}toast [<name>]\``, "The athlete is skipped until calling `!t fresh [<name>]`")
+        .addField(`\`${DEFAULT_PREFIX}fresh [<name>]\``, "The athlete won't be skipped anymore")
         .addField(`\`${DEFAULT_PREFIX}stop\``, "Stop the timer")
 
         .addField(`\`${DEFAULT_PREFIX}config\``, "Get the current configuration")
