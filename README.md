@@ -173,7 +173,7 @@ The bot automatically reacts with three emojis to this message. These can be use
 
 ## Voice Commands
 
-The bot automatically gives commands 1/2/5/10/15/30 seconds, 1/2/3/5/10 minutes before a change or the start of the race. Also, a command is given on the actual change/start and when skipping an athlete.
+The bot automatically gives commands 1/2/5/10/15/30 seconds and 1/2/3/5/10 minutes before a change or the start of the race. Also, a command is given on the actual change/start and when skipping an athlete.
 
 ## Data Privacy
 
