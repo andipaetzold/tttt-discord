@@ -3,7 +3,10 @@ import { getAudioUrl } from "google-tts-api";
 import { log } from "./services/log";
 
 export async function speak(text: string, connection: VoiceConnection): Promise<void> {
-    log(`Speak: "${text}"`, `G:${connection.channel.guild.id}`);
+    if (process.env.LOG_SPEAK === "true") {
+        log(`Speak: "${text}"`, `G:${connection.channel.guild.id}`);
+    }
+
     await new Promise((resolve, reject) => {
         const url = getAudioUrl(text, {
             lang: "en-US",
