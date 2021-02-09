@@ -9,8 +9,11 @@ import { handleMessageReactionAdd } from "./handlers/messageReactionAdd";
 import { handleMessageReactionRemove } from "./handlers/messageReactionRemove";
 import { handleReady } from "./handlers/ready";
 import { handleReconnecting } from "./handlers/reconnecting";
+import { log } from "./services/log";
 
 dotenv.config();
+
+log("Initializing...", "Server");
 
 client.once("ready", handleReady);
 client.once("reconnecting", handleReconnecting);
