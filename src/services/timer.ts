@@ -21,6 +21,9 @@ export async function skipCurrentAthlete(guildId: string): Promise<void> {
         started: true,
     });
 
+    console.log(getTime());
+    console.log(getTime() + config.athletes[nextAthleteIndex].time);
+
     const voiceConnection = await getVoiceConnection(config);
     if (voiceConnection) {
         await speakCommand("skip", { nextAthlete: config.athletes[nextAthleteIndex].name }, voiceConnection);

@@ -17,11 +17,11 @@ export function startTimerLoop() {
     let prevTickTime: number = getTime();
     setInterval(async () => {
         const time = getTime();
-
+        
         if (time !== prevTickTime) {
-            const timers = getAllTimers();
+            const timers = await getAllTimers();
 
-            for (const timer of Object.values(timers)) {
+            for (const timer of timers) {
                 if (timer) {
                     tick(timer, time);
                 }
