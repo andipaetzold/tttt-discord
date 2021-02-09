@@ -189,4 +189,4 @@ Andi Pätzold
 
 [E-Mail](tttt-discord@andipaetzold.com)
 
-Support this project using [PayPal](https://paypal.me/andipaetzold).
+Support this project using [PayPal](https://paypal.me/andipaetzold)
