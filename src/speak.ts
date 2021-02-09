@@ -31,6 +31,12 @@ export async function speakCommand(
 }
 
 const voiceCommands: Record<string, (args: Record<string, unknown>) => string> = {
+    [10 * 60]: () => "10 minutes",
+    [5 * 60]: () => "5 minutes",
+    [3 * 60]: () => "3 minutes",
+    [2 * 60]: () => "2 minutes",
+    [1 * 60]: () => "1 minute",
+    30: () => "30 seconds",
     15: ({ nextAthlete }) => `${nextAthlete}. Get ready.`,
     10: ({ started }) => (started ? "Change in 10" : "Start in 10"),
     5: () => "Five",
