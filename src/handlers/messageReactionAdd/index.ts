@@ -12,7 +12,11 @@ export async function handleMessageReactionAdd(messageReaction: MessageReaction,
         return;
     }
 
-    log(`Message Reaction Add: ${messageReaction.emoji.name}`, `TC:${messageReaction.message.channel.id}`);
+    if (!messageReaction.message.guild) {
+        return;
+    }
+
+    log(`Message Reaction Add: ${messageReaction.emoji.name}`, `G:${messageReaction.message.guild!.id}`);
 
     const guildId = messageReaction.message.guild!.id;
 

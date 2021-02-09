@@ -11,7 +11,11 @@ export async function handleMessageReactionRemove(messageReaction: MessageReacti
         return;
     }
 
-    log(`Message Reaction Remove: ${messageReaction.emoji.name}`, `TC:${messageReaction.message.channel.id}`);
+    if (!messageReaction.message.guild) {
+        return;
+    }
+
+    log(`Message Reaction Remove: ${messageReaction.emoji.name}`, `G:${messageReaction.message.guild!.id}`);
 
     const guildId = messageReaction.message.guild!.id;
 

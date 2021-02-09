@@ -16,7 +16,6 @@ export async function getVoiceConnection(
         const voiceChannel = userVoiceChannel;
         if (voiceChannel) {
             connection = await voiceChannel.join();
-            log("Connect", `VC:${connection.channel.id}`);
         }
     }
 
@@ -26,7 +25,6 @@ export async function getVoiceConnection(
             if (channel.type === "voice") {
                 const voiceChannel = channel as VoiceChannel;
                 connection = await voiceChannel.join();
-                log("Connect", `VC:${connection.channel.id}`);
             }
         }
     }
@@ -36,12 +34,15 @@ export async function getVoiceConnection(
         if (voiceChannels.size === 1) {
             const voiceChannel = voiceChannels.first()! as VoiceChannel;
             connection = await voiceChannel.join();
-            log("Connect", `VC:${connection.channel.id}`);
         }
     }
 
     if (config.voiceChannelId !== connection?.channel.id) {
-        setConfig({
+        if (connection) {
+            log("Connect", `G:${connection.channel.guild.id}`);
+        }
+
+        await setConfig({
             ...config,
             voiceChannelId: connection?.channel.id,
         });

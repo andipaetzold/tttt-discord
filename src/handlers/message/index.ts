@@ -54,7 +54,7 @@ export async function handleMessage(message: Message) {
     }
     const { command, args } = parsedMessage;
 
-    log(`Command: ${command} ${args}`, `TC:${message.channel.id}`);
+    log(`Command: ${command} ${args}`, `G:${message.guild.id}`);
 
     await commandsMap[command]?.(message);
 
