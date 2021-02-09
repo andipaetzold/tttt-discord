@@ -34,8 +34,9 @@ async function printConfig(channel: TextChannel): Promise<void> {
 async function updateConfig(message: Message, args: string[]) {
     const config = await getConfig(message.guild!.id);
 
-    switch (args[0]) {
-        case "startDelay": {
+    switch (args[0].toLowerCase()) {
+        case "delay":
+        case "startdelay": {
             if (args.length === 1) {
                 await message.channel.send(`Start Delay: ${config.startDelay}s`);
                 return;

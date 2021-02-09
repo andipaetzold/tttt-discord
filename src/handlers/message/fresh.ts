@@ -21,7 +21,7 @@ export async function fresh(message: Message) {
         return;
     }
 
-    const [config, timer] = await Promise.all([getConfig(guildId), getTimer(guildId)]);
+    const config = await getConfig(guildId);
 
     const user = args[0] ? await parseUser(args[0]) : { name: message.author.username, userId: message.author.id };
     const athleteIndex = config.athletes.findIndex((athlete) => isSameAthlete(athlete, user));

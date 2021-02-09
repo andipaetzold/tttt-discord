@@ -56,7 +56,7 @@ export async function handleMessage(message: Message) {
 
     log(`Command: ${command} ${args}`, `G:${message.guild.id}`);
 
-    await commandsMap[command]?.(message);
+    await commandsMap[command.toLowerCase()]?.(message);
 
     if (command.startsWith("+")) {
         await plus(message);

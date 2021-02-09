@@ -4,6 +4,6 @@ export default function isSameAthlete(a: Pick<Athlete, "name" | "userId">, b: Pi
     if (a.userId && b.userId) {
         return a.userId === b.userId;
     } else {
-        return a.name === b.name;
+        return a.name?.toLocaleLowerCase() === b.name?.toLocaleLowerCase();
     }
 }
