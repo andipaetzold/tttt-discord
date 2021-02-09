@@ -1,7 +1,7 @@
 import type { Message } from "discord.js";
 import { DEFAULT_PREFIX } from "../../constants";
 import { getConfig } from "../../persistence/config";
-import { getTimer, timerExists } from "../../persistence/timer";
+import { timerExists } from "../../persistence/timer";
 import { updateStatusMessage } from "../../services/statusMessage";
 import { setAthleteAsFresh } from "../../services/timer";
 import { EMOJI_ERROR, EMOJI_SUCCESS } from "../../util/emojis";
