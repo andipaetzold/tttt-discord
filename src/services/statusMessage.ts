@@ -16,12 +16,16 @@ export function createStatusMessage(config: Config, timer: Timer): MessageEmbed 
         messageEmbed = new MessageEmbed()
             .setTitle(`${currentAthlete.name} (${currentAthlete.time}s)`)
             .addField("Next athlete", `${nextAthlete.name} (${nextAthlete.time}s)`)
-            .setFooter(`Click ${EMOJI_PLUS10} to add 10 seconds and ${EMOJI_SKIP} to go to the next rider.`);
+            .setFooter(
+                `Click ${EMOJI_PLUS10} to add 10 seconds and ${EMOJI_SKIP} to go to the next rider. Click ${EMOJI_TOAST} when you are dead.`
+            );
     } else {
         messageEmbed = new MessageEmbed()
             .setTitle("Waiting for the start...")
             .addField("First athlete", `${currentAthlete.name} (${currentAthlete.time}s)`)
-            .setFooter(`Click ${EMOJI_PLUS10} to add 10 seconds and ${EMOJI_SKIP} to start.`);
+            .setFooter(
+                `Click ${EMOJI_PLUS10} to add 10 seconds and ${EMOJI_SKIP} to start. Click ${EMOJI_TOAST} when you are dead.`
+            );
     }
 
     return messageEmbed.addField(
