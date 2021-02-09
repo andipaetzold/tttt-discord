@@ -1,10 +1,10 @@
 import { TextChannel } from "discord.js";
-import { getConfig } from "../config";
+import { getConfig } from "../persistence/config";
+import { getTimer, removeTimer, setTimer } from "../persistence/timer";
 import { speakCommand } from "../speak";
 import { Config, Timer } from "../types";
 import { getVoiceConnection } from "../util/getVoiceConnection";
 import { getTime } from "../util/time";
-import { createTimerKey, exists, read, remove, write } from "./redis";
 import { deleteStatusMessage, sendStatusMessage } from "./statusMessage";
 
 export async function skipCurrentAthlete(guildId: string): Promise<void> {
@@ -82,18 +82,6 @@ export async function setAthleteAsFresh(guildId: string, athleteIndex: number) {
     });
 }
 
-export async function hasTimer(guildId: string): Promise<boolean> {
-    return await exists(createTimerKey(guildId));
-}
-
-export async function setTimer(timer: Timer): Promise<void> {
-    await write(createTimerKey(timer.guildId), timer);
-}
-
-export async function getTimer(guildId: string): Promise<Timer | undefined> {
-    return await read(createTimerKey(guildId));
-}
-
 export async function addTimer(guildId: string, channel: TextChannel): Promise<void> {
     const config = await getConfig(guildId);
     const now = getTime();
@@ -106,11 +94,11 @@ export async function addTimer(guildId: string, channel: TextChannel): Promise<v
         disabledAthletes: [],
     };
 
-    await write(createTimerKey(guildId), timer);
+    await setTimer(timer);
     await sendStatusMessage(channel);
 }
 
 export async function stopTimer(guildId: string): Promise<void> {
     await deleteStatusMessage(guildId);
-    await remove(createTimerKey(guildId));
+    await removeTimer(guildId);
 }

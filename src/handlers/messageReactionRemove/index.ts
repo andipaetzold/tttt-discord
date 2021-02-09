@@ -1,8 +1,9 @@
 import { MessageReaction, PartialUser, User } from "discord.js";
-import { getConfig } from "../../config";
+import { getConfig } from "../../persistence/config";
+import { getTimer } from "../../persistence/timer";
 import { log } from "../../services/log";
 import { updateStatusMessage } from "../../services/statusMessage";
-import { getTimer, setAthleteAsFresh } from "../../services/timer";
+import { setAthleteAsFresh } from "../../services/timer";
 import { EMOJI_TOAST } from "../../util/emojis";
 
 export async function handleMessageReactionRemove(messageReaction: MessageReaction, user: User | PartialUser) {

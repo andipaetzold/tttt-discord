@@ -1,11 +1,11 @@
 import { Message, MessageEmbed, TextChannel } from "discord.js";
-import { getConfig, saveConfig } from "../../config";
 import { DEFAULT_PREFIX, DEFAULT_TIME_PER_ATHLETE } from "../../constants";
+import { getConfig, setConfig } from "../../persistence/config";
 import { Athlete } from "../../types";
 import { EMOJI_ERROR, EMOJI_SUCCESS } from "../../util/emojis";
+import isSameAthlete from "../../util/isSameAthlete";
 import { parseMessage } from "../../util/message";
 import parseUser from "../../util/parseUser";
-import isSameAthlete from "../../util/isSameAthlete";
 
 export async function config(message: Message): Promise<void> {
     const { args } = parseMessage(message)!;
@@ -48,7 +48,7 @@ async function updateConfig(message: Message, args: string[]) {
                 return;
             }
 
-            await saveConfig({
+            await setConfig({
                 ...config,
                 startDelay: newStartDelay,
             });
@@ -74,7 +74,7 @@ async function updateConfig(message: Message, args: string[]) {
                 time: isNaN(+time) ? DEFAULT_TIME_PER_ATHLETE : +time,
             }));
 
-            await saveConfig({
+            await setConfig({
                 ...config,
                 athletes: newAthletes,
             });
@@ -93,7 +93,7 @@ async function updateConfig(message: Message, args: string[]) {
                     return;
                 }
 
-                await saveConfig({
+                await setConfig({
                     ...config,
                     athletes: config.athletes.map((a) =>
                         isSameAthlete(a, parsedUser)

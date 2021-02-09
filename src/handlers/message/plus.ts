@@ -1,6 +1,7 @@
 import { Message } from "discord.js";
 import { DEFAULT_PREFIX } from "../../constants";
-import { addTimeToCurrentAthlete, hasTimer } from "../../services/timer";
+import { timerExists } from "../../persistence/timer";
+import { addTimeToCurrentAthlete } from "../../services/timer";
 import { EMOJI_ERROR, EMOJI_SUCCESS } from "../../util/emojis";
 import { parseMessage } from "../../util/message";
 
@@ -14,7 +15,7 @@ export async function plus(message: Message): Promise<void> {
         return;
     }
 
-    if (!(await hasTimer(guildId))) {
+    if (!(await timerExists(guildId))) {
         await Promise.all([
             message.channel.send(`Start the timer first using \`${DEFAULT_PREFIX}start\``),
             message.react(EMOJI_ERROR),

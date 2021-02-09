@@ -1,6 +1,6 @@
 import { VoiceChannel, VoiceConnection } from "discord.js";
-import { saveConfig } from "../config";
 import { client } from "../discord";
+import { setConfig } from "../persistence/config";
 import { log } from "../services/log";
 import { Config } from "../types";
 
@@ -41,7 +41,7 @@ export async function getVoiceConnection(
     }
 
     if (config.voiceChannelId !== connection?.channel.id) {
-        saveConfig({
+        setConfig({
             ...config,
             voiceChannelId: connection?.channel.id,
         });

@@ -1,10 +1,10 @@
-import { getConfig } from "./config";
 import { client } from "./discord";
+import { getConfig } from "./persistence/config";
+import { getAllTimers, setTimer } from "./persistence/timer";
 import { log } from "./services/log";
 import { hasVoicePermissions } from "./services/permissions";
-import { createTimerKey, keys, readMany } from "./services/redis";
 import { updateStatusMessage } from "./services/statusMessage";
-import { getNextAthleteIndex, setTimer, stopTimer } from "./services/timer";
+import { getNextAthleteIndex, stopTimer } from "./services/timer";
 import { speakCommand } from "./speak";
 import { Timer } from "./types";
 import { getVoiceConnection } from "./util/getVoiceConnection";
@@ -19,8 +19,7 @@ export function startTimerLoop() {
         const time = getTime();
 
         if (time !== prevTickTime) {
-            const timerKeys = await keys(createTimerKey("*"));
-            const timers = await readMany<Timer>(timerKeys);
+            const timers = getAllTimers();
 
             for (const timer of Object.values(timers)) {
                 if (timer) {

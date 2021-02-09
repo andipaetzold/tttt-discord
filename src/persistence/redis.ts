@@ -81,11 +81,3 @@ export async function exists(key: string): Promise<boolean> {
         });
     });
 }
-
-export function createConfigKey(guildId: string): string {
-    return `config:${guildId}`;
-}
-
-export function createTimerKey(guildId: string): string {
-    return `timer:${guildId}`;
-}

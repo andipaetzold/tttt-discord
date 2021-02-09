@@ -1,9 +1,10 @@
 import { MessageReaction, PartialUser, User } from "discord.js";
-import { getConfig } from "../../config";
+import { getConfig } from "../../persistence/config";
+import { getTimer } from "../../persistence/timer";
 import { log } from "../../services/log";
 import { hasManageMessagesPermissions } from "../../services/permissions";
 import { updateStatusMessage } from "../../services/statusMessage";
-import { addTimeToCurrentAthlete, getTimer, setAthleteAsToast, skipCurrentAthlete } from "../../services/timer";
+import { addTimeToCurrentAthlete, setAthleteAsToast, skipCurrentAthlete } from "../../services/timer";
 import { EMOJI_PLUS10, EMOJI_SKIP, EMOJI_TOAST } from "../../util/emojis";
 
 export async function handleMessageReactionAdd(messageReaction: MessageReaction, user: User | PartialUser) {

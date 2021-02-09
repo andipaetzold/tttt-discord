@@ -1,5 +1,5 @@
 import { Message } from "discord.js";
-import { removeConfig } from "../../config";
+import { removeConfig } from "../../persistence/config";
 import { stopTimer } from "../../services/timer";
 import { EMOJI_SUCCESS } from "../../util/emojis";
 

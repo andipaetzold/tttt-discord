@@ -1,8 +1,9 @@
 import type { Message } from "discord.js";
-import { getConfig } from "../../config";
 import { DEFAULT_PREFIX } from "../../constants";
+import { getConfig } from "../../persistence/config";
+import { timerExists } from "../../persistence/timer";
 import { updateStatusMessage } from "../../services/statusMessage";
-import { hasTimer, setAthleteAsToast } from "../../services/timer";
+import { setAthleteAsToast } from "../../services/timer";
 import { EMOJI_ERROR, EMOJI_SUCCESS } from "../../util/emojis";
 import isSameAthlete from "../../util/isSameAthlete";
 import { parseMessage } from "../../util/message";
@@ -12,7 +13,7 @@ export async function toast(message: Message) {
     const { args } = parseMessage(message)!;
     const guildId = message.guild!.id;
 
-    if (!(await hasTimer(guildId))) {
+    if (!(await timerExists(guildId))) {
         await Promise.all([
             message.channel.send(`Start the timer first using \`${DEFAULT_PREFIX}start\``),
             message.react(EMOJI_ERROR),

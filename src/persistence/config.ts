@@ -1,6 +1,6 @@
-import { DEFAULT_ATHLETE_NAMES, DEFAULT_START_DELAY, DEFAULT_TIME_PER_ATHLETE } from "./constants";
-import { createConfigKey, read, remove, write } from "./services/redis";
-import { Config } from "./types";
+import { DEFAULT_ATHLETE_NAMES, DEFAULT_START_DELAY, DEFAULT_TIME_PER_ATHLETE } from "../constants";
+import { exists, read, remove, write } from "./redis";
+import type { Config } from "../types";
 
 const DEFAULT_CONFIG: Omit<Config, "guildId"> = {
     startDelay: DEFAULT_START_DELAY,
@@ -9,6 +9,10 @@ const DEFAULT_CONFIG: Omit<Config, "guildId"> = {
         time: DEFAULT_TIME_PER_ATHLETE,
     })),
 };
+
+function createConfigKey(guildId: string): string {
+    return `config:${guildId}`;
+}
 
 export async function getConfig(guildId: string): Promise<Config> {
     const config = await read(createConfigKey(guildId));
@@ -20,10 +24,14 @@ export async function getConfig(guildId: string): Promise<Config> {
     );
 }
 
-export async function saveConfig(config: Config): Promise<void> {
+export async function setConfig(config: Config): Promise<void> {
     await write(createConfigKey(config.guildId), config);
 }
 
+export async function configExists(guildId: string): Promise<boolean> {
+    return await exists(createConfigKey(guildId));
+}
+
 export async function removeConfig(guildId: string): Promise<void> {
-    await remove(createConfigKey(guildId));
+    return await remove(createConfigKey(guildId));
 }

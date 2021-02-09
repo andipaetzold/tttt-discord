@@ -1,10 +1,10 @@
 import { MessageEmbed, TextChannel } from "discord.js";
-import { getConfig } from "../config";
 import { client } from "../discord";
+import { getConfig } from "../persistence/config";
+import { getAllTimers, getTimer, setTimer } from "../persistence/timer";
 import type { Config, Timer } from "../types";
 import { EMOJI_PLUS10, EMOJI_SKIP, EMOJI_TOAST } from "../util/emojis";
-import { createTimerKey, keys, readMany } from "./redis";
-import { getNextAthleteIndex, getTimer, setTimer } from "./timer";
+import { getNextAthleteIndex } from "./timer";
 
 export function createStatusMessage(config: Config, timer: Timer): MessageEmbed {
     const currentAthlete = config.athletes[timer.currentAthleteIndex];
@@ -89,8 +89,7 @@ export async function deleteStatusMessage(guildId: string) {
  * Required to receive the `messageReactionAdd` event
  */
 export async function fetchStatusMessages() {
-    const timerKeys = await keys(createTimerKey("*"));
-    const timers = await readMany<Timer>(timerKeys);
+    const timers = await getAllTimers();
 
     for (const timer of timers) {
         if (timer?.status) {

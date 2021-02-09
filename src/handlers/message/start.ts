@@ -1,6 +1,6 @@
 import { Message, TextChannel } from "discord.js";
-import { getConfig } from "../../config";
 import { DEFAULT_PREFIX } from "../../constants";
+import { getConfig } from "../../persistence/config";
 import { log } from "../../services/log";
 import { getInviteUrl, hasVoicePermissions } from "../../services/permissions";
 import { addTimer } from "../../services/timer";
