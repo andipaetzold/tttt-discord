@@ -1,4 +1,4 @@
-export function log(message: string, context?: string) {
+export function log(message: string, context: string) {
     if (context) {
         console.log(`[${context}] ${message}`);
     } else {
