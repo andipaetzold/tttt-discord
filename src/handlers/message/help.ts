@@ -4,33 +4,10 @@ import { DEFAULT_PREFIX } from "../../constants";
 export async function help(message: Message) {
     const embed = new MessageEmbed()
         .setTitle("Help")
-        .addField(`\`${DEFAULT_PREFIX}start\``, "Start the timer")
-        .addField(`\`${DEFAULT_PREFIX}skip\``, "Skip the current athlete")
-        .addField(`\`${DEFAULT_PREFIX}+<seconds>\``, "Add time to the timer")
-        .addField(`\`${DEFAULT_PREFIX}toast [<name>]\``, "The athlete is skipped until calling `!t fresh [<name>]`")
-        .addField(`\`${DEFAULT_PREFIX}fresh [<name>]\``, "The athlete won't be skipped anymore")
-        .addField(`\`${DEFAULT_PREFIX}stop\``, "Stop the timer")
-
-        .addField(`\`${DEFAULT_PREFIX}config\``, "Get the current configuration")
-        .addField(`\`${DEFAULT_PREFIX}config startDelay <seconds>\``, "Sets the start delay in seconds")
-        .addField(`\`${DEFAULT_PREFIX}config athletes <name>:[<time>] ...\``, "Set the athletes and their lead times")
-        .addField(`\`${DEFAULT_PREFIX}config <name> <time>\``, "Set the lead time of an athlete")
-
-        .addField(`\`${DEFAULT_PREFIX}reset\``, "Resets the bot")
-        .addField(`\`${DEFAULT_PREFIX}invite\``, "Print link to invite this bot to another server")
-        .addField(`\`${DEFAULT_PREFIX}help\``, "Show this message")
-
-        .addField(
-            "Remarks",
-            `• If \`!t\` is already used by another bot, use \`!tttt\` as command prefix
-• The bot can only join a single voice channel per server/guild at a time`
-        )
-
-        .addField(
-            "Links",
-            `Web App: <https://andipaetzold.github.io/tttt/>
-Support this project: <https://paypal.me/andipaetzold>`
-        )
+        .setURL("https://andipaetzold.github.io/tttt-discord/")
+        .addField("Full Documentation", "<https://andipaetzold.github.io/tttt-discord/>")
+        .addField("Web App", "<https://andipaetzold.github.io/tttt/>")
+        .addField("Support this project", "<https://paypal.me/andipaetzold>")
         .setFooter("Made by Andi Pätzold");
 
     await message.channel.send(embed);
