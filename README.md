@@ -187,6 +187,6 @@ All code is publicly available on [Github](https://github.com/andipaetzold/tttt-
 
 Andi Pätzold
 
-[E-Mail](tttt-discord@andipaetzold.com)
+[E-Mail](mailto:tttt-discord@andipaetzold.com)
 
 Support this project using [PayPal](https://paypal.me/andipaetzold)
