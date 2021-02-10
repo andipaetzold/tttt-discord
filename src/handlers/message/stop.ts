@@ -14,10 +14,10 @@ export async function stop(message: Message): Promise<void> {
         return;
     }
 
-    log("Stop", `G:${connection.channel.guild.id}`);
+    log("Stopping timer", `G:${connection.channel.guild.id}`);
 
     await stopTimer(guildId);
 
-    log("Disconnect", `G:${connection.channel.guild.id}`);
+    log(`Connected to VC:${connection.channel.id}`, `G:${connection.channel.guild.id}`);
     connection.disconnect();
 }

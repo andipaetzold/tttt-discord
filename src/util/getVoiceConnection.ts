@@ -39,7 +39,7 @@ export async function getVoiceConnection(
 
     if (config.voiceChannelId !== connection?.channel.id) {
         if (connection) {
-            log("Connect", `G:${connection.channel.guild.id}`);
+            log(`Connected to VC:${connection.channel.id}`, `G:${connection.channel.guild.id}`);
         }
 
         await setConfig({
