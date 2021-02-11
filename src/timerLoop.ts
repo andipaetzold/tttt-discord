@@ -1,6 +1,6 @@
 import { client } from "./discord";
 import { getConfig } from "./persistence/config";
-import { getAllTimers, setTimer } from "./persistence/timer";
+import { getAllTimers, removeTimer, setTimer } from "./persistence/timer";
 import { log } from "./services/log";
 import { hasVoicePermissions } from "./services/permissions";
 import { updateStatusMessage } from "./services/statusMessage";
@@ -13,7 +13,7 @@ import { getTime } from "./util/time";
 const INTERVAL = 750;
 
 export function startTimerLoop() {
-    log("Starting timer", "Server");
+    log("Starting timer loop", "Server");
     let prevTickTime: number = getTime();
     setInterval(async () => {
         const time = getTime();
@@ -21,11 +21,7 @@ export function startTimerLoop() {
         if (time !== prevTickTime) {
             const timers = await getAllTimers();
 
-            for (const timer of timers) {
-                if (timer) {
-                    tick(timer, time);
-                }
-            }
+            timers.filter((timer): timer is Timer => timer !== undefined).forEach((timer) => tick(timer, time));
         }
 
         prevTickTime = time;
@@ -41,15 +37,12 @@ async function tick(timer: Timer, now: number): Promise<void> {
         const connection = await getVoiceConnection(config);
 
         if (connection === undefined) {
-            await stopTimer(timer.guildId);
-            return;
+            throw new Error("Could not get voice connection");
         }
 
         const guild = await client.guilds.fetch(timer.guildId);
         if (!hasVoicePermissions(guild)) {
-            log("Missing voice permissions", `G:${timer.guildId}`);
-            await stopTimer(timer.guildId);
-            return;
+            throw new Error("Missing voice permissions");
         }
 
         const nextAthleteIndex = getNextAthleteIndex(config, timer);
@@ -69,6 +62,6 @@ async function tick(timer: Timer, now: number): Promise<void> {
     } catch (e) {
         log("Stopping timer due to an error", `G:${timer.guildId}`, "ERROR");
         log(e.toString(), `G:${timer.guildId}`, "ERROR");
-        await stopTimer(timer.guildId);
+        await removeTimer(timer.guildId);
     }
 }
