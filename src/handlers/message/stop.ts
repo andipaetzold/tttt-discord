@@ -15,9 +15,8 @@ export async function stop(message: Message): Promise<void> {
     }
 
     log("Stopping timer", `G:${connection.channel.guild.id}`);
-
     await stopTimer(guildId);
 
-    log(`Connected to VC:${connection.channel.id}`, `G:${connection.channel.guild.id}`);
+    log(`Disconnecting from VC:${connection.channel.id}`, `G:${connection.channel.guild.id}`);
     connection.disconnect();
 }
