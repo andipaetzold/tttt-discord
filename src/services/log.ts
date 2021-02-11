@@ -1,7 +1,9 @@
-export function log(message: string, context: string) {
+export function log(message: string, context: string, level: "INFO" | "ERROR" = "INFO") {
+    const logFn = level === "INFO" ? console.log : console.error;
+
     if (context) {
-        console.log(`[${context}] ${message}`);
+        logFn(`[${context}] ${message}`);
     } else {
-        console.log(message);
+        logFn(message);
     }
 }

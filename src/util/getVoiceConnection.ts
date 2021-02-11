@@ -2,7 +2,6 @@ import { VoiceChannel, VoiceConnection } from "discord.js";
 import { client } from "../discord";
 import { setConfig } from "../persistence/config";
 import { log } from "../services/log";
-import { hasVoicePermissions } from "../services/permissions";
 import { Config } from "../types";
 
 export async function getVoiceConnection(
@@ -16,7 +15,7 @@ export async function getVoiceConnection(
     if (connection === undefined) {
         const voiceChannel = userVoiceChannel;
         if (voiceChannel) {
-            connection = await checkAndJoin(voiceChannel);
+            connection = await voiceChannel.join();
         }
     }
 
@@ -25,7 +24,7 @@ export async function getVoiceConnection(
             const channel = await client.channels.fetch(config.voiceChannelId);
             if (channel.type === "voice") {
                 const voiceChannel = channel as VoiceChannel;
-                connection = await checkAndJoin(voiceChannel);
+                connection = await voiceChannel.join();
             }
         }
     }
@@ -34,7 +33,7 @@ export async function getVoiceConnection(
         const voiceChannels = guild.channels.cache.filter((channel) => channel.type === "voice");
         if (voiceChannels.size === 1) {
             const voiceChannel = voiceChannels.first()! as VoiceChannel;
-            connection = await checkAndJoin(voiceChannel);
+            connection = await voiceChannel.join();
         }
     }
 
@@ -50,10 +49,4 @@ export async function getVoiceConnection(
     }
 
     return connection;
-}
-
-async function checkAndJoin(voiceChannel: VoiceChannel) {
-    if (hasVoicePermissions(voiceChannel.guild)) {
-        return await voiceChannel.join();
-    }
 }

@@ -17,7 +17,7 @@ export function startTimerLoop() {
     let prevTickTime: number = getTime();
     setInterval(async () => {
         const time = getTime();
-        
+
         if (time !== prevTickTime) {
             const timers = await getAllTimers();
 
@@ -36,33 +36,39 @@ export function startTimerLoop() {
  * - Do not await `speakCommand`
  */
 async function tick(timer: Timer, now: number): Promise<void> {
-    const config = await getConfig(timer.guildId);
-    const connection = await getVoiceConnection(config);
+    try {
+        const config = await getConfig(timer.guildId);
+        const connection = await getVoiceConnection(config);
 
-    if (connection === undefined) {
+        if (connection === undefined) {
+            await stopTimer(timer.guildId);
+            return;
+        }
+
+        const guild = await client.guilds.fetch(timer.guildId);
+        if (!hasVoicePermissions(guild)) {
+            log("Missing voice permissions", `G:${timer.guildId}`);
+            await stopTimer(timer.guildId);
+            return;
+        }
+
+        const nextAthleteIndex = getNextAthleteIndex(config, timer);
+        const nextAthleteName = config.athletes[nextAthleteIndex].name;
+
+        const remainingSeconds = Math.max(timer.nextChangeTime - now, 0);
+        if (remainingSeconds === 0) {
+            await setTimer({
+                ...timer,
+                currentAthleteIndex: nextAthleteIndex,
+                nextChangeTime: now + config.athletes[nextAthleteIndex].time,
+                started: true,
+            });
+            await updateStatusMessage(timer.guildId);
+        }
+        speakCommand(remainingSeconds.toString(), { nextAthlete: nextAthleteName, started: timer.started }, connection);
+    } catch (e) {
+        log("Stopping timer due to an error", `G:${timer.guildId}`, "ERROR");
+        log(e.toString(), `G:${timer.guildId}`, "ERROR");
         await stopTimer(timer.guildId);
-        return;
     }
-
-    const guild = await client.guilds.fetch(timer.guildId);
-    if (!hasVoicePermissions(guild)) {
-        log("Missing voice permissions", `G:${timer.guildId}`);
-        await stopTimer(timer.guildId);
-        return;
-    }
-
-    const nextAthleteIndex = getNextAthleteIndex(config, timer);
-    const nextAthleteName = config.athletes[nextAthleteIndex].name;
-
-    const remainingSeconds = Math.max(timer.nextChangeTime - now, 0);
-    if (remainingSeconds === 0) {
-        await setTimer({
-            ...timer,
-            currentAthleteIndex: nextAthleteIndex,
-            nextChangeTime: now + config.athletes[nextAthleteIndex].time,
-            started: true,
-        });
-        await updateStatusMessage(timer.guildId);
-    }
-    speakCommand(remainingSeconds.toString(), { nextAthlete: nextAthleteName, started: timer.started }, connection);
 }
