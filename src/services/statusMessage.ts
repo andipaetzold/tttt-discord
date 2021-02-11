@@ -84,9 +84,13 @@ export async function deleteStatusMessage(guildId: string) {
         return;
     }
 
-    const channel = (await client.channels.fetch(timer.status.channelId)) as TextChannel;
-    const message = await channel.messages.fetch(timer.status.messageId);
-    await message.delete();
+    try {
+        const channel = (await client.channels.fetch(timer.status.channelId)) as TextChannel;
+        const message = await channel.messages.fetch(timer.status.messageId);
+        await message.delete();
+    } catch {
+        // ignore errors
+    }
 }
 
 /**
