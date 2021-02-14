@@ -57,18 +57,18 @@ export async function sendStatusMessage(channel: TextChannel) {
         message.react(EMOJI_PLUS10);
         message.react(EMOJI_SKIP);
         message.react(EMOJI_TOAST);
-    } catch (e) {
-        log(e.toString(), `G:${guildId}`, "ERROR");
-        throw new Error("Could not update status message");
-    }
 
-    await setTimer({
-        ...timer,
-        status: {
-            channelId: channel.id,
-            messageId: message.id,
-        },
-    });
+        await setTimer({
+            ...timer,
+            status: {
+                channelId: channel.id,
+                messageId: message.id,
+            },
+        });
+    } catch (e) {
+        log("Could not send status message", `G:${guildId}`, "ERROR");
+        log(e, `G:${guildId}`, "ERROR");
+    }
 }
 
 export async function updateStatusMessage(guildId: string) {
@@ -82,8 +82,13 @@ export async function updateStatusMessage(guildId: string) {
         const message = await channel.messages.fetch(timer.status.messageId);
         await message.edit(createStatusMessage(config, timer));
     } catch (e) {
-        log(e.toString(), `G:${guildId}`, "ERROR");
-        throw new Error("Could not update status message");
+        log("Could not update status message", `G:${guildId}`, "ERROR");
+        log(e, `G:${guildId}`, "ERROR");
+
+        await setTimer({
+            ...timer,
+            status: undefined,
+        });
     }
 }
 
@@ -98,8 +103,8 @@ export async function deleteStatusMessage(guildId: string) {
         const message = await channel.messages.fetch(timer.status.messageId);
         await message.delete();
     } catch (e) {
-        log(e.toString(), `G:${guildId}`, "ERROR");
-        throw new Error("Could not delete status message");
+        log("Could not delete status message", `G:${guildId}`, "ERROR");
+        log(e, `G:${guildId}`, "ERROR");
     }
 }
 
@@ -117,7 +122,12 @@ export async function fetchStatusMessages() {
             channel.messages.fetch(timer.status!.messageId);
         } catch (e) {
             log("Error fetching status message", `G:${timer!.guildId}`, "ERROR");
-            log(e.toString(), `G:${timer!.guildId}`, "ERROR");
+            log(e, `G:${timer!.guildId}`, "ERROR");
+
+            await setTimer({
+                ...timer,
+                status: undefined,
+            });
         }
     }
 }
