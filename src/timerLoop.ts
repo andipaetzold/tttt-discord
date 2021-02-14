@@ -58,7 +58,12 @@ async function tick(timer: Timer, now: number): Promise<void> {
             });
             await updateStatusMessage(timer.guildId);
         }
-        speakCommand(remainingSeconds.toString(), { nextAthlete: nextAthleteName, started: timer.started }, connection);
+        speakCommand(
+            remainingSeconds.toString(),
+            { nextAthlete: nextAthleteName, started: timer.started },
+            connection,
+            config.languageKey
+        );
     } catch (e) {
         log("Stopping timer due to an error", `G:${timer.guildId}`, "ERROR");
         log(e.toString(), `G:${timer.guildId}`, "ERROR");

@@ -1,5 +1,7 @@
 import { Message, MessageEmbed, TextChannel } from "discord.js";
 import { DEFAULT_PREFIX, DEFAULT_TIME_PER_ATHLETE } from "../../constants";
+import { languages } from "../../languages";
+import { LanguageKey } from "../../languages/types";
 import { getConfig, setConfig } from "../../persistence/config";
 import { Athlete } from "../../types";
 import { EMOJI_ERROR, EMOJI_SUCCESS } from "../../util/emojis";
@@ -27,6 +29,7 @@ async function printConfig(channel: TextChannel): Promise<void> {
             "Athletes",
             config.athletes.map((athlete) => `• ${athleteToString(athlete)} (${athlete.time}s)`).join("\n")
         )
+        .addField("Language", languages.find((language) => language.key === config.languageKey)!.name)
         .setFooter("Made by Andi Pätzold");
     await channel.send(embed);
 }
@@ -78,6 +81,35 @@ async function updateConfig(message: Message, args: string[]) {
             await setConfig({
                 ...config,
                 athletes: newAthletes,
+            });
+
+            await confirmMessage(message);
+            break;
+        }
+
+        case "lang":
+        case "language": {
+            if (args.length === 1) {
+                const language = languages.find((language) => language.key === config.languageKey)!;
+                await message.channel.send(`Language: ${language.name}`);
+                return;
+            }
+
+            const newLanguageKey = args[1].toLowerCase();
+            const newLanguage = languages.find((language) => language.key === newLanguageKey);
+            if (!newLanguage) {
+                await sendError(
+                    `Unknown language. The following languages are available:\n${languages
+                        .map((language) => `• \`${language.key}\` (${language.name})`)
+                        .join("\n")}`,
+                    message
+                );
+                return;
+            }
+
+            await setConfig({
+                ...config,
+                languageKey: newLanguageKey as LanguageKey,
             });
 
             await confirmMessage(message);

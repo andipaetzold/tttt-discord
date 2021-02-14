@@ -1,8 +1,11 @@
+import { LanguageKey } from "./languages/types";
+
 export interface Config {
     guildId: string;
     voiceChannelId?: string;
     startDelay: number;
     athletes: Athlete[];
+    languageKey: LanguageKey;
 }
 
 export interface Athlete {

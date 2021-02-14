@@ -8,6 +8,7 @@ const DEFAULT_CONFIG: Omit<Config, "guildId"> = {
         name,
         time: DEFAULT_TIME_PER_ATHLETE,
     })),
+    languageKey: "en",
 };
 
 function createConfigKey(guildId: string): string {
@@ -16,12 +17,11 @@ function createConfigKey(guildId: string): string {
 
 export async function getConfig(guildId: string): Promise<Config> {
     const config = await read(createConfigKey(guildId));
-    return (
-        config ?? {
-            ...DEFAULT_CONFIG,
-            guildId,
-        }
-    );
+    return {
+        ...DEFAULT_CONFIG,
+        ...(config ? config : {}),
+        guildId,
+    };
 }
 
 export async function setConfig(config: Config): Promise<void> {

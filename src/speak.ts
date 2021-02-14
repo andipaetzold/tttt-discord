@@ -1,15 +1,17 @@
 import type { VoiceConnection } from "discord.js";
 import { getAudioUrl } from "google-tts-api";
 import { log } from "./services/log";
+import { LanguageKey, Locale } from "./languages/types";
+import { languages } from "./languages";
 
-export async function speak(text: string, connection: VoiceConnection): Promise<void> {
+export async function speak(text: string, locale: Locale, connection: VoiceConnection): Promise<void> {
     if (process.env.LOG_SPEAK === "true") {
         log(`Speak: "${text}"`, `G:${connection.channel.guild.id}`);
     }
 
     await new Promise((resolve, reject) => {
         const url = getAudioUrl(text, {
-            lang: "en-US",
+            lang: locale,
             slow: false,
             host: "https://translate.google.com",
         });
@@ -24,27 +26,14 @@ export async function speak(text: string, connection: VoiceConnection): Promise<
 export async function speakCommand(
     command: string,
     args: Record<string, unknown>,
-    connection: VoiceConnection
+    connection: VoiceConnection,
+    languageKey: LanguageKey
 ): Promise<void> {
+    const { locale, voiceCommands } = languages.find((language) => language.key === languageKey)!;
+
     if (!voiceCommands[command]) {
         return;
     }
     const text = voiceCommands[command](args);
-    await speak(text, connection);
+    await speak(text, locale, connection);
 }
-
-const voiceCommands: Record<string, (args: Record<string, unknown>) => string> = {
-    [10 * 60]: () => "10 minutes",
-    [5 * 60]: () => "5 minutes",
-    [3 * 60]: () => "3 minutes",
-    [2 * 60]: () => "2 minutes",
-    [1 * 60]: () => "1 minute",
-    30: () => "30 seconds",
-    15: ({ nextAthlete }) => `${nextAthlete}. Get ready.`,
-    10: ({ started }) => (started ? "Change in 10" : "Start in 10"),
-    5: () => "Five",
-    2: () => "Two",
-    1: () => "One",
-    0: ({ nextAthlete, started }) => (started ? `Change to ${nextAthlete}` : "Let's go"),
-    skip: ({ nextAthlete }) => `Go ${nextAthlete}!`,
-};

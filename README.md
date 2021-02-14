@@ -147,6 +147,18 @@ Example:
 
 _Sets the lead time of Andi to 45 seconds_
 
+### `!t config language`
+
+Sends the current language to the channel.
+
+### `!t config language <language>`
+
+Set the language of the voice commands. Available languages are:
+
+-   English (`!t config language en`)
+-   German (`!t config language de`)
+-   Czech (`!t config language cz`)
+
 ### `!t reset`
 
 Stops the timer and resets all configuration of the bot for your server.
