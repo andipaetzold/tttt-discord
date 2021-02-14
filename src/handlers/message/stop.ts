@@ -1,6 +1,6 @@
 import { Message } from "discord.js";
 import { client } from "../../discord";
-import { log } from "../../services/log";
+import logger from "../../services/logger";
 import { stopTimer } from "../../services/timer";
 import { EMOJI_SUCCESS } from "../../util/emojis";
 
@@ -14,9 +14,9 @@ export async function stop(message: Message): Promise<void> {
         return;
     }
 
-    log("Stopping timer", `G:${connection.channel.guild.id}`);
+    logger.info(connection.channel.guild.id, "Stopping timer");
     await stopTimer(guildId);
 
-    log(`Disconnecting from VC:${connection.channel.id}`, `G:${connection.channel.guild.id}`);
+    logger.info(connection.channel.guild.id, `Disconnecting from VC:${connection.channel.id}`);
     connection.disconnect();
 }

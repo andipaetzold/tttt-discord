@@ -1,6 +1,6 @@
 import { client } from "../../discord";
 import { getAllTimerKeys } from "../../persistence/timer";
-import { log } from "../../services/log";
+import logger from "../../services/logger";
 import { fetchStatusMessages } from "../../services/statusMessage";
 import { startTimerLoop } from "../../timerLoop";
 
@@ -13,15 +13,15 @@ export async function handleReady() {
 
     startTimerLoop();
 
-    log(`Member of ${client.guilds.cache.size} server(s)`, "Server");
+    logger.info(undefined, `Member of ${client.guilds.cache.size} server(s)`);
     client.guilds.cache.forEach((guild) => {
-        log(`${guild.id}: ${guild.name}`, "Server");
+        logger.info(undefined, `${guild.id}: ${guild.name}`);
     });
 
     await fetchStatusMessages();
 
     const timerKeys = await getAllTimerKeys();
-    log(`${timerKeys.length} running timer(s)`, "Server");
+    logger.info(undefined, `${timerKeys.length} running timer(s)`);
 
-    log("Ready", "Server");
+    logger.info(undefined, "Ready");
 }

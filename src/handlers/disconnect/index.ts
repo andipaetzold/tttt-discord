@@ -1,5 +1,5 @@
-import { log } from "../../services/log";
+import logger from "../../services/logger";
 
 export async function handleDisconnect() {
-    log("Disconnect", "Server");
+    logger.info(undefined, "Disconnect");
 }

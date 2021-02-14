@@ -10,7 +10,7 @@ import { fresh } from "./fresh";
 import { toast } from "./toast";
 import { start } from "./start";
 import { stop } from "./stop";
-import { log } from "../../services/log";
+import logger from "../../services/logger";
 import { parseMessage } from "../../util/message";
 import { hasSendMessagePermission } from "../../services/permissions";
 
@@ -44,7 +44,7 @@ export async function handleMessage(message: Message) {
     }
 
     if (!hasSendMessagePermission(message.guild)) {
-        log("Missing SEND_MESSAGES permission", `G:${message.guild}`);
+        logger.info(message.guild.id, "Missing SEND_MESSAGES permission");
         return;
     }
 
@@ -54,7 +54,7 @@ export async function handleMessage(message: Message) {
     }
     const { command, args } = parsedMessage;
 
-    log(`Command: ${command} ${args}`, `G:${message.guild.id}`);
+    logger.info(message.guild.id, `Command: ${command} ${args}`);
 
     await commandsMap[command.toLowerCase()]?.(message);
 

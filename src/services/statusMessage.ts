@@ -4,7 +4,7 @@ import { getConfig } from "../persistence/config";
 import { getAllTimers, getTimer, setTimer } from "../persistence/timer";
 import type { Config, Timer } from "../types";
 import { EMOJI_PLUS10, EMOJI_SKIP, EMOJI_TOAST } from "../util/emojis";
-import { log } from "./log";
+import logger from "./logger";
 import { getNextAthleteIndex } from "./timer";
 
 const DEFAULT_FOOTER = "Use `!t stop` to stop the timer.";
@@ -66,8 +66,8 @@ export async function sendStatusMessage(channel: TextChannel) {
             },
         });
     } catch (e) {
-        log("Could not send status message", `G:${guildId}`, "ERROR");
-        log(e, `G:${guildId}`, "ERROR");
+        logger.error(guildId, "Could not send status message");
+        logger.error(guildId, e);
     }
 }
 
@@ -82,8 +82,7 @@ export async function updateStatusMessage(guildId: string) {
         const message = await channel.messages.fetch(timer.status.messageId);
         await message.edit(createStatusMessage(config, timer));
     } catch (e) {
-        log("Could not update status message", `G:${guildId}`, "ERROR");
-        log(e, `G:${guildId}`, "ERROR");
+        logger.error(guildId, "Could not update status message", e);
 
         await setTimer({
             ...timer,
@@ -103,8 +102,7 @@ export async function deleteStatusMessage(guildId: string) {
         const message = await channel.messages.fetch(timer.status.messageId);
         await message.delete();
     } catch (e) {
-        log("Could not delete status message", `G:${guildId}`, "ERROR");
-        log(e, `G:${guildId}`, "ERROR");
+        logger.error(guildId, "Could not delete status message", e);
     }
 }
 
@@ -121,8 +119,7 @@ export async function fetchStatusMessages() {
             const channel = (await client.channels.fetch(timer.status!.channelId)) as TextChannel;
             channel.messages.fetch(timer.status!.messageId);
         } catch (e) {
-            log("Error fetching status message", `G:${timer!.guildId}`, "ERROR");
-            log(e, `G:${timer!.guildId}`, "ERROR");
+            logger.error(timer!.guildId, "Error fetching status message", e);
 
             await setTimer({
                 ...timer,

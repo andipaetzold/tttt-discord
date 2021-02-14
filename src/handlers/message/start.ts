@@ -1,7 +1,7 @@
 import { Message, TextChannel } from "discord.js";
 import { DEFAULT_PREFIX } from "../../constants";
 import { getConfig } from "../../persistence/config";
-import { log } from "../../services/log";
+import logger from "../../services/logger";
 import { getInviteUrl, hasVoicePermissions } from "../../services/permissions";
 import { addTimer } from "../../services/timer";
 import { EMOJI_ERROR, EMOJI_SUCCESS } from "../../util/emojis";
@@ -32,7 +32,7 @@ export async function start(message: Message): Promise<void> {
         return;
     }
 
-    log("Start", `G:${guildId}`);
+    logger.info(guildId, "Start");
     await message.react(EMOJI_SUCCESS);
 
     await addTimer(guildId, message.channel as TextChannel);

@@ -1,7 +1,7 @@
 import { MessageReaction, PartialUser, User } from "discord.js";
 import { getConfig } from "../../persistence/config";
 import { getTimer } from "../../persistence/timer";
-import { log } from "../../services/log";
+import logger from "../../services/logger";
 import { hasManageMessagesPermissions } from "../../services/permissions";
 import { updateStatusMessage } from "../../services/statusMessage";
 import { addTimeToCurrentAthlete, setAthleteAsToast, skipCurrentAthlete } from "../../services/timer";
@@ -16,7 +16,7 @@ export async function handleMessageReactionAdd(messageReaction: MessageReaction,
         return;
     }
 
-    log(`Message Reaction Add: ${messageReaction.emoji.name}`, `G:${messageReaction.message.guild!.id}`);
+    logger.info(messageReaction.message.guild!.id, `Message Reaction Add: ${messageReaction.emoji.name}`);
 
     const guildId = messageReaction.message.guild!.id;
 

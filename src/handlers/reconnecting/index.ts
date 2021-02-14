@@ -1,5 +1,5 @@
-import { log } from "../../services/log";
+import logger from "../../services/logger";
 
 export async function handleReconnecting() {
-    log("Reconnecting", "Server");
+    logger.info(undefined, "Reconnecting");
 }

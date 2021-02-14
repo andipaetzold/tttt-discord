@@ -1,7 +1,7 @@
 import { VoiceChannel, VoiceConnection } from "discord.js";
 import { client } from "../discord";
 import { setConfig } from "../persistence/config";
-import { log } from "../services/log";
+import logger from "../services/logger";
 import { Config } from "../types";
 
 export async function getVoiceConnection(
@@ -39,7 +39,7 @@ export async function getVoiceConnection(
 
     if (config.voiceChannelId !== connection?.channel.id) {
         if (connection) {
-            log(`Connected to VC:${connection.channel.id}`, `G:${connection.channel.guild.id}`);
+            logger.info(connection.channel.guild.id, `Connected to VC:${connection.channel.id}`);
         }
 
         await setConfig({

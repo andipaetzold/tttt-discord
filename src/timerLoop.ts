@@ -1,10 +1,10 @@
 import { client } from "./discord";
 import { getConfig } from "./persistence/config";
 import { getAllTimers, removeTimer, setTimer } from "./persistence/timer";
-import { log } from "./services/log";
+import logger from "./services/logger";
 import { hasVoicePermissions } from "./services/permissions";
 import { updateStatusMessage } from "./services/statusMessage";
-import { getNextAthleteIndex, stopTimer } from "./services/timer";
+import { getNextAthleteIndex } from "./services/timer";
 import { speakCommand } from "./speak";
 import { Timer } from "./types";
 import { getVoiceConnection } from "./util/getVoiceConnection";
@@ -13,7 +13,7 @@ import { getTime } from "./util/time";
 const INTERVAL = 750;
 
 export function startTimerLoop() {
-    log("Starting timer loop", "Server");
+    logger.info(undefined, "Starting timer loop");
     let prevTickTime: number = getTime();
     setInterval(async () => {
         const time = getTime();
@@ -65,8 +65,8 @@ async function tick(timer: Timer, now: number): Promise<void> {
             config.languageKey
         );
     } catch (e) {
-        log("Stopping timer due to an error", `G:${timer.guildId}`, "ERROR");
-        log(e.toString(), `G:${timer.guildId}`, "ERROR");
+        logger.error("Stopping timer due to an error", `G:${timer.guildId}`);
+        logger.error(e, `G:${timer.guildId}`);
         await removeTimer(timer.guildId);
     }
 }

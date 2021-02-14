@@ -1,13 +1,13 @@
 import type { Guild } from "discord.js";
-import { log } from "../../services/log";
+import logger from "../../services/logger";
 import { REQUESTED_PERMISSIONS } from "../../services/permissions";
 
 export async function handleGuildCreate(guild: Guild) {
-    log(`Joined Guild "${guild.name}"`, `G:${guild.id}`);
+    logger.info(guild.id, `Joined Guild "${guild.name}"`);
 
-    log("Permissions:", `G:${guild.id}`);
+    logger.info(guild.id, "Permissions:");
     for (const permission of REQUESTED_PERMISSIONS) {
         const hasPermission = guild.me!.hasPermission(permission);
-        log(`${permission}: ${hasPermission ? "yes" : "no"}`, `G:${guild.id}`);
+        logger.info(guild.id, `${permission}: ${hasPermission ? "yes" : "no"}`);
     }
 }
