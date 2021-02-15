@@ -16,8 +16,6 @@ export async function handleMessageReactionAdd(messageReaction: MessageReaction,
         return;
     }
 
-    logger.info(messageReaction.message.guild!.id, `Message Reaction Add: ${messageReaction.emoji.name}`);
-
     const guildId = messageReaction.message.guild!.id;
 
     const timer = await getTimer(guildId);
@@ -27,10 +25,12 @@ export async function handleMessageReactionAdd(messageReaction: MessageReaction,
 
     if (
         timer.status?.channelId !== messageReaction.message.channel.id ||
-        timer.status.messageId !== messageReaction.message.id
+        timer.status?.messageId !== messageReaction.message.id
     ) {
         return;
     }
+
+    logger.info(messageReaction.message.guild!.id, `Message Reaction Add: ${messageReaction.emoji.name}`);
 
     switch (messageReaction.emoji.name) {
         case EMOJI_SKIP: {

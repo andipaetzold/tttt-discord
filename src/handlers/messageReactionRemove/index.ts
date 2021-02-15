@@ -15,8 +15,6 @@ export async function handleMessageReactionRemove(messageReaction: MessageReacti
         return;
     }
 
-    logger.info(messageReaction.message.guild!.id, `Message Reaction Remove: ${messageReaction.emoji.name}`);
-
     const guildId = messageReaction.message.guild!.id;
 
     const timer = await getTimer(guildId);
@@ -26,10 +24,12 @@ export async function handleMessageReactionRemove(messageReaction: MessageReacti
 
     if (
         timer.status?.channelId !== messageReaction.message.channel.id ||
-        timer.status.messageId !== messageReaction.message.id
+        timer.status?.messageId !== messageReaction.message.id
     ) {
         return;
     }
+
+    logger.info(messageReaction.message.guild!.id, `Message Reaction Remove: ${messageReaction.emoji.name}`);
 
     switch (messageReaction.emoji.name) {
         case EMOJI_TOAST: {
