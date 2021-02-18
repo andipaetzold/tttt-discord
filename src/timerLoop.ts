@@ -1,3 +1,4 @@
+import { performance } from "perf_hooks";
 import { client } from "./discord";
 import { getConfig } from "./persistence/config";
 import { getAllTimers, removeTimer, setTimer } from "./persistence/timer";
@@ -10,28 +11,44 @@ import { Timer } from "./types";
 import { getVoiceConnection } from "./util/getVoiceConnection";
 import { getTime } from "./util/time";
 
-const INTERVAL = 750;
+const INTERVAL = 1_000;
 
+let timerLoopStart: number;
 export function startTimerLoop() {
     logger.info(undefined, "Starting timer loop");
-    let prevTickTime: number = getTime();
-    setInterval(async () => {
-        const time = getTime();
 
-        if (time !== prevTickTime) {
-            const timers = await getAllTimers();
+    timerLoopStart = performance.now();
+    scheduleTick();
+}
 
-            timers.filter((timer): timer is Timer => timer !== undefined).forEach((timer) => tick(timer, time));
-        }
+/**
+ * @source: https://gist.github.com/jakearchibald/cb03f15670817001b1157e62a076fe95
+ */
+async function scheduleTick() {
+    await tick();
 
-        prevTickTime = time;
-    }, INTERVAL);
+    const now = performance.now();
+    const elapsed = now - timerLoopStart;
+    const roundedElapsed = Math.round(elapsed / INTERVAL) * INTERVAL;
+    const targetNext = timerLoopStart + roundedElapsed + INTERVAL;
+    const delay = targetNext - performance.now();
+    setTimeout(scheduleTick, delay);
+}
+
+let prevTickTime: number | undefined;
+async function tick() {
+    const time = getTime();
+    if (time !== prevTickTime) {
+        const timers = await getAllTimers();
+        timers.filter((timer): timer is Timer => timer !== undefined).forEach((timer) => tickTimer(timer, time));
+    }
+    prevTickTime = time;
 }
 
 /**
  * - Do not await `speakCommand`
  */
-async function tick(timer: Timer, now: number): Promise<void> {
+async function tickTimer(timer: Timer, now: number): Promise<void> {
     try {
         const config = await getConfig(timer.guildId);
         const connection = await getVoiceConnection(config);
