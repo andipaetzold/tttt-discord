@@ -6,7 +6,7 @@ import { languages } from "./languages";
 
 export async function speak(text: string, locale: Locale, connection: VoiceConnection): Promise<void> {
     if (process.env.LOG_SPEAK === "true") {
-        logger.info(`Speak: "${text}"`, `G:${connection.channel.guild.id}`);
+        logger.info(connection.channel.guild.id, `Speak: "${text}"`);
     }
 
     await new Promise((resolve, reject) => {
