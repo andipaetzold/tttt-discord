@@ -8,11 +8,9 @@ export function parseMessage(message: Message): { command: string; args: string[
     }
 
     const strippedPrefix = message.content.slice(usedPrefix.length);
-    const command = strippedPrefix.split(" ")[0];
-    const args = strippedPrefix
-        .split(" ")
-        .slice(1)
-        .filter((s) => s.length !== 0);
+    const splitMessage = strippedPrefix.split(" ").filter((s) => s.length !== 0);
+    const command = splitMessage[0];
+    const args = splitMessage.slice(1);
 
     return { command, args };
 }
