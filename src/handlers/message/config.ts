@@ -159,7 +159,7 @@ async function sendError(text: string, message: Message): Promise<void> {
 
 function athleteToString(athlete: Pick<Athlete, "name" | "userId">): string {
     if (athlete.userId) {
-        return `<@!${athlete.userId}>`;
+        return `<@${athlete.userId}>`;
     } else {
         return athlete.name;
     }
