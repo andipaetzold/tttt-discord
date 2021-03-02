@@ -24,7 +24,7 @@ async function printConfig(channel: TextChannel): Promise<void> {
     const embed = new MessageEmbed()
         .setDescription(`Use \`${DEFAULT_PREFIX}help\` to learn how to change the configuration`)
         .setTitle("Configuration")
-        .addField("Start Delay", `Start Delay: ${config.startDelay}s`)
+        .addField("Start Delay", `${config.startDelay}s`)
         .addField(
             "Athletes",
             config.athletes.map((athlete) => `• ${athleteToString(athlete)} (${athlete.time}s)`).join("\n")
