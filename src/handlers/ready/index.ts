@@ -5,12 +5,6 @@ import { fetchStatusMessages } from "../../services/statusMessage";
 import { startTimerLoop } from "../../timerLoop";
 
 export async function handleReady() {
-    client.user!.setActivity({
-        name: "WTRL on Zwift",
-        type: "WATCHING",
-    });
-    client.user!.setStatus("online");
-
     startTimerLoop();
 
     logger.info(undefined, `Member of ${client.guilds.cache.size} server(s)`);
