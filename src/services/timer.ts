@@ -1,6 +1,6 @@
 import { TextChannel } from "discord.js";
 import { getConfig } from "../persistence/config";
-import { getTimer, removeTimer, setTimer, updateTimer } from "../persistence/timer";
+import { getTimer, removeTimer, setTimer, timerExists, updateTimer } from "../persistence/timer";
 import { speakCommand } from "../speak";
 import { Config, Timer } from "../types";
 import { getVoiceConnection } from "../util/getVoiceConnection";
@@ -66,7 +66,7 @@ export async function setAthleteAsToast(guildId: string, athleteIndex: number) {
 }
 
 export async function setAthleteAsFresh(guildId: string, athleteIndex: number) {
-    await updateTimer(guildId, t => ({
+    await updateTimer(guildId, (t) => ({
         ...t,
         disabledAthletes: t.disabledAthletes.filter((ai) => ai !== athleteIndex),
     }));
@@ -75,6 +75,10 @@ export async function setAthleteAsFresh(guildId: string, athleteIndex: number) {
 export async function addTimer(guildId: string, channel: TextChannel): Promise<void> {
     const config = await getConfig(guildId);
     const now = getTime();
+
+    if (timerExists(guildId)) {
+        return;
+    }
 
     const timer: Timer = {
         guildId,
