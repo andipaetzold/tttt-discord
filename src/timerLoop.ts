@@ -1,11 +1,12 @@
 import { performance } from "perf_hooks";
+import { EMPTY_VC_TIMEOUT } from "./constants";
 import { client } from "./discord";
 import { getConfig } from "./persistence/config";
-import { getAllTimers, removeTimer, setTimer } from "./persistence/timer";
+import { getAllTimers, removeTimer, updateTimer } from "./persistence/timer";
 import logger from "./services/logger";
 import { hasVoicePermissions } from "./services/permissions";
 import { updateStatusMessage } from "./services/statusMessage";
-import { getNextAthleteIndex } from "./services/timer";
+import { getNextAthleteIndex, stopTimer } from "./services/timer";
 import { speakCommand } from "./speak";
 import { Timer } from "./types";
 import { getVoiceConnection } from "./util/getVoiceConnection";
@@ -62,19 +63,43 @@ async function tickTimer(timer: Timer, now: number): Promise<void> {
             throw new Error("Missing voice permissions");
         }
 
+        const isVoiceChannelEmpty =
+            connection.channel.members.array().filter((member) => member.id !== client.user!.id).length === 0;
+        if (isVoiceChannelEmpty) {
+            if (timer.voiceChannelEmptySince) {
+                if (timer.voiceChannelEmptySince <= now - EMPTY_VC_TIMEOUT) {
+                    logger.info(timer.guildId, "Stopping timer due to an empty voice channel");
+                    await stopTimer(timer.guildId);
+                    connection.disconnect();
+                    return;
+                }
+            } else {
+                await updateTimer(timer.guildId, (t) => ({
+                    ...t,
+                    voiceChannelEmptySince: now,
+                }));
+            }
+        } else if (timer.voiceChannelEmptySince) {
+            await updateTimer(timer.guildId, (t) => ({
+                ...t,
+                voiceChannelEmptySince: undefined,
+            }));
+        }
+
         const nextAthleteIndex = getNextAthleteIndex(config, timer);
         const nextAthleteName = config.athletes[nextAthleteIndex].name;
 
         const remainingSeconds = Math.max(timer.nextChangeTime - now, 0);
         if (remainingSeconds === 0) {
-            await setTimer({
-                ...timer,
+            await updateTimer(timer.guildId, (t) => ({
+                ...t,
                 currentAthleteIndex: nextAthleteIndex,
                 nextChangeTime: now + config.athletes[nextAthleteIndex].time,
                 started: true,
-            });
+            }));
             await updateStatusMessage(timer.guildId);
         }
+
         speakCommand(
             remainingSeconds.toString(),
             { nextAthlete: nextAthleteName, started: timer.started },

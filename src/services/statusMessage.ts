@@ -1,7 +1,7 @@
 import { Message, MessageEmbed, TextChannel } from "discord.js";
 import { client } from "../discord";
 import { getConfig } from "../persistence/config";
-import { getAllTimers, getTimer, setTimer } from "../persistence/timer";
+import { getAllTimers, getTimer, updateTimer } from "../persistence/timer";
 import type { Config, Timer } from "../types";
 import { EMOJI_PLUS10, EMOJI_SKIP, EMOJI_TOAST } from "../util/emojis";
 import logger from "./logger";
@@ -58,13 +58,13 @@ export async function sendStatusMessage(channel: TextChannel) {
         message.react(EMOJI_SKIP);
         message.react(EMOJI_TOAST);
 
-        await setTimer({
-            ...timer,
+        await updateTimer(guildId, (t) => ({
+            ...t,
             status: {
                 channelId: channel.id,
                 messageId: message.id,
             },
-        });
+        }));
     } catch (e) {
         logger.error(guildId, "Could not send status message");
         logger.error(guildId, e);
@@ -84,10 +84,10 @@ export async function updateStatusMessage(guildId: string) {
     } catch (e) {
         logger.error(guildId, "Could not update status message", e);
 
-        await setTimer({
+        await updateTimer(timer.guildId, (t) => ({
             ...timer,
             status: undefined,
-        });
+        }));
     }
 }
 
@@ -112,19 +112,18 @@ export async function deleteStatusMessage(guildId: string) {
 export async function fetchStatusMessages() {
     const timers = await getAllTimers();
 
-    for (const timer of timers
+    for (const { guildId, status } of timers
         .filter((timer): timer is Timer => timer !== undefined)
         .filter((timer) => timer.status !== undefined)) {
         try {
-            const channel = (await client.channels.fetch(timer.status!.channelId)) as TextChannel;
-            channel.messages.fetch(timer.status!.messageId);
+            const channel = (await client.channels.fetch(status!.channelId)) as TextChannel;
+            channel.messages.fetch(status!.messageId);
         } catch (e) {
-            logger.error(timer!.guildId, "Error fetching status message", e);
-
-            await setTimer({
-                ...timer,
+            logger.error(guildId, "Error fetching status message", e);
+            await updateTimer(guildId, (t) => ({
+                ...t,
                 status: undefined,
-            });
+            }));
         }
     }
 }

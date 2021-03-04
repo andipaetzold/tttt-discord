@@ -1,6 +1,6 @@
 import { TextChannel } from "discord.js";
 import { getConfig } from "../persistence/config";
-import { getTimer, removeTimer, setTimer } from "../persistence/timer";
+import { getTimer, removeTimer, setTimer, updateTimer } from "../persistence/timer";
 import { speakCommand } from "../speak";
 import { Config, Timer } from "../types";
 import { getVoiceConnection } from "../util/getVoiceConnection";
@@ -14,12 +14,12 @@ export async function skipCurrentAthlete(guildId: string): Promise<void> {
     }
 
     const nextAthleteIndex = getNextAthleteIndex(config, timer);
-    await setTimer({
-        ...timer,
+    await updateTimer(guildId, (t) => ({
+        ...t,
         nextChangeTime: getTime() + config.athletes[nextAthleteIndex].time,
         currentAthleteIndex: nextAthleteIndex,
         started: true,
-    });
+    }));
 
     const voiceConnection = await getVoiceConnection(config);
     if (voiceConnection) {
@@ -48,43 +48,28 @@ export function getNextAthleteIndex(config: Config, timer: Timer): number {
 }
 
 export async function addTimeToCurrentAthlete(guildId: string, time: number) {
-    const timer = await getTimer(guildId);
-    if (timer === undefined) {
-        return;
-    }
-
-    await setTimer({
-        ...timer,
-        nextChangeTime: timer.nextChangeTime + time,
-    });
+    await updateTimer(guildId, (t) => ({
+        ...t,
+        nextChangeTime: t.nextChangeTime + time,
+    }));
 }
 
 export async function setAthleteAsToast(guildId: string, athleteIndex: number) {
-    const timer = await getTimer(guildId);
-    if (timer === undefined) {
-        return;
-    }
+    const timer = await updateTimer(guildId, (t) => ({
+        ...t,
+        disabledAthletes: [...t.disabledAthletes, athleteIndex],
+    }));
 
-    await setTimer({
-        ...timer,
-        disabledAthletes: [...timer.disabledAthletes, athleteIndex],
-    });
-
-    if (timer.currentAthleteIndex === athleteIndex) {
+    if (timer !== undefined && timer.currentAthleteIndex === athleteIndex) {
         await skipCurrentAthlete(guildId);
     }
 }
 
 export async function setAthleteAsFresh(guildId: string, athleteIndex: number) {
-    const timer = await getTimer(guildId);
-    if (timer === undefined) {
-        return;
-    }
-
-    await setTimer({
-        ...timer,
-        disabledAthletes: timer.disabledAthletes.filter((ai) => ai !== athleteIndex),
-    });
+    await updateTimer(guildId, t => ({
+        ...t,
+        disabledAthletes: t.disabledAthletes.filter((ai) => ai !== athleteIndex),
+    }));
 }
 
 export async function addTimer(guildId: string, channel: TextChannel): Promise<void> {

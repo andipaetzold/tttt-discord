@@ -24,4 +24,5 @@ export interface Timer {
         messageId: string;
     };
     disabledAthletes: number[];
+    voiceChannelEmptySince?: number;
 }
