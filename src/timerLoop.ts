@@ -74,6 +74,7 @@ async function tickTimer(timer: Timer, now: number): Promise<void> {
                     return;
                 }
             } else {
+                logger.info(timer.guildId, "Empty voice channel");
                 await updateTimer(timer.guildId, (t) => ({
                     ...t,
                     voiceChannelEmptySince: now,
