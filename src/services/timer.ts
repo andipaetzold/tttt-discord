@@ -73,12 +73,12 @@ export async function setAthleteAsFresh(guildId: string, athleteIndex: number) {
 }
 
 export async function addTimer(guildId: string, channel: TextChannel): Promise<void> {
-    const config = await getConfig(guildId);
-    const now = getTime();
-
-    if (timerExists(guildId)) {
+    if (await timerExists(guildId)) {
         return;
     }
+
+    const config = await getConfig(guildId);
+    const now = getTime();
 
     const timer: Timer = {
         guildId,
