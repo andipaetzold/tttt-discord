@@ -72,7 +72,7 @@ async function updateConfig(message: Message, args: string[]) {
             }
 
             const splitAthletes = athletes.map((athlete) => athlete.split(":"));
-            const parsedAthleteNames = await Promise.all(splitAthletes.map(([name]) => parseUser(name)));
+            const parsedAthleteNames = splitAthletes.map(([name]) => parseUser(name, message.mentions));
             const newAthletes = splitAthletes.map(([, time], athleteIndex) => ({
                 ...parsedAthleteNames[athleteIndex],
                 time: isNaN(+time) ? DEFAULT_TIME_PER_ATHLETE : +time,
@@ -117,7 +117,7 @@ async function updateConfig(message: Message, args: string[]) {
         }
 
         default: {
-            const parsedUser = await parseUser(args[0]);
+            const parsedUser = parseUser(args[0], message.mentions);
 
             if (config.athletes.some((a) => isSameAthlete(a, parsedUser))) {
                 const newTime = +args[1];

@@ -23,7 +23,9 @@ export async function toast(message: Message) {
 
     const config = await getConfig(guildId);
 
-    const user = args[0] ? await parseUser(args[0]) : { name: message.author.username, userId: message.author.id };
+    const user = args[0]
+        ? parseUser(args[0], message.mentions)
+        : { name: message.author.username, userId: message.author.id };
     const athleteIndex = config.athletes.findIndex((athlete) => isSameAthlete(athlete, user));
 
     if (athleteIndex === -1) {
@@ -31,9 +33,6 @@ export async function toast(message: Message) {
         return;
     }
 
-    await Promise.all([
-        setAthleteAsToast(guildId, athleteIndex),
-        message.react(EMOJI_SUCCESS),
-    ]);
+    await Promise.all([setAthleteAsToast(guildId, athleteIndex), message.react(EMOJI_SUCCESS)]);
     await updateStatusMessage(guildId);
 }
