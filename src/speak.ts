@@ -1,11 +1,12 @@
 import type { VoiceConnection } from "discord.js";
 import { getAudioUrl } from "google-tts-api";
-import logger from "./services/logger";
-import { LanguageKey, Locale } from "./languages/types";
+import { LOG_SPEAK } from "./constants";
 import { languages } from "./languages";
+import { LanguageKey, Locale } from "./languages/types";
+import logger from "./services/logger";
 
 export async function speak(text: string, locale: Locale, connection: VoiceConnection): Promise<void> {
-    if (process.env.LOG_SPEAK === "true") {
+    if (LOG_SPEAK) {
         logger.info(connection.channel.guild.id, `Speak: "${text}"`);
     }
 

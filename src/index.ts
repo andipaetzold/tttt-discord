@@ -1,4 +1,4 @@
-import dotenv from "dotenv";
+import { DISCORD_TOKEN } from "./constants";
 import { client } from "./discord";
 import { handleDisconnect } from "./handlers/disconnect";
 import { handleError } from "./handlers/error";
@@ -10,19 +10,18 @@ import { handleMessageReactionRemove } from "./handlers/messageReactionRemove";
 import { handleReady } from "./handlers/ready";
 import { handleReconnecting } from "./handlers/reconnecting";
 import logger from "./services/logger";
-
-dotenv.config();
+import { wrapHandler } from "./services/sentry";
 
 logger.info(undefined, "Initializing...");
 
-client.once("ready", handleReady);
-client.once("reconnecting", handleReconnecting);
-client.once("disconnect", handleDisconnect);
-client.on("error", handleError);
-client.on("message", handleMessage);
-client.on("messageReactionAdd", handleMessageReactionAdd);
-client.on("messageReactionRemove", handleMessageReactionRemove);
-client.on("guildCreate", handleGuildCreate);
-client.on("guildDelete", handleGuildDelete);
+client.once(...wrapHandler("ready", handleReady));
+client.once(...wrapHandler("reconnecting", handleReconnecting));
+client.once(...wrapHandler("disconnect", handleDisconnect));
+client.on(...wrapHandler("error", handleError));
+client.on(...wrapHandler("message", handleMessage));
+client.on(...wrapHandler("messageReactionAdd", handleMessageReactionAdd));
+client.on(...wrapHandler("messageReactionRemove", handleMessageReactionRemove));
+client.on(...wrapHandler("guildCreate", handleGuildCreate));
+client.on(...wrapHandler("guildDelete", handleGuildDelete));
 
-client.login(process.env.DISCORD_TOKEN);
+client.login(DISCORD_TOKEN);

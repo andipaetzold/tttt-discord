@@ -1,5 +1,4 @@
 import { Message, MessageEmbed } from "discord.js";
-import { DEFAULT_PREFIX } from "../../constants";
 
 export async function help(message: Message) {
     const embed = new MessageEmbed()
