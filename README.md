@@ -17,6 +17,8 @@ You will be asked to grant multiple permissions:
 | Connect         | Allows the bot to join a voice channel                                                                                                                     |
 | Speak           | Allows the bot to send audio / voice to a voice channel                                                                                                    |
 
+<img src="./docs/authorize.png" height="500">
+
 ## Usage
 
 All commands are prefixed with `!t`. All other messages are ignore by the bot.
@@ -92,11 +94,13 @@ Stops the timer and leaves the voice channel.
 
 ### `!t config`
 
-Sends the whole configuration to the channel
+Shows the current configuration
+
+<img src="./docs/config.png" height="300">
 
 ### `!t config delay`
 
-Sends the currently configured start delay to the channel.
+Show the current start delay
 
 ### `!t config delay <number>`
 
@@ -112,7 +116,7 @@ _The timer will wait for 5 minutes before giving commands_
 
 ### `!t config athletes`
 
-Sends the list of the athetes including lead times to the channel.
+Shows the list of the athetes including lead times
 
 ### `!t config athletes <name>[:<time>] ...`
 
@@ -124,11 +128,15 @@ Examples:
 
 ```bash
 !t config athletes Andi:45 Victor
+
 // or
+
 !t config athletes @Andi:45 Victor
 ```
 
 _The team now includes Andi and Victor. Andi leads for 45 seconds, Victor for 30._
+
+<img src="./docs/config-athletes.png" height="90">
 
 ### `!t config athletes <name> <seconds>`
 
@@ -149,7 +157,7 @@ _Sets the lead time of Andi to 45 seconds_
 
 ### `!t config language`
 
-Sends the current language to the channel.
+Shows the current language
 
 ### `!t config language <language>`
 
@@ -165,11 +173,13 @@ Stops the timer and resets all configuration of the bot for your server.
 
 ### `!t invite`
 
-Sends the link to add the bot to your server to the current channel
+Shows the link to add the bot to your server
 
 ### `!t help`
 
-Sends a help message with available commands to the current channel
+Show a help message with available commands
+
+<img src="./docs/help.png" height="300">
 
 ### Status Message
 
@@ -182,6 +192,8 @@ The bot automatically reacts with three emojis to this message. These can be use
 | ➕    | Same as typing `!t +10`                                                                                           |
 | ⏭️    | Same as typing `!t skip`                                                                                          |
 | ☠️    | Same as typing `!t toast` or `!t fresh`. This only works if the user was mentioned when athletes were configures. |
+
+<img src="./docs/status-message.png" height="250">
 
 ## Voice Commands
 
