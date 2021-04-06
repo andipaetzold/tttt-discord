@@ -12,31 +12,24 @@ export async function getVoiceConnection(
 
     connection = client.voice?.connections.find((c) => c.channel.guild.id === config.guildId);
 
-    const updatedConfig = { ...config };
+    const guild = await client.guilds.fetch(config.guildId);
+    const channelCollection = guild.channels.valueOf();
+    const voiceChannels = channelCollection.filter((channel) => channel.type === "voice");
 
     if (connection === undefined && userVoiceChannel) {
         connection = await joinIfJoinable(userVoiceChannel);
     }
 
-    if (connection === undefined && config.voiceChannelId) {
-        try {
-            const channel = await client.channels.fetch(config.voiceChannelId);
-            if (channel.type === "voice") {
-                connection = await joinIfJoinable(channel as VoiceChannel);
-            }
-        } catch (e) {
-            logger.warn(config.guildId, `Error fetching channel ${config.voiceChannelId}: ${e}`);
-            updatedConfig.voiceChannelId = undefined;
+    if (connection === undefined && config.voiceChannelId && channelCollection.has(config.voiceChannelId)) {
+        const channel = channelCollection.get(config.voiceChannelId)!;
+        if (channel.type === "voice") {
+            connection = await joinIfJoinable(channel as VoiceChannel);
         }
     }
 
-    if (connection === undefined) {
-        const guild = await client.guilds.fetch(config.guildId);
-        const voiceChannels = guild.channels.cache.filter((channel) => channel.type === "voice");
-        if (voiceChannels.size === 1) {
-            const voiceChannel = voiceChannels.first()! as VoiceChannel;
-            connection = await joinIfJoinable(voiceChannel);
-        }
+    if (connection === undefined && voiceChannels.size === 1) {
+        const voiceChannel = voiceChannels.first()! as VoiceChannel;
+        connection = await joinIfJoinable(voiceChannel);
     }
 
     if (config.voiceChannelId !== connection?.channel.id) {
@@ -44,10 +37,8 @@ export async function getVoiceConnection(
             logger.info(connection.channel.guild.id, `Connected to VC:${connection.channel.id}`);
         }
 
-        updatedConfig.voiceChannelId = connection?.channel.id;
+        await setConfig({ ...config, voiceChannelId: connection?.channel.id });
     }
-
-    await setConfig(updatedConfig);
 
     return connection;
 }
