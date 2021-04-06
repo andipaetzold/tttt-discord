@@ -8,33 +8,27 @@ export async function getVoiceConnection(
     config: Config,
     userVoiceChannel?: VoiceChannel
 ): Promise<VoiceConnection | undefined> {
-    let connection: VoiceConnection | undefined = undefined;
+    const guild = await client.guilds.fetch(config.guildId);
+    const voiceChannels = guild.channels
+        .valueOf()
+        .filter((channel) => channel.type === "voice")
+        .filter((channel) => (channel as VoiceChannel).joinable);
 
+    let connection: VoiceConnection | undefined = undefined;
     connection = client.voice?.connections.find((c) => c.channel.guild.id === config.guildId);
 
-    if (connection === undefined) {
-        const voiceChannel = userVoiceChannel;
-        if (voiceChannel) {
-            connection = await voiceChannel.join();
-        }
+    if (connection === undefined && userVoiceChannel && userVoiceChannel.joinable) {
+        connection = await userVoiceChannel.join();
     }
 
-    if (connection === undefined) {
-        if (config.voiceChannelId) {
-            const channel = await client.channels.fetch(config.voiceChannelId);
-            if (channel.type === "voice") {
-                const voiceChannel = channel as VoiceChannel;
-                connection = await voiceChannel.join();
-            }
-        }
+    if (connection === undefined && config.voiceChannelId && voiceChannels.has(config.voiceChannelId)) {
+        const channel = voiceChannels.get(config.voiceChannelId)!;
+        connection = await (channel as VoiceChannel).join();
     }
-    if (connection === undefined) {
-        const guild = await client.guilds.fetch(config.guildId);
-        const voiceChannels = guild.channels.cache.filter((channel) => channel.type === "voice");
-        if (voiceChannels.size === 1) {
-            const voiceChannel = voiceChannels.first()! as VoiceChannel;
-            connection = await voiceChannel.join();
-        }
+
+    if (connection === undefined && voiceChannels.size === 1) {
+        const voiceChannel = voiceChannels.first()! as VoiceChannel;
+        connection = await voiceChannel.join();
     }
 
     if (config.voiceChannelId !== connection?.channel.id) {
@@ -42,10 +36,7 @@ export async function getVoiceConnection(
             logger.info(connection.channel.guild.id, `Connected to VC:${connection.channel.id}`);
         }
 
-        await setConfig({
-            ...config,
-            voiceChannelId: connection?.channel.id,
-        });
+        await setConfig({ ...config, voiceChannelId: connection?.channel.id });
     }
 
     return connection;
