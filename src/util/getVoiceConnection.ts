@@ -21,10 +21,14 @@ export async function getVoiceConnection(
 
     if (connection === undefined) {
         if (config.voiceChannelId) {
-            const channel = await client.channels.fetch(config.voiceChannelId);
-            if (channel.type === "voice") {
-                const voiceChannel = channel as VoiceChannel;
-                connection = await joinIfJoinable(voiceChannel);
+            try {
+                const channel = await client.channels.fetch(config.voiceChannelId);
+                if (channel.type === "voice") {
+                    const voiceChannel = channel as VoiceChannel;
+                    connection = await joinIfJoinable(voiceChannel);
+                }
+            } catch (e) {
+                logger.warn(config.guildId, `Error fetching channel ${config.voiceChannelId}: ${e}`);
             }
         }
     }
