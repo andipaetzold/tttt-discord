@@ -7,8 +7,9 @@ import { startTimerLoop } from "../../timerLoop";
 export async function handleReady() {
     startTimerLoop();
 
-    logger.info(undefined, `Member of ${client.guilds.cache.size} server(s)`);
-    client.guilds.cache.forEach((guild) => {
+    const guilds = client.guilds.valueOf();
+    logger.info(undefined, `Member of ${guilds.size} server(s)`);
+    guilds.forEach((guild) => {
         logger.info(undefined, `${guild.id}: ${guild.name}`);
     });
 
