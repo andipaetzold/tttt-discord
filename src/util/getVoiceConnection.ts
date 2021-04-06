@@ -14,26 +14,22 @@ export async function getVoiceConnection(
 
     const updatedConfig = { ...config };
 
-    if (connection === undefined) {
-        const voiceChannel = userVoiceChannel;
-        if (voiceChannel) {
-            connection = await joinIfJoinable(voiceChannel);
+    if (connection === undefined && userVoiceChannel) {
+        connection = await joinIfJoinable(userVoiceChannel);
+    }
+
+    if (connection === undefined && config.voiceChannelId) {
+        try {
+            const channel = await client.channels.fetch(config.voiceChannelId);
+            if (channel.type === "voice") {
+                connection = await joinIfJoinable(channel as VoiceChannel);
+            }
+        } catch (e) {
+            logger.warn(config.guildId, `Error fetching channel ${config.voiceChannelId}: ${e}`);
+            updatedConfig.voiceChannelId = undefined;
         }
     }
 
-    if (connection === undefined) {
-        if (config.voiceChannelId) {
-            try {
-                const channel = await client.channels.fetch(config.voiceChannelId);
-                if (channel.type === "voice") {
-                    connection = await joinIfJoinable(channel as VoiceChannel);
-                }
-            } catch (e) {
-                logger.warn(config.guildId, `Error fetching channel ${config.voiceChannelId}: ${e}`);
-                updatedConfig.voiceChannelId = undefined;
-            }
-        }
-    }
     if (connection === undefined) {
         const guild = await client.guilds.fetch(config.guildId);
         const voiceChannels = guild.channels.cache.filter((channel) => channel.type === "voice");
