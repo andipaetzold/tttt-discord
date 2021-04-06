@@ -9,23 +9,26 @@ export async function getVoiceConnection(
     userVoiceChannel?: VoiceChannel
 ): Promise<VoiceConnection | undefined> {
     const guild = await client.guilds.fetch(config.guildId);
-    const voiceChannels = guild.channels.valueOf().filter((channel) => channel.type === "voice");
+    const voiceChannels = guild.channels
+        .valueOf()
+        .filter((channel) => channel.type === "voice")
+        .filter((channel) => (channel as VoiceChannel).joinable);
 
     let connection: VoiceConnection | undefined = undefined;
     connection = client.voice?.connections.find((c) => c.channel.guild.id === config.guildId);
 
-    if (connection === undefined && userVoiceChannel) {
-        connection = await joinIfJoinable(userVoiceChannel);
+    if (connection === undefined && userVoiceChannel && userVoiceChannel.joinable) {
+        connection = await userVoiceChannel.join();
     }
 
     if (connection === undefined && config.voiceChannelId && voiceChannels.has(config.voiceChannelId)) {
         const channel = voiceChannels.get(config.voiceChannelId)!;
-        connection = await joinIfJoinable(channel as VoiceChannel);
+        connection = await (channel as VoiceChannel).join();
     }
 
     if (connection === undefined && voiceChannels.size === 1) {
         const voiceChannel = voiceChannels.first()! as VoiceChannel;
-        connection = await joinIfJoinable(voiceChannel);
+        connection = await voiceChannel.join();
     }
 
     if (config.voiceChannelId !== connection?.channel.id) {
@@ -37,11 +40,4 @@ export async function getVoiceConnection(
     }
 
     return connection;
-}
-
-async function joinIfJoinable(channel: VoiceChannel): Promise<VoiceConnection | undefined> {
-    if (channel.joinable) {
-        return await channel.join();
-    }
-    return undefined;
 }
