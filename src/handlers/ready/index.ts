@@ -9,9 +9,6 @@ export async function handleReady() {
 
     const guilds = client.guilds.valueOf();
     logger.info(undefined, `Member of ${guilds.size} server(s)`);
-    guilds.forEach((guild) => {
-        logger.info(undefined, `${guild.id}: ${guild.name}`);
-    });
 
     await fetchStatusMessages();
 
