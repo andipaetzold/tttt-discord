@@ -34,7 +34,7 @@
   "dependencies": {
     "@discordjs/opus": "0.5.3",
     "@sentry/node": "6.7.2",
-    "@types/redis": "2.8.29",
+    "@types/redis": "2.8.30",
     "discord.js": "12.5.3",
     "dotenv": "10.0.0",
     "fast-deep-equal": "3.1.3",
