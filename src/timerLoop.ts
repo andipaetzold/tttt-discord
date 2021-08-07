@@ -59,7 +59,11 @@ async function tickTimer(timer: Timer, now: number): Promise<void> {
             throw new Error("Could not get voice connection");
         }
 
-        const voiceChannel = (await client.channels.fetch(connection.joinConfig.channelId!)!) as VoiceChannel | undefined;
+        if (!connection.joinConfig.channelId) {
+            throw new Error("Could not get voice channel");
+        }
+
+        const voiceChannel = (await client.channels.fetch(connection.joinConfig.channelId!)) as VoiceChannel | undefined;
         if (!voiceChannel) {
             throw new Error("Could not get voice channel");
         }
