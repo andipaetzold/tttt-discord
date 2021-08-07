@@ -13,7 +13,7 @@ export async function start(message: Message): Promise<void> {
     const hasPermissions = hasVoicePermissions(message.guild!);
 
     if (!hasPermissions) {
-        const invite = await getInviteUrl();
+        const invite = getInviteUrl();
         await Promise.all([
             message.channel.send(
                 `I don't have enough permissions to join the voice channel. Please use this link to grant more permissions: <${invite}>.`
