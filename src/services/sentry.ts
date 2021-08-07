@@ -4,6 +4,7 @@ import logger from "./logger";
 
 Sentry.init({
     dsn: SENTRY_DSN,
+    enabled: SENTRY_DSN !== undefined,
     tracesSampleRate: 1.0,
     environment: SENTRY_ENVIRONMENT,
 });
