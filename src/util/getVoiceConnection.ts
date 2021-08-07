@@ -1,4 +1,4 @@
-import { VoiceConnection, getVoiceConnection as getActiveVoiceConnection } from "@discordjs/voice";
+import { VoiceConnection, getVoiceConnection as getActiveVoiceConnection, VoiceConnectionStatus } from "@discordjs/voice";
 import { VoiceChannel } from "discord.js";
 import { client } from "../discord";
 import { setConfig } from "../persistence/config";
@@ -17,7 +17,12 @@ export async function getVoiceConnection(
         .filter((channel) => channel.joinable);
 
     let connection: VoiceConnection | undefined = undefined;
-    connection = getActiveVoiceConnection(config.guildId);
+    {
+        const guildConnection = getActiveVoiceConnection(config.guildId);
+        if (guildConnection?.state.status === VoiceConnectionStatus.Ready) {
+            connection = guildConnection;
+        }
+    }
 
     if (connection === undefined && userVoiceChannel && userVoiceChannel.joinable) {
         connection = await connectToChannel(userVoiceChannel);
