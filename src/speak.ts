@@ -1,4 +1,10 @@
-import type { VoiceConnection } from "discord.js";
+import {
+    AudioPlayerState,
+    AudioPlayerStatus,
+    createAudioPlayer,
+    createAudioResource,
+    VoiceConnection,
+} from "@discordjs/voice";
 import { getAudioUrl } from "google-tts-api";
 import { LOG_SPEAK } from "./constants";
 import { languages } from "./languages";
@@ -7,20 +13,29 @@ import logger from "./services/logger";
 
 export async function speak(text: string, locale: Locale, connection: VoiceConnection): Promise<void> {
     if (LOG_SPEAK) {
-        logger.info(connection.channel.guild.id, `Speak: "${text}"`);
+        logger.info(connection.joinConfig.guildId, `Speak: "${text}"`);
     }
 
-    await new Promise((resolve, reject) => {
+    await new Promise<void>((resolve, reject) => {
         const url = getAudioUrl(text, {
             lang: locale,
             slow: false,
             host: "https://translate.google.com",
         });
 
-        const dispatcher = connection.play(url);
+        const player = createAudioPlayer();
+        const subscription = connection.subscribe(player);
 
-        dispatcher.on("finish", resolve);
-        dispatcher.on("error", reject);
+        const resource = createAudioResource(url);
+        player.play(resource);
+
+        player.on("error", reject);
+        player.on("stateChange", (state) => {
+            if (state.status === "idle") {
+                subscription?.unsubscribe();
+                resolve();
+            }
+        });
     });
 }
 

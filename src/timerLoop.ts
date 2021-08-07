@@ -1,3 +1,4 @@
+import { VoiceChannel } from "discord.js";
 import { performance } from "perf_hooks";
 import { EMPTY_VC_TIMEOUT } from "./constants";
 import { client } from "./discord";
@@ -58,19 +59,23 @@ async function tickTimer(timer: Timer, now: number): Promise<void> {
             throw new Error("Could not get voice connection");
         }
 
+        const voiceChannel = (await client.channels.fetch(connection.joinConfig.channelId!)!) as VoiceChannel | undefined;
+        if (!voiceChannel) {
+            throw new Error("Could not get voice channel");
+        }
+
         const guild = await client.guilds.fetch(timer.guildId);
         if (!hasVoicePermissions(guild)) {
             throw new Error("Missing voice permissions");
         }
 
-        const isVoiceChannelEmpty =
-            connection.channel.members.array().filter((member) => member.id !== client.user!.id).length === 0;
+        const isVoiceChannelEmpty = voiceChannel.members.filter((member) => member.id !== client.user!.id).size === 0;
         if (isVoiceChannelEmpty) {
             if (timer.voiceChannelEmptySince) {
                 if (timer.voiceChannelEmptySince <= now - EMPTY_VC_TIMEOUT) {
                     logger.info(timer.guildId, "Stopping timer due to an empty voice channel");
                     await stopTimer(timer.guildId);
-                    connection.disconnect();
+                    connection.destroy();
                     return;
                 }
             } else {

@@ -1,3 +1,4 @@
+import { VoiceConnection } from "@discordjs/voice";
 import { Message, TextChannel } from "discord.js";
 import { DEFAULT_PREFIX } from "../../constants";
 import { getConfig } from "../../persistence/config";
@@ -23,7 +24,10 @@ export async function start(message: Message): Promise<void> {
     }
 
     const config = await getConfig(guildId);
-    const connection = await getVoiceConnection(config, message.member!.voice.channel ?? undefined);
+    let connection: VoiceConnection | undefined;
+    const userVoiceChannel =
+        message.member!.voice.channel?.type === "GUILD_VOICE" ? message.member!.voice.channel : undefined;
+    connection = await getVoiceConnection(config, userVoiceChannel);
 
     if (connection === undefined) {
         await message.channel.send(

@@ -9,5 +9,5 @@ export async function help(message: Message) {
         .addField("Support this project", "<https://paypal.me/andipaetzold>")
         .setFooter("Made by Andi Pätzold");
 
-    await message.channel.send(embed);
+    await message.channel.send({ embeds: [embed] });
 }

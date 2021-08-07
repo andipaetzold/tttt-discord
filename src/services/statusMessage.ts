@@ -53,7 +53,7 @@ export async function sendStatusMessage(channel: TextChannel) {
 
     let message: Message;
     try {
-        message = await channel.send(createStatusMessage(config, timer));
+        message = await channel.send({ embeds: [createStatusMessage(config, timer)] });
         message.react(EMOJI_PLUS10);
         message.react(EMOJI_SKIP);
         message.react(EMOJI_TOAST);
@@ -80,7 +80,7 @@ export async function updateStatusMessage(guildId: string) {
     try {
         const channel = (await client.channels.fetch(timer.status.channelId)) as TextChannel;
         const message = await channel.messages.fetch(timer.status.messageId);
-        await message.edit(createStatusMessage(config, timer));
+        await message.edit({ embeds: [createStatusMessage(config, timer)] });
     } catch (e) {
         logger.error(guildId, "Could not update status message", e);
 
