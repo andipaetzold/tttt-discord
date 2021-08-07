@@ -12,4 +12,5 @@ export const client = new Client({
         status: "online",
     },
     intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_MESSAGE_REACTIONS", "GUILD_VOICE_STATES", "DIRECT_MESSAGES"],
+    partials: ["REACTION", "MESSAGE"],
 });

@@ -1,4 +1,5 @@
-import { MessageReaction, PartialUser, User } from "discord.js";
+import { Message, MessageReaction, PartialMessageReaction, PartialUser, User } from "discord.js";
+import { client } from "../../discord";
 import { getConfig } from "../../persistence/config";
 import { getTimer } from "../../persistence/timer";
 import logger from "../../services/logger";
@@ -8,7 +9,11 @@ import { addTimeToCurrentAthlete, setAthleteAsToast, skipCurrentAthlete } from "
 import { EMOJI_PLUS10, EMOJI_SKIP, EMOJI_TOAST } from "../../util/emojis";
 
 export async function handleMessageReactionAdd(messageReaction: MessageReaction, user: User | PartialUser) {
-    if (messageReaction.me) {
+    if (messageReaction.partial) {
+        await messageReaction.fetch();
+    }
+
+    if (user.id === client.user!.id) {
         return;
     }
 
@@ -34,16 +39,20 @@ export async function handleMessageReactionAdd(messageReaction: MessageReaction,
 
     switch (messageReaction.emoji.name) {
         case EMOJI_SKIP: {
-            await skipCurrentAthlete(guildId);
-            await updateStatusMessage(guildId);
-            await removeReaction(messageReaction, user);
+            await Promise.all([
+                skipCurrentAthlete(guildId),
+                updateStatusMessage(guildId),
+                removeReaction(messageReaction, user),
+            ]);
             break;
         }
 
         case EMOJI_PLUS10: {
-            await addTimeToCurrentAthlete(guildId, 10);
-            await updateStatusMessage(guildId);
-            await removeReaction(messageReaction, user);
+            await Promise.all([
+                addTimeToCurrentAthlete(guildId, 10),
+                updateStatusMessage(guildId),
+                removeReaction(messageReaction, user),
+            ]);
             break;
         }
 
@@ -56,8 +65,7 @@ export async function handleMessageReactionAdd(messageReaction: MessageReaction,
                 return;
             }
 
-            await setAthleteAsToast(guildId, athleteIndex);
-            await updateStatusMessage(guildId);
+            await Promise.all([setAthleteAsToast(guildId, athleteIndex), updateStatusMessage(guildId)]);
             break;
         }
 

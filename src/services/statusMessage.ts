@@ -105,25 +105,3 @@ export async function deleteStatusMessage(guildId: string) {
         logger.error(guildId, "Could not delete status message", e);
     }
 }
-
-/**
- * Required to receive the `messageReactionAdd` event
- */
-export async function fetchStatusMessages() {
-    const timers = await getAllTimers();
-
-    for (const { guildId, status } of timers
-        .filter((timer): timer is Timer => timer !== undefined)
-        .filter((timer) => timer.status !== undefined)) {
-        try {
-            const channel = (await client.channels.fetch(status!.channelId)) as TextChannel;
-            channel.messages.fetch(status!.messageId);
-        } catch (e) {
-            logger.error(guildId, "Error fetching status message", e);
-            await updateTimer(guildId, (t) => ({
-                ...t,
-                status: undefined,
-            }));
-        }
-    }
-}
