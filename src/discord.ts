@@ -6,7 +6,7 @@ export const client = new Client({
         activities: [
             {
                 name: "WTRL on Zwift",
-                type: "WATCHING",
+                type: "COMPETING",
             },
         ],
         status: "online",
