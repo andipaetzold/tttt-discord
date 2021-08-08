@@ -7,7 +7,7 @@ import path from "path";
 import { LOG_SPEAK } from "./constants";
 import { languages } from "./languages";
 import { LanguageKey, Locale } from "./languages/types";
-import { download } from "./services/download";
+import { download } from "./util/download";
 import logger from "./services/logger";
 
 export async function speak(text: string, locale: Locale, connection: VoiceConnection): Promise<void> {
