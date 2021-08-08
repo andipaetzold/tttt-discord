@@ -1,14 +1,13 @@
-import {
-    AudioPlayerState,
-    AudioPlayerStatus,
-    createAudioPlayer,
-    createAudioResource,
-    VoiceConnection,
-} from "@discordjs/voice";
+import { createAudioPlayer, createAudioResource, VoiceConnection } from "@discordjs/voice";
+import crypto from "crypto";
+import fs from "fs";
 import { getAudioUrl } from "google-tts-api";
+import os from "os";
+import path from "path";
 import { LOG_SPEAK } from "./constants";
 import { languages } from "./languages";
 import { LanguageKey, Locale } from "./languages/types";
+import { download } from "./services/download";
 import logger from "./services/logger";
 
 export async function speak(text: string, locale: Locale, connection: VoiceConnection): Promise<void> {
@@ -16,7 +15,7 @@ export async function speak(text: string, locale: Locale, connection: VoiceConne
         logger.info(connection.joinConfig.guildId, `Speak: "${text}"`);
     }
 
-    await new Promise<void>((resolve, reject) => {
+    await new Promise<void>(async (resolve, reject) => {
         const url = getAudioUrl(text, {
             lang: locale,
             slow: false,
@@ -26,15 +25,14 @@ export async function speak(text: string, locale: Locale, connection: VoiceConne
         const player = createAudioPlayer();
         const subscription = connection.subscribe(player);
 
-        const resource = createAudioResource(url);
+        const filename = await getFilePath(url);
+        const resource = createAudioResource(filename);
         player.play(resource);
 
         player.on("error", reject);
-        player.on("stateChange", (state) => {
-            if (state.status === "idle") {
-                subscription?.unsubscribe();
-                resolve();
-            }
+        resource.playStream.on("end", () => {
+            subscription?.unsubscribe();
+            resolve();
         });
     });
 }
@@ -52,4 +50,14 @@ export async function speakCommand(
     }
     const text = voiceCommands[command](args);
     await speak(text, locale, connection);
+}
+
+export async function getFilePath(url: string): Promise<string> {
+    const hash = crypto.createHash("md5").update(url).digest("hex");
+    const filename = path.resolve(os.tmpdir(), hash);
+
+    if (!fs.existsSync(filename)) {
+        await download(url, filename);
+    }
+    return filename;
 }
