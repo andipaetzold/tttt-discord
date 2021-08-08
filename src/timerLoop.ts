@@ -1,3 +1,4 @@
+import { VoiceConnection } from "@discordjs/voice";
 import { VoiceChannel } from "discord.js";
 import { performance } from "perf_hooks";
 import { EMPTY_VC_TIMEOUT } from "./constants";
@@ -51,9 +52,10 @@ async function tick() {
  * - Do not await `speakCommand`
  */
 async function tickTimer(timer: Timer, now: number): Promise<void> {
+    let connection: VoiceConnection | undefined;
     try {
         const config = await getConfig(timer.guildId);
-        const connection = await getVoiceConnection(config);
+        connection = await getVoiceConnection(config);
 
         if (connection === undefined) {
             throw new Error("Could not get voice connection");
@@ -84,16 +86,10 @@ async function tickTimer(timer: Timer, now: number): Promise<void> {
                 }
             } else {
                 logger.info(timer.guildId, "Empty voice channel");
-                await updateTimer(timer.guildId, (t) => ({
-                    ...t,
-                    voiceChannelEmptySince: now,
-                }));
+                await updateTimer(timer.guildId, (t) => ({ ...t, voiceChannelEmptySince: now }));
             }
         } else if (timer.voiceChannelEmptySince) {
-            await updateTimer(timer.guildId, (t) => ({
-                ...t,
-                voiceChannelEmptySince: undefined,
-            }));
+            await updateTimer(timer.guildId, (t) => ({ ...t, voiceChannelEmptySince: undefined }));
         }
 
         const nextAthleteIndex = getNextAthleteIndex(config, timer);
@@ -110,7 +106,7 @@ async function tickTimer(timer: Timer, now: number): Promise<void> {
             await updateStatusMessage(timer.guildId);
         }
 
-        speakCommand(
+        await speakCommand(
             remainingSeconds.toString(),
             { nextAthlete: nextAthleteName, started: timer.started },
             connection,
@@ -120,5 +116,9 @@ async function tickTimer(timer: Timer, now: number): Promise<void> {
         logger.error(timer.guildId, "Stopping timer due to an error");
         logger.error(timer.guildId, e);
         await removeTimer(timer.guildId);
+
+        try {
+            connection?.destroy();
+        } catch {}
     }
 }
