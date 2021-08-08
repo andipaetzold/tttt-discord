@@ -39,20 +39,18 @@ export async function handleMessageReactionAdd(messageReaction: MessageReaction,
 
     switch (messageReaction.emoji.name) {
         case EMOJI_SKIP: {
-            await Promise.all([
-                skipCurrentAthlete(guildId),
-                updateStatusMessage(guildId),
-                removeReaction(messageReaction, user),
-            ]);
+            const removePromise = removeReaction(messageReaction, user);
+            await skipCurrentAthlete(guildId);
+            await updateStatusMessage(guildId);
+            await removePromise;
             break;
         }
 
         case EMOJI_PLUS10: {
-            await Promise.all([
-                addTimeToCurrentAthlete(guildId, 10),
-                updateStatusMessage(guildId),
-                removeReaction(messageReaction, user),
-            ]);
+            const removePromise = removeReaction(messageReaction, user);
+            await addTimeToCurrentAthlete(guildId, 10);
+            await updateStatusMessage(guildId);
+            await removePromise;
             break;
         }
 
@@ -65,7 +63,8 @@ export async function handleMessageReactionAdd(messageReaction: MessageReaction,
                 return;
             }
 
-            await Promise.all([setAthleteAsToast(guildId, athleteIndex), updateStatusMessage(guildId)]);
+            await setAthleteAsToast(guildId, athleteIndex);
+            await updateStatusMessage(guildId);
             break;
         }
 
