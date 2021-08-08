@@ -9,7 +9,6 @@ export async function connectToChannel(channel: VoiceChannel): Promise<VoiceConn
     const connection = joinVoiceChannel({
         channelId: channel.id,
         guildId: channel.guild.id,
-        // @ts-ignore
         adapterCreator: channel.guild.voiceAdapterCreator,
     });
 
