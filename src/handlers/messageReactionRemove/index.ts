@@ -7,7 +7,11 @@ import { setAthleteAsFresh } from "../../services/timer";
 import { EMOJI_TOAST } from "../../util/emojis";
 
 export async function handleMessageReactionRemove(messageReaction: MessageReaction, user: User | PartialUser) {
-    if (messageReaction.me) {
+    if (messageReaction.partial) {
+        await messageReaction.fetch();
+    }
+
+    if (!messageReaction.message.guild) {
         return;
     }
 

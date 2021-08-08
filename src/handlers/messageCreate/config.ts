@@ -31,7 +31,7 @@ async function printConfig(channel: TextChannel): Promise<void> {
         )
         .addField("Language", languages.find((language) => language.key === config.languageKey)!.name)
         .setFooter("Made by Andi Pätzold");
-    await channel.send(embed);
+    await channel.send({ embeds: [embed] });
 }
 
 async function updateConfig(message: Message, args: string[]) {

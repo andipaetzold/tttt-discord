@@ -1,7 +1,6 @@
 import { client } from "../../discord";
 import { getAllTimerKeys } from "../../persistence/timer";
 import logger from "../../services/logger";
-import { fetchStatusMessages } from "../../services/statusMessage";
 import { startTimerLoop } from "../../timerLoop";
 
 export async function handleReady() {
@@ -9,8 +8,6 @@ export async function handleReady() {
 
     const guilds = client.guilds.valueOf();
     logger.info(undefined, `Member of ${guilds.size} server(s)`);
-
-    await fetchStatusMessages();
 
     const timerKeys = await getAllTimerKeys();
     logger.info(undefined, `${timerKeys.length} running timer(s)`);

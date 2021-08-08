@@ -53,7 +53,7 @@ export async function sendStatusMessage(channel: TextChannel) {
 
     let message: Message;
     try {
-        message = await channel.send(createStatusMessage(config, timer));
+        message = await channel.send({ embeds: [createStatusMessage(config, timer)] });
         message.react(EMOJI_PLUS10);
         message.react(EMOJI_SKIP);
         message.react(EMOJI_TOAST);
@@ -80,7 +80,7 @@ export async function updateStatusMessage(guildId: string) {
     try {
         const channel = (await client.channels.fetch(timer.status.channelId)) as TextChannel;
         const message = await channel.messages.fetch(timer.status.messageId);
-        await message.edit(createStatusMessage(config, timer));
+        await message.edit({ embeds: [createStatusMessage(config, timer)] });
     } catch (e) {
         logger.error(guildId, "Could not update status message", e);
 
@@ -103,27 +103,5 @@ export async function deleteStatusMessage(guildId: string) {
         await message.delete();
     } catch (e) {
         logger.error(guildId, "Could not delete status message", e);
-    }
-}
-
-/**
- * Required to receive the `messageReactionAdd` event
- */
-export async function fetchStatusMessages() {
-    const timers = await getAllTimers();
-
-    for (const { guildId, status } of timers
-        .filter((timer): timer is Timer => timer !== undefined)
-        .filter((timer) => timer.status !== undefined)) {
-        try {
-            const channel = (await client.channels.fetch(status!.channelId)) as TextChannel;
-            channel.messages.fetch(status!.messageId);
-        } catch (e) {
-            logger.error(guildId, "Error fetching status message", e);
-            await updateTimer(guildId, (t) => ({
-                ...t,
-                status: undefined,
-            }));
-        }
     }
 }

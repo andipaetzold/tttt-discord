@@ -1,4 +1,5 @@
-import { MessageReaction, PartialUser, User } from "discord.js";
+import { Message, MessageReaction, PartialMessageReaction, PartialUser, User } from "discord.js";
+import { client } from "../../discord";
 import { getConfig } from "../../persistence/config";
 import { getTimer } from "../../persistence/timer";
 import logger from "../../services/logger";
@@ -8,7 +9,11 @@ import { addTimeToCurrentAthlete, setAthleteAsToast, skipCurrentAthlete } from "
 import { EMOJI_PLUS10, EMOJI_SKIP, EMOJI_TOAST } from "../../util/emojis";
 
 export async function handleMessageReactionAdd(messageReaction: MessageReaction, user: User | PartialUser) {
-    if (messageReaction.me) {
+    if (messageReaction.partial) {
+        await messageReaction.fetch();
+    }
+
+    if (user.id === client.user!.id) {
         return;
     }
 
@@ -34,16 +39,18 @@ export async function handleMessageReactionAdd(messageReaction: MessageReaction,
 
     switch (messageReaction.emoji.name) {
         case EMOJI_SKIP: {
+            const removePromise = removeReaction(messageReaction, user);
             await skipCurrentAthlete(guildId);
             await updateStatusMessage(guildId);
-            await removeReaction(messageReaction, user);
+            await removePromise;
             break;
         }
 
         case EMOJI_PLUS10: {
+            const removePromise = removeReaction(messageReaction, user);
             await addTimeToCurrentAthlete(guildId, 10);
             await updateStatusMessage(guildId);
-            await removeReaction(messageReaction, user);
+            await removePromise;
             break;
         }
 

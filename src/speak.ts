@@ -1,26 +1,35 @@
-import type { VoiceConnection } from "discord.js";
+import { createAudioPlayer, createAudioResource, VoiceConnection } from "@discordjs/voice";
 import { getAudioUrl } from "google-tts-api";
 import { LOG_SPEAK } from "./constants";
 import { languages } from "./languages";
 import { LanguageKey, Locale } from "./languages/types";
 import logger from "./services/logger";
+import { download } from "./util/download";
 
 export async function speak(text: string, locale: Locale, connection: VoiceConnection): Promise<void> {
     if (LOG_SPEAK) {
-        logger.info(connection.channel.guild.id, `Speak: "${text}"`);
+        logger.info(connection.joinConfig.guildId, `Speak: "${text}"`);
     }
 
-    await new Promise((resolve, reject) => {
+    await new Promise<void>(async (resolve, reject) => {
         const url = getAudioUrl(text, {
             lang: locale,
             slow: false,
             host: "https://translate.google.com",
         });
 
-        const dispatcher = connection.play(url);
+        const player = createAudioPlayer();
+        const subscription = connection.subscribe(player);
 
-        dispatcher.on("finish", resolve);
-        dispatcher.on("error", reject);
+        const filename = await download(url);
+        const resource = createAudioResource(filename);
+        player.play(resource);
+
+        player.on("error", reject);
+        resource.playStream.on("end", () => {
+            subscription?.unsubscribe();
+            resolve();
+        });
     });
 }
 

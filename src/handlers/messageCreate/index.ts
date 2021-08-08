@@ -26,7 +26,7 @@ const commandsMap: { [command: string]: (message: Message) => Promise<void> } = 
     help,
 };
 
-export async function handleMessage(message: Message) {
+export async function handleMessageCreate(message: Message) {
     if (message.author.bot) {
         // ignore bot messages
         return;
