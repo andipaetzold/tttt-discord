@@ -17,7 +17,9 @@ export async function connectToChannel(channel: VoiceChannel): Promise<VoiceConn
         await entersState(connection, VoiceConnectionStatus.Ready, 3_000);
         return connection;
     } catch (error) {
-        connection.destroy();
+        try {
+            connection.destroy();
+        } catch {}
         return undefined;
     }
 }
