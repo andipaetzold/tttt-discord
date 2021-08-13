@@ -77,6 +77,10 @@ export async function handleMessageReactionAdd(messageReaction: MessageReaction,
 
 async function removeReaction(messageReaction: MessageReaction, user: User | PartialUser) {
     if (hasManageMessagesPermissions(messageReaction.message.guild!)) {
-        await messageReaction.users.remove(user.id);
+        try {
+            await messageReaction.users.remove(user.id);
+        } catch {
+            logger.warn(messageReaction.message.guild!.id, `Failed to remove reaction`);
+        }
     }
 }
