@@ -23,10 +23,18 @@ export async function speak(text: string, locale: Locale, connection: VoiceConne
 
         const filename = await download(url);
         const resource = createAudioResource(filename);
-        player.play(resource);
 
+        player.play(resource);
         player.on("error", reject);
+
+        const timeout = setTimeout(() => {
+            player.stop();
+            subscription?.unsubscribe();
+            resolve();
+        }, 5_000);
+
         resource.playStream.on("end", () => {
+            clearTimeout(timeout);
             subscription?.unsubscribe();
             resolve();
         });
