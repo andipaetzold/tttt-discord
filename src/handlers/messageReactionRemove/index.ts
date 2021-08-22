@@ -15,10 +15,6 @@ export async function handleMessageReactionRemove(messageReaction: MessageReacti
         return;
     }
 
-    if (!messageReaction.message.guild) {
-        return;
-    }
-
     const guildId = messageReaction.message.guild!.id;
 
     const timer = await getTimer(guildId);
