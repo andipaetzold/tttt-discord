@@ -47,8 +47,8 @@ async function updateConfig(message: Message, args: string[]) {
 
             const newStartDelay = +args[1];
 
-            if (isNaN(newStartDelay)) {
-                await sendError(`${args[1]} is not a valid number`, message);
+            if (!isValidDelay(newStartDelay)) {
+                await sendError("Invalid delay", message);
                 return;
             }
 
@@ -75,7 +75,7 @@ async function updateConfig(message: Message, args: string[]) {
             const parsedAthleteNames = splitAthletes.map(([name]) => parseUser(name, message.mentions));
             const newAthletes = splitAthletes.map(([, time], athleteIndex) => ({
                 ...parsedAthleteNames[athleteIndex],
-                time: isNaN(+time) ? DEFAULT_TIME_PER_ATHLETE : +time,
+                time: isValidDelay(+time) ? +time : DEFAULT_TIME_PER_ATHLETE,
             }));
 
             await setConfig({
@@ -163,4 +163,16 @@ function athleteToString(athlete: Pick<Athlete, "name" | "userId">): string {
     } else {
         return athlete.name;
     }
+}
+
+function isValidDelay(delay: number): boolean {
+    if (delay > 24 * 60 * 60) {
+        return false;
+    }
+
+    if (isNaN(delay)) {
+        return false;
+    }
+
+    return true;
 }
