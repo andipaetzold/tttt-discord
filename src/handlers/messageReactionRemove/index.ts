@@ -1,4 +1,5 @@
 import { MessageReaction, PartialUser, User } from "discord.js";
+import { client } from "../../discord";
 import { getConfig } from "../../persistence/config";
 import { getTimer } from "../../persistence/timer";
 import logger from "../../services/logger";
@@ -9,6 +10,10 @@ import { EMOJI_TOAST } from "../../util/emojis";
 export async function handleMessageReactionRemove(messageReaction: MessageReaction, user: User | PartialUser) {
     if (messageReaction.partial) {
         await messageReaction.fetch();
+    }
+
+    if (user.id === client.user!.id) {
+        return;
     }
 
     if (!messageReaction.message.guild) {
