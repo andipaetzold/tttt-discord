@@ -70,7 +70,6 @@ _The team now includes Andi and Victor. Andi leads for 45 seconds, Victor for 30
 
 <img src="./docs/athletes.png" height="90">
 
-<!--
 ### `!t athlete <name> <seconds>`
 
 Set the lead time of an athlete. The user must be added to the athletes list before using the command above.
@@ -87,8 +86,6 @@ Example:
 ```
 
 _Sets the lead time of Andi to 45 seconds_
-
--->
 
 ### `!t delay`
 
