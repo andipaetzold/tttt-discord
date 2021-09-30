@@ -3,15 +3,17 @@ name: Build
 on: [push]
 
 jobs:
-  build:
-    runs-on: ubuntu-20.04
+    build:
+        runs-on: ubuntu-20.04
 
-    steps:
-      - uses: actions/checkout@v2
-      - name: Switch node version
-        shell: bash -l {0}
-        run: nvm install
-      - name: Install
-        run: npm ci
-      - name: Build
-        run: npm run build
+        steps:
+            - uses: actions/checkout@v2
+            - name: Switch node version
+              shell: bash -l {0}
+              run: nvm install
+            - name: Install
+              run: npm ci
+            - name: Test
+              run: npm test
+            - name: Build
+              run: npm run build

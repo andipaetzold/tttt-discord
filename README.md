@@ -28,15 +28,11 @@ All commands are prefixed with `!t`. All other messages are ignore by the bot.
 -   There is only 1 configuration for each server. Changing the configuration in different text channels using the commands below, will alter the same configuration.
 -   It is not possible to run the bot in two voice channels on the same server. If you have multiple teams, you have to create another server and add the bot there. It's no problem to run the bot on multiple servers in parallel.
 
-### `!t start`
+### `!t`
 
-Starts the timer. The bot joins your current voice channel or the channel from a previous start.
+Shows the current configuration
 
-### `!t skip`
-
-The remaining time of the current athlete is skipped and the next athlete is announced with "Go &lt;name&gt;". This is a one-time skip.
-
-If the timer hasn't started yet and is still waiting for the start delay to tick down, this command will skip the remaining time and immediately start the race with the first athlete.
+<img src="./docs/config.png" height="300">
 
 ### `!t +<seconds>`
 
@@ -49,6 +45,121 @@ Example:
 ```
 
 _Adds 15 seconds to the clock of the currently leading athlete_
+
+### `!t athletes`
+
+Shows the list of the athetes including lead times
+
+### `!t athletes <name>[:<time>] ...`
+
+Set the list of athletes in the team and their lead times. The lead times are optional and default to 30 seconds.
+
+You can also mention a user instead of typing their name. The voice commands will use the username at the time of sending this command, so make sure to change it to something pronouncable. Discord automatically adds a space character after a mention - make sure to remove that again.
+
+Examples:
+
+```bash
+!t athletes Andi:45 Victor
+
+// or
+
+!t athletes @Andi:45 Victor
+```
+
+_The team now includes Andi and Victor. Andi leads for 45 seconds, Victor for 30._
+
+<img src="./docs/athletes.png" height="90">
+
+### `!t athlete <name> <seconds>`
+
+Set the lead time of an athlete. The user must be added to the athletes list before using the command above.
+You can also mention a user instead of typing their name.
+
+Example:
+
+```bash
+!t athlete Andi 45
+
+// or
+
+!t athlete @Andi 45
+```
+
+_Sets the lead time of Andi to 45 seconds_
+
+### `!t delay`
+
+Show the current start delay
+
+### `!t delay <number>`
+
+Sets the start delay in seconds.
+
+Example:
+
+```bash
+!t delay 300
+```
+
+_The timer will wait for 5 minutes before giving commands_
+
+### `!t fresh <name>`
+
+The athlete won't be skipped anymore. If the user sending this command was mentioned when configuring the timer the name can be omitted. This command doesn't change the order of the athletes.
+
+Examples:
+
+```bash
+!t fresh Andi
+```
+
+_Andi will join the lead rotation again_
+
+```bash
+!t fresh
+```
+
+_If the user sending this message was mentioned when configuring the timer, they will join the lead rotation again_
+
+### `!t help`
+
+Show a help message with available commands
+
+<img src="./docs/help.png" height="300">
+
+### `!t invite`
+
+Shows the link to add the bot to your server
+
+### `!t language`
+
+Shows the current language
+
+### `!t language <language>`
+
+Set the language of the voice commands. Available languages are:
+
+-   English (`!t language en`)
+-   German (`!t language de`)
+-   Czech (`!t language cz`)
+
+### `!t reset`
+
+Stops the timer and resets all configuration of the bot for your server.
+
+### `!t start`
+
+Starts the timer. The bot joins your current voice channel or the channel from a previous start.
+
+### `!t stop`
+
+Stops the timer and leaves the voice channel.
+
+### `!t skip`
+
+The remaining time of the current athlete is skipped and the next athlete is announced with "Go &lt;name&gt;". This is a one-time skip.
+
+If the timer hasn't started yet and is still waiting for the start delay to tick down, this command will skip the remaining time and immediately start the race with the first athlete.
 
 ### `!t toast <name>`
 
@@ -70,120 +181,7 @@ _Andi is ignored when the bot announces the next leading athlete_
 
 _If the user sending this message was mentioned when configuring the timer, they will be ignored when the bot announces the next leading athlete_
 
-### `!t fresh <name>`
-
-The athlete won't be skipped anymore. If the user sending this command was mentioned when configuring the timer the name can be omitted. This command doesn't change the order of the athletes.
-
-Examples:
-
-```bash
-!t fresh Andi
-```
-
-_Andi will join the lead rotation again_
-
-```bash
-!t fresh
-```
-
-_If the user sending this message was mentioned when configuring the timer, they will join the lead rotation again_
-
-### `!t stop`
-
-Stops the timer and leaves the voice channel.
-
-### `!t config`
-
-Shows the current configuration
-
-<img src="./docs/config.png" height="300">
-
-### `!t config delay`
-
-Show the current start delay
-
-### `!t config delay <number>`
-
-Sets the start delay in seconds.
-
-Example:
-
-```bash
-!t config delay 300
-```
-
-_The timer will wait for 5 minutes before giving commands_
-
-### `!t config athletes`
-
-Shows the list of the athetes including lead times
-
-### `!t config athletes <name>[:<time>] ...`
-
-Set the list of athletes in the team and their lead times. The lead times are optional and default to 30 seconds.
-
-You can also mention a user instead of typing their name. The voice commands will use the username at the time of sending this command, so make sure to change it to something pronouncable. Discord automatically adds a space character after a mention - make sure to remove that again.
-
-Examples:
-
-```bash
-!t config athletes Andi:45 Victor
-
-// or
-
-!t config athletes @Andi:45 Victor
-```
-
-_The team now includes Andi and Victor. Andi leads for 45 seconds, Victor for 30._
-
-<img src="./docs/config-athletes.png" height="90">
-
-<!--
-### `!t config athletes <name> <seconds>`
-
-Set the lead time of an athlete. The user must be added to the athletes list before using the command above.
-You can also mention a user instead of typing their name.
-
-Example:
-
-```bash
-!t config athletes Andi 45
-
-// or
-
-!t config athletes @Andi 45
-```
-
-_Sets the lead time of Andi to 45 seconds_
-
--->
-### `!t config language`
-
-Shows the current language
-
-### `!t config language <language>`
-
-Set the language of the voice commands. Available languages are:
-
--   English (`!t config language en`)
--   German (`!t config language de`)
--   Czech (`!t config language cz`)
-
-### `!t reset`
-
-Stops the timer and resets all configuration of the bot for your server.
-
-### `!t invite`
-
-Shows the link to add the bot to your server
-
-### `!t help`
-
-Show a help message with available commands
-
-<img src="./docs/help.png" height="300">
-
-### Status Message
+## Status Message
 
 When starting the timer using `!t start`, a message is send to the current channel. This message automatically updates and includes the currently leading athlete and the next athlete including their leading times.
 
