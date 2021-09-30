@@ -1,7 +1,7 @@
 import { Message, MessageEmbed, TextChannel } from "discord.js";
 import { client } from "../discord";
 import { getConfig } from "../persistence/config";
-import { getAllTimers, getTimer, updateTimer } from "../persistence/timer";
+import { getTimer, updateTimer } from "../persistence/timer";
 import type { Config, Timer } from "../types";
 import { EMOJI_PLUS10, EMOJI_SKIP, EMOJI_TOAST } from "../util/emojis";
 import logger from "./logger";
