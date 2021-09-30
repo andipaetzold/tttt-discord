@@ -3,7 +3,7 @@ import { PREFIXES } from "../constants";
 
 const PREFIXES_WITH_SPACE = PREFIXES.map((p) => `${p} `);
 
-export function parseMessage(message: Message): { command: string; args: string[] } | undefined {
+export function parseMessage(message: Pick<Message, "content">): { command: string; args: string[] } | undefined {
     const trimmedContent = message.content.trim();
 
     // `!t`
