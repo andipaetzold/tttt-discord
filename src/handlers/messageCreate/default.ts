@@ -1,6 +1,6 @@
 import { Message, MessageEmbed, TextChannel } from "discord.js";
 import { DEFAULT_PREFIX } from "../../constants";
-import { languages } from "../../languages";
+import { LANGUAGES } from "../../languages";
 import { getConfig } from "../../persistence/config";
 import { athleteToString } from "./util";
 
@@ -18,7 +18,7 @@ export async function printConfig(channel: TextChannel): Promise<void> {
             "Athletes",
             config.athletes.map((athlete) => `• ${athleteToString(athlete)} (${athlete.time}s)`).join("\n")
         )
-        .addField("Language", languages.find((language) => language.key === config.languageKey)!.name)
+        .addField("Language", LANGUAGES.find((language) => language.key === config.languageKey)!.name)
         .setFooter("Made by Andi Pätzold");
     await channel.send({ embeds: [embed] });
 }

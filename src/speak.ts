@@ -1,7 +1,7 @@
 import { createAudioPlayer, createAudioResource, VoiceConnection } from "@discordjs/voice";
 import { getAudioUrl } from "google-tts-api";
 import { LOG_SPEAK } from "./constants";
-import { languages } from "./languages";
+import { LANGUAGES } from "./languages";
 import { LanguageKey, Locale } from "./languages/types";
 import logger from "./services/logger";
 import { download } from "./util/download";
@@ -47,7 +47,7 @@ export async function speakCommand(
     connection: VoiceConnection,
     languageKey: LanguageKey
 ): Promise<void> {
-    const { locale, voiceCommands } = languages.find((language) => language.key === languageKey)!;
+    const { locale, voiceCommands } = LANGUAGES.find((language) => language.key === languageKey)!;
 
     if (!voiceCommands[command]) {
         return;

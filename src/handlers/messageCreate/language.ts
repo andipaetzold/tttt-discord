@@ -1,5 +1,5 @@
 import { Message } from "discord.js";
-import { languages } from "../../languages";
+import { LANGUAGES } from "../../languages";
 import { LanguageKey } from "../../languages/types";
 import { getConfig, setConfig } from "../../persistence/config";
 import { parseMessage } from "../../util/message";
@@ -18,16 +18,16 @@ export async function handleLanguageCommand(args: string[], message: Message) {
     const config = await getConfig(message.guild!.id);
 
     if (args.length === 0) {
-        const language = languages.find((language) => language.key === config.languageKey)!;
+        const language = LANGUAGES.find((language) => language.key === config.languageKey)!;
         await message.channel.send(`Language: ${language.name}`);
         return;
     }
 
     const newLanguageKey = args[0].toLowerCase();
-    const newLanguage = languages.find((language) => language.key === newLanguageKey);
+    const newLanguage = LANGUAGES.find((language) => language.key === newLanguageKey);
     if (!newLanguage) {
         await sendError(
-            `Unknown language. The following languages are available:\n${languages
+            `Unknown language. The following languages are available:\n${LANGUAGES
                 .map((language) => `• \`${language.key}\` (${language.name})`)
                 .join("\n")}`,
             message
