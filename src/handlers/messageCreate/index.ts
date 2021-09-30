@@ -67,7 +67,7 @@ export async function handleMessageCreate(message: Message) {
 
     logger.info(message.guild.id, `Command: ${command} ${args}`);
 
-    if (command === undefined) {
+    if (command === '') {
         // `!t`
         await defaultCommand(message);
     } else {
