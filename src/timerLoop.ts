@@ -113,8 +113,8 @@ async function tickTimer(timer: Timer, now: number): Promise<void> {
             config.languageKey
         );
     } catch (e) {
-        logger.error(timer.guildId, "Stopping timer due to an error");
-        logger.error(timer.guildId, e);
+        // @ts-expect-error
+        logger.error(timer.guildId, new Error("Stopping timer due to an error", { cause: e }));
         await removeTimer(timer.guildId);
 
         try {

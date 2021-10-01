@@ -20,10 +20,8 @@ export function wrapHandler<T extends (...args: any[]) => Promise<void>>(
             scope.setTag("handler", handler);
             try {
                 return await func(...args, scope);
-            } catch (e) {
+            } catch (e: any) {
                 logger.error(undefined, e);
-                const eventId = Sentry.captureException(e, () => scope);
-                logger.info(undefined, `Error captured as ${eventId}`);
             }
         });
     };

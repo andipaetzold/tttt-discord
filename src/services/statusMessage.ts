@@ -66,8 +66,8 @@ export async function sendStatusMessage(channel: TextChannel) {
             },
         }));
     } catch (e) {
-        logger.error(guildId, "Could not send status message");
-        logger.error(guildId, e);
+        // @ts-expect-error
+        logger.error(guildId, new Error("Could not send status message", { cause: e }));
     }
 }
 
@@ -82,7 +82,8 @@ export async function updateStatusMessage(guildId: string) {
         const message = await channel.messages.fetch(timer.status.messageId);
         await message.edit({ embeds: [createStatusMessage(config, timer)] });
     } catch (e) {
-        logger.error(guildId, "Could not update status message", e);
+        // @ts-expect-error
+        logger.error(guildId, new Error("Could not update status message", { cause: e }));
 
         await updateTimer(timer.guildId, (t) => ({
             ...timer,
@@ -102,6 +103,7 @@ export async function deleteStatusMessage(guildId: string) {
         const message = await channel.messages.fetch(timer.status.messageId);
         await message.delete();
     } catch (e) {
-        logger.error(guildId, "Could not delete status message", e);
+        // @ts-expect-error
+        logger.error(guildId, new Error("Could not delete status message", { cause: e }));
     }
 }
