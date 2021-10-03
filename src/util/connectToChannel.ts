@@ -1,5 +1,6 @@
 import { VoiceChannel } from "discord.js";
 import { joinVoiceChannel, entersState, VoiceConnectionStatus, VoiceConnection } from "@discordjs/voice";
+import { BOT_ID } from "../constants";
 
 export async function connectToChannel(channel: VoiceChannel): Promise<VoiceConnection | undefined> {
     if (!channel.joinable) {
@@ -10,6 +11,7 @@ export async function connectToChannel(channel: VoiceChannel): Promise<VoiceConn
         channelId: channel.id,
         guildId: channel.guild.id,
         adapterCreator: channel.guild.voiceAdapterCreator,
+        group: BOT_ID,
     });
 
     try {

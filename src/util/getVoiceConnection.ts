@@ -1,5 +1,6 @@
-import { VoiceConnection, getVoiceConnection as getActiveVoiceConnection, VoiceConnectionStatus } from "@discordjs/voice";
+import { getVoiceConnection as getActiveVoiceConnection, VoiceConnection, VoiceConnectionStatus } from "@discordjs/voice";
 import { VoiceChannel } from "discord.js";
+import { BOT_ID } from "../constants";
 import { client } from "../discord";
 import { setConfig } from "../persistence/config";
 import logger from "../services/logger";
@@ -18,7 +19,7 @@ export async function getVoiceConnection(
 
     let connection: VoiceConnection | undefined = undefined;
     {
-        const guildConnection = getActiveVoiceConnection(config.guildId);
+        const guildConnection = getActiveVoiceConnection(config.guildId, BOT_ID);
         if (guildConnection?.state.status === VoiceConnectionStatus.Ready) {
             connection = guildConnection;
         }

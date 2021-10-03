@@ -1,8 +1,9 @@
+import { BOT_ID } from "../constants";
 import type { Timer } from "../types";
 import { exists, keys, read, readMany, remove, write } from "./redis";
 
 function createTimerKey(guildId: string): string {
-    return `timer:${guildId}`;
+    return `timer:${guildId}:${BOT_ID}`;
 }
 
 export async function getTimer(guildId: string): Promise<Timer | undefined> {
@@ -13,7 +14,10 @@ export async function setTimer(timer: Timer): Promise<void> {
     await write(createTimerKey(timer.guildId), timer);
 }
 
-export async function updateTimer(guildId: string, updateFn: (timer: Timer) => Timer | undefined): Promise<Timer | undefined> {
+export async function updateTimer(
+    guildId: string,
+    updateFn: (timer: Timer) => Timer | undefined
+): Promise<Timer | undefined> {
     const oldTimer = await getTimer(guildId);
 
     if (oldTimer === undefined) {

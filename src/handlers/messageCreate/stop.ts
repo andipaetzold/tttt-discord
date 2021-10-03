@@ -1,5 +1,6 @@
 import { getVoiceConnection } from "@discordjs/voice";
 import { Message } from "discord.js";
+import { BOT_ID } from "../../constants";
 import logger from "../../services/logger";
 import { stopTimer } from "../../services/timer";
 import { EMOJI_SUCCESS } from "../../util/emojis";
@@ -12,7 +13,7 @@ export async function stop(message: Message): Promise<void> {
     logger.info(guildId, "Stopping timer");
     await stopTimer(guildId);
 
-    const connection = getVoiceConnection(guildId);
+    const connection = getVoiceConnection(guildId, BOT_ID);
     if (connection !== undefined) {
         logger.info(guildId, `Disconnecting from VC:${connection.joinConfig.channelId}`);
         connection.disconnect();

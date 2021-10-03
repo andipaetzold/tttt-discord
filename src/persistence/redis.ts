@@ -60,6 +60,7 @@ export async function keys(pattern: string): Promise<string[]> {
 }
 
 export async function remove(key: string): Promise<void> {
+    console.log("remove", key);
     return await new Promise((resolve, reject) => {
         client.del(key, (err) => {
             if (err) {

@@ -1,4 +1,4 @@
-import { DEFAULT_ATHLETE_NAMES, DEFAULT_START_DELAY, DEFAULT_TIME_PER_ATHLETE } from "../constants";
+import { BOT_ID, DEFAULT_ATHLETE_NAMES, DEFAULT_START_DELAY, DEFAULT_TIME_PER_ATHLETE, MAIN_BOT } from "../constants";
 import { exists, read, remove, write } from "./redis";
 import type { Config } from "../types";
 
@@ -12,7 +12,7 @@ const DEFAULT_CONFIG: Omit<Config, "guildId"> = {
 };
 
 function createConfigKey(guildId: string): string {
-    return `config:${guildId}`;
+    return MAIN_BOT ? `config:${guildId}` : `config:${guildId}:${BOT_ID}`;
 }
 
 export async function getConfig(guildId: string): Promise<Config> {
