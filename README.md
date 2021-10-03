@@ -26,7 +26,6 @@ All commands are prefixed with `!t`. All other messages are ignore by the bot.
 -   If `!t` is already used by another bot, use `!tttt` as command prefix.
 -   All commands are case insensitive to avoid frustration when interacting with the bot during a race.
 -   There is only 1 configuration for each server. Changing the configuration in different text channels using the commands below, will alter the same configuration.
--   It is not possible to run the bot in two voice channels on the same server. If you have multiple teams, you have to create another server and add the bot there. It's no problem to run the bot on multiple servers in parallel.
 
 ### `!t`
 
@@ -198,6 +197,15 @@ The bot automatically reacts with three emojis to this message. These can be use
 ## Voice Commands
 
 The bot automatically gives commands 1/2/5/10/15/30 seconds and 1/2/3/5/10 minutes before a change or the start of the race. Also, a command is given on the actual change/start and when skipping an athlete.
+
+## Parallel timers
+
+Discord does not allow a bot to join multiple voice call at a time. To run multiple timers on the same server in parallel, I am hosting multiple instances of the TTT-Timer. The additional bots have the same behaviour as the main bot, but with a separate configuration and a different command prefix.
+
+| Command Prefix    | Install Link                                                                                                         |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `!t` or `!tttt`   | [Install Bot 1](https://discord.com/api/oauth2/authorize?client_id=806979974594560060&permissions=3155968&scope=bot) |
+| `!t2` or `!tttt2` | [Install Bot 2](https://discord.com/api/oauth2/authorize?client_id=894298274343837696&permissions=3155968&scope=bot) |
 
 ## Data Privacy
 
