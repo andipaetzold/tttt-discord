@@ -15,7 +15,7 @@ export async function fresh(message: Message) {
 
     if (!(await timerExists(guildId))) {
         await Promise.all([
-            message.channel.send(`Start the timer first using \`${DEFAULT_PREFIX}start\``),
+            message.channel.send(`Start the timer first using \`${DEFAULT_PREFIX} start\``),
             message.react(EMOJI_ERROR),
         ]);
         return;

@@ -45,7 +45,7 @@ export async function handleMessageCreate(message: Message) {
 
     if (!message.member) {
         message.channel.send(
-            `The timer can only be on servers/guilds - not in direct messages. Add me to a server/guild and type \`${DEFAULT_PREFIX}help\` for more details.`
+            `The timer can only be on servers/guilds - not in direct messages. Add me to a server/guild and type \`${DEFAULT_PREFIX} help\` for more details.`
         );
         return;
     }

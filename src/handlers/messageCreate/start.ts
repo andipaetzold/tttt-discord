@@ -31,7 +31,7 @@ export async function start(message: Message): Promise<void> {
 
     if (connection === undefined) {
         await message.channel.send(
-            `I don't know which voice channel to join. Join a voice channel and run \`${DEFAULT_PREFIX}start\` again.`
+            `I don't know which voice channel to join. Join a voice channel and run \`${DEFAULT_PREFIX} start\` again.`
         );
         return;
     }

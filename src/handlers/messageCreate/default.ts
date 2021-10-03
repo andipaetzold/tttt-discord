@@ -11,7 +11,7 @@ export async function defaultCommand(message: Message) {
 export async function printConfig(channel: TextChannel): Promise<void> {
     const config = await getConfig(channel.guild.id);
     const embed = new MessageEmbed()
-        .setDescription(`Use \`${DEFAULT_PREFIX}help\` to learn how to change the configuration`)
+        .setDescription(`Use \`${DEFAULT_PREFIX} help\` to learn how to change the configuration`)
         .setTitle("Configuration")
         .addField("Start Delay", `${config.startDelay}s`)
         .addField(
