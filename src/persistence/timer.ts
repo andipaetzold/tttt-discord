@@ -1,4 +1,3 @@
-import deepEqual from "fast-deep-equal";
 import type { Timer } from "../types";
 import { exists, keys, read, readMany, remove, write } from "./redis";
 
