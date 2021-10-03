@@ -1,5 +1,5 @@
 import * as Sentry from "@sentry/node";
-import { SENTRY_DSN, SENTRY_ENVIRONMENT } from "../constants";
+import { BOT_ID, MAIN_BOT, SENTRY_DSN, SENTRY_ENVIRONMENT } from "../constants";
 import logger from "./logger";
 
 Sentry.init({
@@ -7,6 +7,11 @@ Sentry.init({
     enabled: SENTRY_DSN !== undefined,
     tracesSampleRate: 1.0,
     environment: SENTRY_ENVIRONMENT,
+});
+
+Sentry.setTags({
+    mainBot: MAIN_BOT,
+    botId: BOT_ID,
 });
 
 logger.info(undefined, `Sentry environment: ${SENTRY_ENVIRONMENT}`);
