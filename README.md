@@ -215,6 +215,10 @@ The bot doesn't log or store any information that is not required for the use or
 
 All code is publicly available on [Github](https://github.com/andipaetzold/tttt-discord).
 
+## Need help?
+
+Join the [TTT-Timer Discord server](https://discord.gg/SUccRhqswq) or [send an E-mail](mailto:tttt-discord@andipaetzold.com)
+
 ## Contact
 
 Andi Pätzold
