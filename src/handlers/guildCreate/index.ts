@@ -1,8 +1,9 @@
 import type { Guild } from "discord.js";
 import logger from "../../services/logger";
 import { REQUESTED_PERMISSIONS } from "../../services/permissions";
+import { HandlerProps } from "../../services/sentry";
 
-export async function handleGuildCreate(guild: Guild) {
+export async function handleGuildCreate({ args: [guild] }: HandlerProps<[Guild]>) {
     logger.info(guild.id, `Joined Guild "${guild.name}"`);
 
     logger.info(guild.id, "Permissions:");

@@ -2,6 +2,7 @@ import { Message } from "discord.js";
 import { DEFAULT_PREFIX } from "../../constants";
 import logger from "../../services/logger";
 import { hasSendMessagePermission } from "../../services/permissions";
+import { HandlerProps } from "../../services/sentry";
 import { parseMessage } from "../../util/message";
 import { athlete } from "./athlete";
 import { athletes } from "./athletes";
@@ -18,8 +19,9 @@ import { skip } from "./skip";
 import { start } from "./start";
 import { stop } from "./stop";
 import { toast } from "./toast";
+import * as Sentry from "@sentry/node";
 
-const commandsMap: { [command: string]: (message: Message) => Promise<void> } = {
+const commandsMap: { [command: string]: (message: Message, scope: Sentry.Scope) => Promise<void> } = {
     athlete,
     athletes,
     config,
@@ -37,7 +39,7 @@ const commandsMap: { [command: string]: (message: Message) => Promise<void> } = 
     toast,
 };
 
-export async function handleMessageCreate(message: Message) {
+export async function handleMessageCreate({ args: [message], scope }: HandlerProps<[Message]>) {
     if (message.author.bot) {
         // ignore bot messages
         return;
@@ -67,13 +69,19 @@ export async function handleMessageCreate(message: Message) {
 
     logger.info(message.guild.id, `Command: ${command} ${args}`);
 
-    if (command === '') {
+    if (command === "") {
         // `!t`
+        scope.setExtra("Command", { name: "default" });
         await defaultCommand(message);
     } else {
-        await commandsMap[command.toLowerCase()]?.(message);
+        const commandLowerCase = command.toLowerCase();
 
-        if (command.startsWith("+")) {
+        const commandFn = commandsMap[commandLowerCase];
+        if (commandFn) {
+            scope.setExtra("Command", { name: commandLowerCase, args });
+            await commandFn(message, scope);
+        } else if (commandLowerCase.startsWith("+")) {
+            scope.setExtra("Command", { name: "plus" });
             await plus(message);
         }
     }

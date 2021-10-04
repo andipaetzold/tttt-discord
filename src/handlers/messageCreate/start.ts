@@ -7,8 +7,9 @@ import { getInviteUrl, hasVoicePermissions } from "../../services/permissions";
 import { addTimer } from "../../services/timer";
 import { EMOJI_ERROR, EMOJI_SUCCESS } from "../../util/emojis";
 import { getVoiceConnection } from "../../util/getVoiceConnection";
+import * as Sentry from "@sentry/node";
 
-export async function start(message: Message): Promise<void> {
+export async function start(message: Message, scope: Sentry.Scope): Promise<void> {
     const guildId = message.guild!.id;
     const hasPermissions = hasVoicePermissions(message.guild!);
 
@@ -39,5 +40,5 @@ export async function start(message: Message): Promise<void> {
     logger.info(guildId, "Start");
     await message.react(EMOJI_SUCCESS);
 
-    await addTimer(guildId, message.channel as TextChannel);
+    await addTimer(guildId, message.channel as TextChannel, scope);
 }

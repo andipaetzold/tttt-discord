@@ -6,6 +6,7 @@ import type { Config, Timer } from "../types";
 import { EMOJI_PLUS10, EMOJI_SKIP, EMOJI_TOAST } from "../util/emojis";
 import logger from "./logger";
 import { getNextAthleteIndex } from "./timer";
+import * as Sentry from "@sentry/node";
 
 const DEFAULT_FOOTER = "Use `!t stop` to stop the timer.";
 
@@ -44,7 +45,7 @@ export function createStatusMessage(config: Config, timer: Timer): MessageEmbed 
     return messageEmbed;
 }
 
-export async function sendStatusMessage(channel: TextChannel) {
+export async function sendStatusMessage(channel: TextChannel, scope: Sentry.Scope) {
     const guildId = channel.guild.id;
     const [config, timer] = await Promise.all([getConfig(guildId), getTimer(guildId)]);
     if (timer === undefined) {
@@ -66,12 +67,16 @@ export async function sendStatusMessage(channel: TextChannel) {
             },
         }));
     } catch (e) {
-        // @ts-expect-error
-        logger.error(guildId, new Error("Could not send status message", { cause: e }));
+        logger.error(
+            guildId,
+            // @ts-expect-error
+            new Error("Could not send status message", { cause: e }),
+            scope
+        );
     }
 }
 
-export async function updateStatusMessage(guildId: string) {
+export async function updateStatusMessage(guildId: string, scope?: Sentry.Scope) {
     const [config, timer] = await Promise.all([getConfig(guildId), getTimer(guildId)]);
     if (timer?.status === undefined) {
         return;
@@ -82,8 +87,12 @@ export async function updateStatusMessage(guildId: string) {
         const message = await channel.messages.fetch(timer.status.messageId);
         await message.edit({ embeds: [createStatusMessage(config, timer)] });
     } catch (e) {
-        // @ts-expect-error
-        logger.error(guildId, new Error("Could not update status message", { cause: e }));
+        logger.error(
+            guildId,
+            // @ts-expect-error
+            new Error("Could not update status message", { cause: e }),
+            scope
+        );
 
         await updateTimer(timer.guildId, (t) => ({
             ...timer,
@@ -92,7 +101,7 @@ export async function updateStatusMessage(guildId: string) {
     }
 }
 
-export async function deleteStatusMessage(guildId: string) {
+export async function deleteStatusMessage(guildId: string, scope: Sentry.Scope) {
     const timer = await getTimer(guildId);
     if (timer?.status === undefined) {
         return;
@@ -104,6 +113,6 @@ export async function deleteStatusMessage(guildId: string) {
         await message.delete();
     } catch (e) {
         // @ts-expect-error
-        logger.error(guildId, new Error("Could not delete status message", { cause: e }));
+        logger.error(guildId, new Error("Could not delete status message", { cause: e }), scope);
     }
 }

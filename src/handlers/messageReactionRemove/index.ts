@@ -3,11 +3,15 @@ import { client } from "../../discord";
 import { getConfig } from "../../persistence/config";
 import { getTimer } from "../../persistence/timer";
 import logger from "../../services/logger";
+import { HandlerProps } from "../../services/sentry";
 import { updateStatusMessage } from "../../services/statusMessage";
 import { setAthleteAsFresh } from "../../services/timer";
 import { EMOJI_TOAST } from "../../util/emojis";
 
-export async function handleMessageReactionRemove(messageReaction: MessageReaction, user: User | PartialUser) {
+export async function handleMessageReactionRemove({
+    args: [messageReaction, user],
+    scope,
+}: HandlerProps<[MessageReaction, User | PartialUser]>) {
     if (messageReaction.partial) {
         await messageReaction.fetch();
     }
@@ -46,7 +50,7 @@ export async function handleMessageReactionRemove(messageReaction: MessageReacti
             }
 
             await setAthleteAsFresh(guildId, athleteIndex);
-            await updateStatusMessage(guildId);
+            await updateStatusMessage(guildId, scope);
             break;
         }
     }
