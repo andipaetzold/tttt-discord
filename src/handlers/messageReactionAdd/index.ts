@@ -4,11 +4,15 @@ import { getConfig } from "../../persistence/config";
 import { getTimer } from "../../persistence/timer";
 import logger from "../../services/logger";
 import { hasManageMessagesPermissions } from "../../services/permissions";
+import { HandlerProps } from "../../services/sentry";
 import { updateStatusMessage } from "../../services/statusMessage";
 import { addTimeToCurrentAthlete, setAthleteAsToast, skipCurrentAthlete } from "../../services/timer";
 import { EMOJI_PLUS10, EMOJI_SKIP, EMOJI_TOAST } from "../../util/emojis";
 
-export async function handleMessageReactionAdd(messageReaction: MessageReaction, user: User | PartialUser) {
+export async function handleMessageReactionAdd({
+    args: [messageReaction, user],
+    scope,
+}: HandlerProps<[MessageReaction, User | PartialUser]>) {
     if (messageReaction.partial) {
         await messageReaction.fetch();
     }
@@ -41,7 +45,7 @@ export async function handleMessageReactionAdd(messageReaction: MessageReaction,
         case EMOJI_SKIP: {
             const removePromise = removeReaction(messageReaction, user);
             await skipCurrentAthlete(guildId);
-            await updateStatusMessage(guildId);
+            await updateStatusMessage(guildId, scope);
             await removePromise;
             break;
         }
@@ -49,7 +53,7 @@ export async function handleMessageReactionAdd(messageReaction: MessageReaction,
         case EMOJI_PLUS10: {
             const removePromise = removeReaction(messageReaction, user);
             await addTimeToCurrentAthlete(guildId, 10);
-            await updateStatusMessage(guildId);
+            await updateStatusMessage(guildId, scope);
             await removePromise;
             break;
         }
@@ -64,7 +68,7 @@ export async function handleMessageReactionAdd(messageReaction: MessageReaction,
             }
 
             await setAthleteAsToast(guildId, athleteIndex);
-            await updateStatusMessage(guildId);
+            await updateStatusMessage(guildId, scope);
             break;
         }
 

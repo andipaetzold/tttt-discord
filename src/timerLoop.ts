@@ -1,4 +1,5 @@
 import { VoiceConnection } from "@discordjs/voice";
+import { Scope } from "@sentry/hub";
 import { VoiceChannel } from "discord.js";
 import { performance } from "perf_hooks";
 import { EMPTY_VC_TIMEOUT } from "./constants";
@@ -52,6 +53,9 @@ async function tick() {
  * - Do not await `speakCommand`
  */
 async function tickTimer(timer: Timer, now: number): Promise<void> {
+    const scope = new Scope();
+    scope.setTag("handler", "timer");
+
     let connection: VoiceConnection | undefined;
     try {
         const config = await getConfig(timer.guildId);
@@ -80,7 +84,7 @@ async function tickTimer(timer: Timer, now: number): Promise<void> {
             if (timer.voiceChannelEmptySince) {
                 if (timer.voiceChannelEmptySince <= now - EMPTY_VC_TIMEOUT) {
                     logger.info(timer.guildId, "Stopping timer due to an empty voice channel");
-                    await stopTimer(timer.guildId);
+                    await stopTimer(timer.guildId, scope);
                     connection.destroy();
                     return;
                 }
@@ -103,7 +107,7 @@ async function tickTimer(timer: Timer, now: number): Promise<void> {
                 nextChangeTime: now + config.athletes[nextAthleteIndex].time,
                 started: true,
             }));
-            await updateStatusMessage(timer.guildId);
+            await updateStatusMessage(timer.guildId, scope);
         }
 
         await speakCommand(
@@ -113,8 +117,12 @@ async function tickTimer(timer: Timer, now: number): Promise<void> {
             config.languageKey
         );
     } catch (e) {
-        // @ts-expect-error
-        logger.error(timer.guildId, new Error("Stopping timer due to an error", { cause: e }));
+        logger.error(
+            timer.guildId,
+            // @ts-expect-error
+            new Error("Stopping timer due to an error", { cause: e }),
+            scope
+        );
         await removeTimer(timer.guildId);
 
         try {

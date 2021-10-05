@@ -2,6 +2,11 @@ import * as Sentry from "@sentry/node";
 import { BOT_ID, MAIN_BOT, SENTRY_DSN, SENTRY_ENVIRONMENT } from "../constants";
 import logger from "./logger";
 
+export interface HandlerProps<Args extends any[]> {
+    args: Args;
+    scope: Sentry.Scope;
+}
+
 Sentry.init({
     dsn: SENTRY_DSN,
     enabled: SENTRY_DSN !== undefined,
@@ -16,7 +21,7 @@ Sentry.setTags({
 
 logger.info(undefined, `Sentry environment: ${SENTRY_ENVIRONMENT}`);
 
-export function wrapHandler<T extends (...args: any[]) => Promise<void>>(
+export function wrapHandler<T extends (props: HandlerProps<any>) => Promise<void>>(
     handler: string,
     func: T
 ): [string, (...args: Parameters<T>) => Promise<void>] {
@@ -24,9 +29,9 @@ export function wrapHandler<T extends (...args: any[]) => Promise<void>>(
         Sentry.withScope(async (scope) => {
             scope.setTag("handler", handler);
             try {
-                return await func(...args, scope);
+                return await func({ args, scope });
             } catch (e: any) {
-                logger.error(undefined, e);
+                logger.error(undefined, e, scope);
             }
         });
     };
