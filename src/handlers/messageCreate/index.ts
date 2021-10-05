@@ -81,7 +81,7 @@ export async function handleMessageCreate({ args: [message], scope }: HandlerPro
             scope.setExtra("Command", { name: commandLowerCase, args });
             await commandFn(message, scope);
         } else if (commandLowerCase.startsWith("+")) {
-            scope.setExtra("Command", { name: "plus" });
+            scope.setExtra("Command", { name: "plus", args: [commandLowerCase, ...args] });
             await plus(message);
         }
     }
