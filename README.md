@@ -6,7 +6,7 @@ This is a follow-up project of the [TTT-Timer Web App](https://andipaetzold.gith
 
 ## Installation
 
-Click [here](https://discord.com/api/oauth2/authorize?client_id=806979974594560060&permissions=3155968&scope=bot) to install the bot to your server
+Click [here](https://discord.com/api/oauth2/authorize?client_id=806979974594560060&permissions=3155968&scope=bot+applications.commands) to install the bot to your server
 
 You will be asked to grant multiple permissions:
 
@@ -188,9 +188,9 @@ The bot automatically reacts with three emojis to this message. These can be use
 
 | Emoji | Behavior                                                                                                          |
 | ----- | ----------------------------------------------------------------------------------------------------------------- |
-| ➕    | Same as typing `!t +10`                                                                                           |
-| ⏭️    | Same as typing `!t skip`                                                                                          |
-| ☠️    | Same as typing `!t toast` or `!t fresh`. This only works if the user was mentioned when athletes were configures. |
+| ➕     | Same as typing `!t +10`                                                                                           |
+| ⏭️     | Same as typing `!t skip`                                                                                          |
+| ☠️     | Same as typing `!t toast` or `!t fresh`. This only works if the user was mentioned when athletes were configures. |
 
 <img src="./docs/status-message.png" height="250">
 
@@ -202,10 +202,10 @@ The bot automatically gives commands 1/2/5/10/15/30 seconds and 1/2/3/5/10 minut
 
 Discord does not allow a bot to join multiple voice call at a time. To run multiple timers on the same server in parallel, I am hosting multiple instances of the TTT-Timer. The additional bots have the same behaviour as the main bot, but with a separate configuration and a different command prefix.
 
-| Command Prefix    | Install Link                                                                                                         |
-| ----------------- | -------------------------------------------------------------------------------------------------------------------- |
-| `!t` or `!tttt`   | [Install Bot 1](https://discord.com/api/oauth2/authorize?client_id=806979974594560060&permissions=3155968&scope=bot) |
-| `!t2` or `!tttt2` | [Install Bot 2](https://discord.com/api/oauth2/authorize?client_id=894298274343837696&permissions=3155968&scope=bot) |
+| Command Prefix    | Install Link                                                                                                                               |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `!t` or `!tttt`   | [Install Bot 1](https://discord.com/api/oauth2/authorize?client_id=806979974594560060&permissions=3155968&scope=bot+applications.commands) |
+| `!t2` or `!tttt2` | [Install Bot 2](https://discord.com/api/oauth2/authorize?client_id=894298274343837696&permissions=3155968&scope=bot+applications.commands) |
 
 ## Data Privacy
 
