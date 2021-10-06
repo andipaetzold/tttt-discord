@@ -1,9 +1,27 @@
 import { ChatInputApplicationCommandData } from "discord.js";
 import range from "lodash/range";
 import { BOT_ID, MAIN_BOT, SLASH_COMMAND } from "../../constants";
+import { client } from "../../discord";
 import { LANGUAGES } from "../../languages";
+import logger from "../../services/logger";
 
-export function getSlashCommand() {
+export async function initCommands() {
+    const applicationCommands = client.application!.commands;
+    const command = getSlashCommand();
+
+    const existingCommands = await applicationCommands.fetch();
+    const existingCommand = existingCommands.find((cmd) => cmd.name === command.name);
+
+    if (existingCommand) {
+        logger.info(undefined, `Updating command '${command.name}'`);
+        await applicationCommands.edit(existingCommand, command);
+    } else {
+        logger.info(undefined, `Creating command '${command.name}'`);
+        await applicationCommands.create(command);
+    }
+}
+
+function getSlashCommand() {
     return {
         name: `${SLASH_COMMAND.name}${MAIN_BOT ? "" : BOT_ID}`,
         ...command,
