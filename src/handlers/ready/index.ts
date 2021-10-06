@@ -19,7 +19,21 @@ export async function handleReady() {
 
     logger.info(undefined, "Ready");
 
-    const commands = client.application!.commands;
+    await initCommands();
+}
 
-    await commands.create(getSlashCommand());
+async function initCommands() {
+    const applicationCommands = client.application!.commands;
+    const command = getSlashCommand();
+
+    const existingCommands = await applicationCommands.fetch();
+    const existingCommand = existingCommands.find((cmd) => cmd.name === command.name);
+
+    if (existingCommand) {
+        logger.info(undefined, `Updating command '${command.name}'`);
+        await applicationCommands.edit(existingCommand, command);
+    } else {
+        logger.info(undefined, `Creating command '${command.name}'`);
+        await applicationCommands.create(command);
+    }
 }
