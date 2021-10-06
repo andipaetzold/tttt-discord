@@ -4,7 +4,7 @@ import { client } from "../discord";
 export const REQUESTED_PERMISSIONS = ["SEND_MESSAGES", "MANAGE_MESSAGES", "CONNECT", "SPEAK"] as const;
 
 export function getInviteUrl(): string {
-    return client.generateInvite({ scopes: ["bot"], permissions: REQUESTED_PERMISSIONS });
+    return client.generateInvite({ scopes: ["bot", "applications.commands"], permissions: REQUESTED_PERMISSIONS });
 }
 
 export function hasSendMessagePermission(guild: Guild) {
