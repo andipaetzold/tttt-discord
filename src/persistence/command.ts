@@ -1,9 +1,9 @@
-import { ApplicationCommand, ApplicationCommandData } from "discord.js";
+import type { ApplicationCommandData } from "discord.js";
 import objectHash from "object-hash";
 import { BOT_ID } from "../constants";
-import { exists, read, write } from "./redis";
+import { read, write } from "./redis";
 
-const key = `command:${BOT_ID}`;
+const key = `slash-command-hash:${BOT_ID}`;
 
 export async function setSlashCommandHash(command: ApplicationCommandData) {
     const hash = objectHash(command);
