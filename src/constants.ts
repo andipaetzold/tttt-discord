@@ -44,7 +44,7 @@ export const SLASH_COMMAND = {
         athletes: {
             name: "athletes",
             athletesCount: 8,
-            athletesPrefix: "athletes",
+            athletesPrefix: "athlete",
             timePrefix: "time",
         },
     },
