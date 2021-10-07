@@ -1,8 +1,10 @@
 import { ChatInputApplicationCommandData } from "discord.js";
 import range from "lodash/range";
+import hash from "object-hash";
 import { BOT_ID, MAIN_BOT, SLASH_COMMAND } from "../../constants";
 import { client } from "../../discord";
 import { LANGUAGES } from "../../languages";
+import { getSlashCommandHash, setSlashCommandHash } from "../../persistence/command";
 import logger from "../../services/logger";
 
 export async function initCommands() {
@@ -13,12 +15,21 @@ export async function initCommands() {
     const existingCommand = existingCommands.find((cmd) => cmd.name === command.name);
 
     if (existingCommand) {
-        logger.info(undefined, `Updating command '${command.name}'`);
-        await applicationCommands.edit(existingCommand, command);
+        const existingHash = await getSlashCommandHash();
+        const commandHash = hash(command);
+
+        if (existingHash === commandHash) {
+            logger.info(undefined, `No need to update slash command`);
+        } else {
+            logger.info(undefined, `Updating slash command`);
+            await applicationCommands.edit(existingCommand, command);
+        }
     } else {
-        logger.info(undefined, `Creating command '${command.name}'`);
+        logger.info(undefined, `Creating slash command`);
         await applicationCommands.create(command);
     }
+
+    await setSlashCommandHash(command);
 }
 
 function getSlashCommand() {
