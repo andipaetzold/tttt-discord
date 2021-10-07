@@ -17,7 +17,5 @@ export async function handleReady() {
     const timerKeys = await getAllTimerKeys();
     logger.info(undefined, `${timerKeys.length} running timer(s)`);
 
-    logger.info(undefined, "Ready");
-
     await initCommands();
 }
