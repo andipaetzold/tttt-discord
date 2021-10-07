@@ -5,11 +5,15 @@ import { HandlerProps } from "../../services/sentry";
 import { help } from "./help";
 import { stop } from "./stop";
 import { start } from "./start";
+import { language } from "./language";
+import { delay } from "./delay";
 
 const commandsMap = {
     [SLASH_COMMAND.commands.help]: help,
     [SLASH_COMMAND.commands.start]: start,
     [SLASH_COMMAND.commands.stop]: stop,
+    [SLASH_COMMAND.commands.language.name]: language,
+    [SLASH_COMMAND.commands.delay.name]: delay,
 };
 
 export async function handleInteractionCreate({ args: [interaction], scope }: HandlerProps<[Interaction]>) {

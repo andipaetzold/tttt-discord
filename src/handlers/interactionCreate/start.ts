@@ -13,10 +13,7 @@ export async function start(interaction: CommandInteraction, scope: Sentry.Scope
 
     if (await timerExists(guildId)) {
         logger.info(guildId, "Timer is already running");
-        await interaction.reply({
-            content: "Timer is already running",
-            ephemeral: true,
-        });
+        await interaction.reply({ content: "Timer is already running", ephemeral: true });
         return;
     }
 
