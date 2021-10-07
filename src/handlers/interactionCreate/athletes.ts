@@ -4,7 +4,6 @@ import { DEFAULT_TIME_PER_ATHLETE, SLASH_COMMAND } from "../../constants";
 import { getConfig, setConfig } from "../../persistence/config";
 import logger from "../../services/logger";
 import { athleteToString } from "../../util/athleteToString";
-import isSameAthlete from "../../util/isSameAthlete";
 import { isValidDelay } from "../../util/isValidDelay";
 import parseUser from "../../util/parseUser";
 
