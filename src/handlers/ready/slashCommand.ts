@@ -123,5 +123,31 @@ const command: Omit<ChatInputApplicationCommandData, "name"> = {
                 },
             ]),
         },
+        {
+            type: "SUB_COMMAND",
+            name: SLASH_COMMAND.commands.fresh.name,
+            description: "Mark yourself or an athlete as fresh",
+            options: [
+                {
+                    type: "STRING",
+                    name: SLASH_COMMAND.commands.fresh.athlete,
+                    description: "Athlete to mark as fresh",
+                    required: false,
+                },
+            ],
+        },
+        {
+            type: "SUB_COMMAND",
+            name: SLASH_COMMAND.commands.toast.name,
+            description: "Mark yourself or an athlete as toasted",
+            options: [
+                {
+                    type: "STRING",
+                    name: SLASH_COMMAND.commands.toast.athlete,
+                    description: "Athlete to mark as toasted",
+                    required: false,
+                },
+            ],
+        },
     ],
 };

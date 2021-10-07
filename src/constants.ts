@@ -47,5 +47,13 @@ export const SLASH_COMMAND = {
             athletesPrefix: "athlete",
             timePrefix: "time",
         },
+        toast: {
+            name: "toast",
+            athlete: "athlete",
+        },
+        fresh: {
+            name: "fresh",
+            athlete: "athlete",
+        },
     },
 };
