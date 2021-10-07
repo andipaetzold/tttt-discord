@@ -4,9 +4,11 @@ import logger from "../../services/logger";
 import { HandlerProps } from "../../services/sentry";
 import { help } from "./help";
 import { stop } from "./stop";
+import { start } from "./start";
 
 const commandsMap = {
     [SLASH_COMMAND.commands.help]: help,
+    [SLASH_COMMAND.commands.start]: start,
     [SLASH_COMMAND.commands.stop]: stop,
 };
 
