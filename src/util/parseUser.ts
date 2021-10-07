@@ -1,13 +1,14 @@
-import { MessageMentions } from "discord.js";
+import { Guild } from "discord.js";
 import { Athlete } from "../types";
 
-export default function parseUser(s: string, messageMentions: MessageMentions): Pick<Athlete, "name" | "userId"> {
+export default async function parseUser(s: string, guild: Guild): Promise<Pick<Athlete, "name" | "userId">> {
     if (s.startsWith(`<@`) && s.endsWith(`>`)) {
         const userId = s.slice(s.startsWith(`<@!`) ? 3 : 2, -1);
-        const guildMember = messageMentions.members!.find((member) => member.id === userId)!;
+
+        const guildMember = await guild.members.fetch(userId)
 
         return {
-            name: guildMember.displayName,
+            name: guildMember?.displayName,
             userId,
         };
     } else {

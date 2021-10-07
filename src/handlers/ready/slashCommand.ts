@@ -64,7 +64,7 @@ const command: Omit<ChatInputApplicationCommandData, "name"> = {
             description: "Set the time of a specific athlete",
             options: [
                 {
-                    type: "MENTIONABLE",
+                    type: "STRING",
                     name: SLASH_COMMAND.commands.athlete.athlete,
                     description: "The athlete to set the time for",
                     required: true,
@@ -110,7 +110,7 @@ const command: Omit<ChatInputApplicationCommandData, "name"> = {
             description: "Get or set athletes",
             options: range(1, SLASH_COMMAND.commands.athletes.athletesCount + 1).flatMap((i) => [
                 {
-                    type: "MENTIONABLE",
+                    type: "STRING",
                     name: `${SLASH_COMMAND.commands.athletes.athletesPrefix}${i}`,
                     description: `Athlete ${i}`,
                     required: false,

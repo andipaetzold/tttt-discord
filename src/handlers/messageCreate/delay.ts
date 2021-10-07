@@ -1,7 +1,8 @@
 import { Message } from "discord.js";
 import { getConfig, setConfig } from "../../persistence/config";
+import { isValidDelay } from "../../util/isValidDelay";
 import { parseMessage } from "../../util/message";
-import { confirmMessage, isValidDelay, sendError } from "./util";
+import { confirmMessage, sendError } from "./util";
 
 export async function delay(message: Message) {
     const { args } = parseMessage(message)!;

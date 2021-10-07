@@ -2,7 +2,7 @@ import { CommandInteraction } from "discord.js";
 import { SLASH_COMMAND } from "../../constants";
 import { getConfig, setConfig } from "../../persistence/config";
 import logger from "../../services/logger";
-import { isValidDelay } from "../messageCreate/util";
+import { isValidDelay } from "../../util/isValidDelay";
 
 export async function delay(interaction: CommandInteraction) {
     const guildId = interaction.guild!.id;

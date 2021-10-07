@@ -7,6 +7,7 @@ import { stop } from "./stop";
 import { start } from "./start";
 import { language } from "./language";
 import { delay } from "./delay";
+import { athlete } from "./athlete";
 
 const commandsMap = {
     [SLASH_COMMAND.commands.help]: help,
@@ -14,6 +15,7 @@ const commandsMap = {
     [SLASH_COMMAND.commands.stop]: stop,
     [SLASH_COMMAND.commands.language.name]: language,
     [SLASH_COMMAND.commands.delay.name]: delay,
+    [SLASH_COMMAND.commands.athlete.name]: athlete,
 };
 
 export async function handleInteractionCreate({ args: [interaction], scope }: HandlerProps<[Interaction]>) {
