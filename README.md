@@ -21,19 +21,39 @@ You will be asked to grant multiple permissions:
 
 ## Usage
 
-All commands are prefixed with `!t`. All other messages are ignore by the bot.
-
--   If `!t` is already used by another bot, use `!tttt` as command prefix.
 -   All commands are case insensitive to avoid frustration when interacting with the bot during a race.
 -   There is only 1 configuration for each server. Changing the configuration in different text channels using the commands below, will alter the same configuration.
 
-### `!t`
+There are two ways to use this bot:
+
+-   [Slash Commands](#slash-commands)
+-   [Chat Message Commands](#chat-message-commands)
+
+All functionality can be used using both approaches. Slash commands are recommended as they are less error prone and easier to use.
+
+### Documentation Syntax:
+
+| Syntax               | Meaning                                                                                                                                                                          |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `<name>` or `<time>` | These are command options that you can individually define. Replace these options including the `<` and `>` with your specific configuration.                                    |
+| `[<name>]`           | Angle brackets represent optional options. These may be left out and either lead to a different behaviour or a fallback value will be used                                       |
+| `@Andi`              | Used in the examples to represent [Discord mentions](https://discordia.me/en/mentions). Do not actually send the `@` symbol but use the GitHub client to select a specific user. |
+
+### Slash Commands
+
+### Chat Message Commands
+
+-   All chat message commands are prefixed with `!t`. All other messages are ignore by the bot.
+-   If `!t` is already used by another bot, use `!tttt` as command prefix.
+-   The bot doesn't always reply with a message but reacts with ✅ or ❌ a success or failure.
+
+#### `!t`
 
 Shows the current configuration
 
 <img src="./docs/config.png" height="300">
 
-### `!t +<seconds>`
+#### `!t +<seconds>`
 
 Adds time to the timer of the currently leading athlete. This is temporary and on the next rotation, the athlete will do their previously configured lead time again.
 
@@ -45,11 +65,11 @@ Example:
 
 _Adds 15 seconds to the clock of the currently leading athlete_
 
-### `!t athletes`
+#### `!t athletes`
 
 Shows the list of the athetes including lead times
 
-### `!t athletes <name>[:<time>] ...`
+#### `!t athletes <name>[:<time>] ...`
 
 Set the list of athletes in the team and their lead times. The lead times are optional and default to 30 seconds.
 
@@ -69,7 +89,7 @@ _The team now includes Andi and Victor. Andi leads for 45 seconds, Victor for 30
 
 <img src="./docs/athletes.png" height="90">
 
-### `!t athlete <name> <seconds>`
+#### `!t athlete <name> <seconds>`
 
 Set the lead time of an athlete. The user must be added to the athletes list before using the command above.
 You can also mention a user instead of typing their name.
@@ -86,11 +106,11 @@ Example:
 
 _Sets the lead time of Andi to 45 seconds_
 
-### `!t delay`
+#### `!t delay`
 
 Show the current start delay
 
-### `!t delay <number>`
+#### `!t delay <number>`
 
 Sets the start delay in seconds.
 
@@ -102,7 +122,7 @@ Example:
 
 _The timer will wait for 5 minutes before giving commands_
 
-### `!t fresh <name>`
+#### `!t fresh <name>`
 
 The athlete won't be skipped anymore. If the user sending this command was mentioned when configuring the timer the name can be omitted. This command doesn't change the order of the athletes.
 
@@ -120,21 +140,21 @@ _Andi will join the lead rotation again_
 
 _If the user sending this message was mentioned when configuring the timer, they will join the lead rotation again_
 
-### `!t help`
+#### `!t help`
 
 Show a help message with available commands
 
 <img src="./docs/help.png" height="300">
 
-### `!t invite`
+#### `!t invite`
 
 Shows the link to add the bot to your server
 
-### `!t language`
+#### `!t language`
 
 Shows the current language
 
-### `!t language <language>`
+#### `!t language <language>`
 
 Set the language of the voice commands. Available languages are:
 
@@ -142,25 +162,25 @@ Set the language of the voice commands. Available languages are:
 -   German (`!t language de`)
 -   Czech (`!t language cz`)
 
-### `!t reset`
+#### `!t reset`
 
 Stops the timer and resets all configuration of the bot for your server.
 
-### `!t start`
+#### `!t start`
 
 Starts the timer. The bot joins your current voice channel or the channel from a previous start.
 
-### `!t stop`
+#### `!t stop`
 
 Stops the timer and leaves the voice channel.
 
-### `!t skip`
+#### `!t skip`
 
 The remaining time of the current athlete is skipped and the next athlete is announced with "Go &lt;name&gt;". This is a one-time skip.
 
 If the timer hasn't started yet and is still waiting for the start delay to tick down, this command will skip the remaining time and immediately start the race with the first athlete.
 
-### `!t toast <name>`
+#### `!t toast <name>`
 
 The athlete is skipped until writing `!t fresh <name>`. If the mentioned athlete is currently leading, the remaining time is skipped and the next athlete is announced with "Go &lt;name&gt;".
 
@@ -182,15 +202,15 @@ _If the user sending this message was mentioned when configuring the timer, they
 
 ## Status Message
 
-When starting the timer using `!t start`, a message is send to the current channel. This message automatically updates and includes the currently leading athlete and the next athlete including their leading times.
+When starting the timer using `/timer start` or `!t start`, a message is send to the current channel. This message automatically updates and includes the currently leading athlete and the next athlete including their leading times.
 
 The bot automatically reacts with three emojis to this message. These can be used as buttons to control the bot during a race and to avoid typing.
 
-| Emoji | Behavior                                                                                                          |
-| ----- | ----------------------------------------------------------------------------------------------------------------- |
-| ➕     | Same as typing `!t +10`                                                                                           |
-| ⏭️     | Same as typing `!t skip`                                                                                          |
-| ☠️     | Same as typing `!t toast` or `!t fresh`. This only works if the user was mentioned when athletes were configures. |
+| Emoji | Equivalent Slash Command          | Equivalent Chat Message Command | Note                                                                     |
+| ----- | --------------------------------- | ------------------------------- | ------------------------------------------------------------------------ |
+| ➕    | `/timer plus 10`                  | `!t +10`                        |
+| ⏭️    | `/timer skip`                     | `!t skip`                       |                                                                          |
+| ☠️    | `/timer toast` and `/timer fresh` | `!t toast` or `!t fresh`        | This only works if the user was mentioned when athletes were configures. |
 
 <img src="./docs/status-message.png" height="250">
 
@@ -202,10 +222,10 @@ The bot automatically gives commands 1/2/5/10/15/30 seconds and 1/2/3/5/10 minut
 
 Discord does not allow a bot to join multiple voice call at a time. To run multiple timers on the same server in parallel, I am hosting multiple instances of the TTT-Timer. The additional bots have the same behaviour as the main bot, but with a separate configuration and a different command prefix.
 
-| Command Prefix    | Install Link                                                                                                                               |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| `!t` or `!tttt`   | [Install Bot 1](https://discord.com/api/oauth2/authorize?client_id=806979974594560060&permissions=3155968&scope=bot+applications.commands) |
-| `!t2` or `!tttt2` | [Install Bot 2](https://discord.com/api/oauth2/authorize?client_id=894298274343837696&permissions=3155968&scope=bot+applications.commands) |
+| Slash Command | Command Prefix    | Install Link                                                                                                                               |
+| ------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `/timer`      | `!t` or `!tttt`   | [Install Bot 1](https://discord.com/api/oauth2/authorize?client_id=806979974594560060&permissions=3155968&scope=bot+applications.commands) |
+| `/timer2`     | `!t2` or `!tttt2` | [Install Bot 2](https://discord.com/api/oauth2/authorize?client_id=894298274343837696&permissions=3155968&scope=bot+applications.commands) |
 
 ## Data Privacy
 
@@ -214,6 +234,15 @@ The discord bot is hosted on [Heroku](https://www.heroku.com/) using servers in 
 The bot doesn't log or store any information that is not required for the use or monitoring of the bot. All information is automatically deleted when removing the bot from your server.
 
 All code is publicly available on [Github](https://github.com/andipaetzold/tttt-discord).
+
+## Troubleshooting
+
+| Problem                                             | Possible Solutions                                                                                                                            |
+| --------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| Slash commands are not displayed in Discord         | Slash commands were only added in a later update. They will only show up after reinviting the bot to your server using the install link.      |
+| The ☠️ button of the status message doesn't work    | You can only use this button if you were mentioned during the timer setup.                                                                    |
+| The ➕ and ⏭️ button stay clicked                   | The bot requires the "Manage Messages" permission to remove your reaction from the status message in order to provide a button-like behaviour |
+| The timer doesn't react ti any chat message command | Make sure the bot has permission to read and write messages in your channel. Without those permissions, the bot cannot be used                |
 
 ## Need help?
 
