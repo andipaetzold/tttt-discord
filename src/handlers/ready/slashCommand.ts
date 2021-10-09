@@ -1,7 +1,7 @@
 import { ChatInputApplicationCommandData } from "discord.js";
 import range from "lodash/range";
 import hash from "object-hash";
-import { BOT_ID, MAIN_BOT, SLASH_COMMAND } from "../../constants";
+import { SLASH_COMMAND } from "../../constants";
 import { client } from "../../discord";
 import { LANGUAGES } from "../../languages";
 import { getSlashCommandHash, setSlashCommandHash } from "../../persistence/command";

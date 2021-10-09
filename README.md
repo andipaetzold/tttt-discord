@@ -41,6 +41,143 @@ All functionality can be used using both approaches. Slash commands are recommen
 
 ### Slash Commands
 
+#### `/timer athlete <athlete> <time>`
+
+Set the lead time of an athlete. The user must be added to the athletes list before using the command above.
+You can also mention a user instead of typing their name.
+
+Example:
+
+```bash
+/timer athlete Andi 45
+
+// or
+
+/timer athlete @Andi 45
+```
+
+_Sets the lead time of Andi to 45 seconds_
+
+#### `/timer athletes [<athlete1>] [<time1>] [<athlete2>] [<time2>] ...`
+
+If all options are omitted, returns the configured athletes.
+
+Otherwise, sets the list of athletes in the team and their lead times. The lead times are optional and default to 30 seconds.
+
+You can also mention a user instead of typing their name. The voice commands will use the username at the time of sending this command, so make sure to change it to something pronouncable.
+
+Examples:
+
+```bash
+/timer athletes Andi:45 Victor
+
+// or
+
+/timer athletes @Andi:45 Victor
+```
+
+_The team now includes Andi and Victor. Andi leads for 45 seconds, Victor for 30._
+
+<img src="./docs/slash-athletes.png" height="100">
+
+#### `/timer delay [<time>]`
+
+If `<time>` is omitted, returns the configured start delay
+
+Otherwise, sets the start delay in seconds.
+
+Example:
+
+```bash
+/timer delay 300
+```
+
+_The timer will wait for 5 minutes before giving commands_
+
+#### `/timer fresh [<athlete>]`
+
+The athlete won't be skipped anymore. If the user sending this command was mentioned when configuring the timer the name can be omitted. This command doesn't change the order of the athletes.
+
+Examples:
+
+```bash
+/timer fresh Andi
+```
+
+_Andi will join the lead rotation again_
+
+```bash
+/timer fresh
+```
+
+_If the user sending this message was mentioned when configuring the timer, they will join the lead rotation again_
+
+#### `/timer language [<language>]`
+
+If `<language>` is omitted, the bot replies with the configured language.
+
+Otherwise, sets the language of the voice commands. Available languages are:
+
+-   English (`/timer language en`)
+-   German (`/timer language de`)
+-   Czech (`/timer language cz`)
+
+#### `/timer toast [<athlete>]`
+
+The athlete is skipped until writing `/timer fresh [<name>]`. If the mentioned athlete is currently leading, the remaining time is skipped and the next athlete is announced with "Go &lt;name&gt;".
+
+If the user sending this command was mentioned when configuring the timer the name can be omitted. This command doesn't change the order of the athletes.
+
+Example:
+
+```bash
+/timer toast Andi
+```
+
+_Andi is ignored when the bot announces the next leading athlete_
+
+```bash
+/timer fresh
+```
+
+_If the user sending this message was mentioned when configuring the timer, they will be ignored when the bot announces the next leading athlete_
+
+#### `/timer help`
+
+Shows help message
+
+<img src="./docs/help.png" height="300">
+
+#### `/timer plus <time>`
+
+Adds time to the timer of the currently leading athlete. This is temporary and on the next rotation, the athlete will do their previously configured lead time again.
+
+Example:
+
+```bash
+/timer plus 15
+```
+
+_Adds 15 seconds to the clock of the currently leading athlete_
+
+#### `/timer reset`
+
+Stops the timer and resets all configuration of the bot for your server.
+
+#### `/timer skip`
+
+The remaining time of the current athlete is skipped and the next athlete is announced with "Go &lt;name&gt;". This is a one-time skip.
+
+If the timer hasn't started yet and is still waiting for the start delay to tick down, this command will skip the remaining time and immediately start the race with the first athlete.
+
+#### `/timer start`
+
+Starts the timer. The bot joins your current voice channel or the channel from a previous start.
+
+#### `/timer stop`
+
+Stops the timer and leaves the voice channel.
+
 ### Chat Message Commands
 
 -   All chat message commands are prefixed with `!t`. All other messages are ignore by the bot.
@@ -142,7 +279,7 @@ _If the user sending this message was mentioned when configuring the timer, they
 
 #### `!t help`
 
-Show a help message with available commands
+Shows help message
 
 <img src="./docs/help.png" height="300">
 
