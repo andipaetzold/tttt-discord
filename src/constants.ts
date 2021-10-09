@@ -55,5 +55,12 @@ export const SLASH_COMMAND = {
             name: "fresh",
             athlete: "athlete",
         },
+        skip: {
+            name: "skip",
+        },
+        plus: {
+            name: "plus",
+            time: "time",
+        },
     },
 };

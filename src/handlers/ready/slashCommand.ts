@@ -60,6 +60,11 @@ const command: Omit<ChatInputApplicationCommandData, "name"> = {
         },
         {
             type: "SUB_COMMAND",
+            name: SLASH_COMMAND.commands.skip.name,
+            description: "Skip the current athlete",
+        },
+        {
+            type: "SUB_COMMAND",
             name: SLASH_COMMAND.commands.athlete.name,
             description: "Set the time of a specific athlete",
             options: [
@@ -146,6 +151,19 @@ const command: Omit<ChatInputApplicationCommandData, "name"> = {
                     name: SLASH_COMMAND.commands.toast.athlete,
                     description: "Athlete to mark as toasted",
                     required: false,
+                },
+            ],
+        },
+        {
+            type: "SUB_COMMAND",
+            name: SLASH_COMMAND.commands.plus.name,
+            description: "Add time to the current athlete",
+            options: [
+                {
+                    type: "NUMBER",
+                    name: SLASH_COMMAND.commands.plus.time,
+                    description: "Time to add to the current user",
+                    required: true,
                 },
             ],
         },

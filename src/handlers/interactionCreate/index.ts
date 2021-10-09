@@ -8,6 +8,8 @@ import { delay } from "./delay";
 import { fresh } from "./fresh";
 import { help } from "./help";
 import { language } from "./language";
+import { plus } from "./plus";
+import { skip } from "./skip";
 import { start } from "./start";
 import { stop } from "./stop";
 import { toast } from "./toast";
@@ -22,6 +24,8 @@ const commandsMap = {
     [SLASH_COMMAND.commands.athletes.name]: athletes,
     [SLASH_COMMAND.commands.toast.name]: toast,
     [SLASH_COMMAND.commands.fresh.name]: fresh,
+    [SLASH_COMMAND.commands.plus.name]: plus,
+    [SLASH_COMMAND.commands.skip.name]: skip,
 };
 
 export async function handleInteractionCreate({ args: [interaction], scope }: HandlerProps<[Interaction]>) {
