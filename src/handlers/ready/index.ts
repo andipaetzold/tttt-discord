@@ -3,6 +3,7 @@ import { client } from "../../discord";
 import { getAllTimerKeys } from "../../persistence/timer";
 import logger from "../../services/logger";
 import { startTimerLoop } from "../../timerLoop";
+import { initCommands } from "./slashCommand";
 
 export async function handleReady() {
     startTimerLoop();
@@ -16,5 +17,5 @@ export async function handleReady() {
     const timerKeys = await getAllTimerKeys();
     logger.info(undefined, `${timerKeys.length} running timer(s)`);
 
-    logger.info(undefined, "Ready");
+    await initCommands();
 }

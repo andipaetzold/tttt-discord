@@ -1,7 +1,8 @@
 import { Message } from "discord.js";
 import { getConfig, setConfig } from "../../persistence/config";
+import { isValidDelay } from "../../util/isValidDelay";
 import { parseMessage } from "../../util/message";
-import { confirmMessage, isValidDelay, sendError } from "./util";
+import { confirmMessage, sendError } from "./util";
 
 export async function delay(message: Message) {
     const { args } = parseMessage(message)!;
@@ -16,7 +17,7 @@ export async function handleDelayCommand(args: string[], message: Message) {
     const config = await getConfig(message.guild!.id);
 
     if (args.length === 0) {
-        await message.channel.send(`Start Delay: ${config.startDelay}s`);
+        await message.channel.send(`Start delay: ${config.startDelay}s`);
         return;
     }
 

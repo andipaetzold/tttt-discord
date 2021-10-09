@@ -1,13 +1,11 @@
-import { VoiceConnection } from "@discordjs/voice";
+import * as Sentry from "@sentry/node";
 import { Message, TextChannel } from "discord.js";
 import { DEFAULT_PREFIX } from "../../constants";
 import { getConfig } from "../../persistence/config";
-import logger from "../../services/logger";
 import { getInviteUrl, hasVoicePermissions } from "../../services/permissions";
 import { addTimer } from "../../services/timer";
 import { EMOJI_ERROR, EMOJI_SUCCESS } from "../../util/emojis";
 import { getVoiceConnection } from "../../util/getVoiceConnection";
-import * as Sentry from "@sentry/node";
 
 export async function start(message: Message, scope: Sentry.Scope): Promise<void> {
     const guildId = message.guild!.id;
@@ -25,10 +23,7 @@ export async function start(message: Message, scope: Sentry.Scope): Promise<void
     }
 
     const config = await getConfig(guildId);
-    let connection: VoiceConnection | undefined;
-    const userVoiceChannel =
-        message.member!.voice.channel?.type === "GUILD_VOICE" ? message.member!.voice.channel : undefined;
-    connection = await getVoiceConnection(config, userVoiceChannel);
+    const connection = await getVoiceConnection(config, message.member!);
 
     if (connection === undefined) {
         await message.channel.send(
@@ -37,7 +32,6 @@ export async function start(message: Message, scope: Sentry.Scope): Promise<void
         return;
     }
 
-    logger.info(guildId, "Start");
     await message.react(EMOJI_SUCCESS);
 
     await addTimer(guildId, message.channel as TextChannel, scope);

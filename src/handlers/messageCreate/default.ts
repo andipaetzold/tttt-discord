@@ -2,7 +2,7 @@ import { Message, MessageEmbed, TextChannel } from "discord.js";
 import { DEFAULT_PREFIX } from "../../constants";
 import { LANGUAGES } from "../../languages";
 import { getConfig } from "../../persistence/config";
-import { athleteToString } from "./util";
+import { athleteToString } from "../../util/athleteToString";
 
 export async function defaultCommand(message: Message) {
     await printConfig(message.channel as TextChannel);

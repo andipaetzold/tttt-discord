@@ -20,3 +20,50 @@ export const SENTRY_DSN = process.env.SENTRY_DSN;
 export const SENTRY_ENVIRONMENT = process.env.SENTRY_ENVIRONMENT ?? "production";
 export const LOG_SPEAK = process.env.LOG_SPEAK === "true";
 export const REDIS_URL = process.env.REDIS_URL;
+
+// Slash Commands
+export const SLASH_COMMAND = {
+    name: `timer${MAIN_BOT ? "" : BOT_ID}`,
+    commands: {
+        start: "start",
+        stop: "stop",
+        help: "help",
+        athlete: {
+            name: "athlete",
+            athlete: "athlete",
+            time: "time",
+        },
+        language: {
+            name: "language",
+            language: "language",
+        },
+        delay: {
+            name: "delay",
+            delay: "delay",
+        },
+        athletes: {
+            name: "athletes",
+            athletesCount: 8,
+            athletesPrefix: "athlete",
+            timePrefix: "time",
+        },
+        toast: {
+            name: "toast",
+            athlete: "athlete",
+        },
+        fresh: {
+            name: "fresh",
+            athlete: "athlete",
+        },
+        skip: {
+            name: "skip",
+        },
+        plus: {
+            name: "plus",
+            time: "time",
+        },
+        reset: {
+            name: "reset",
+        },
+    },
+};

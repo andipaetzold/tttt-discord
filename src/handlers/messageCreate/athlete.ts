@@ -17,7 +17,7 @@ export async function athlete(message: Message) {
 export async function handleAthleteCommand(args: string[], message: Message) {
     const config = await getConfig(message.guild!.id);
 
-    const parsedUser = parseUser(args[0], message.mentions);
+    const parsedUser = await parseUser(args[0], message.guild!);
 
     if (!config.athletes.some((a) => isSameAthlete(a, parsedUser))) {
         await sendError(`${args[0]} is not configured as an athlete`, message);

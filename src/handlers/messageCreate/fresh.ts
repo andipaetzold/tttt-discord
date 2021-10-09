@@ -24,7 +24,7 @@ export async function fresh(message: Message) {
     const config = await getConfig(guildId);
 
     const user = args[0]
-        ? parseUser(args[0], message.mentions)
+        ? await parseUser(args[0], message.guild!)
         : { name: message.author.username, userId: message.author.id };
     const athleteIndex = config.athletes.findIndex((athlete) => isSameAthlete(athlete, user));
 
