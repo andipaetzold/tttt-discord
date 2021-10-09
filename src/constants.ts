@@ -62,5 +62,8 @@ export const SLASH_COMMAND = {
             name: "plus",
             time: "time",
         },
+        reset: {
+            name: "reset",
+        },
     },
 };

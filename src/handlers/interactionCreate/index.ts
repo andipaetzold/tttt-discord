@@ -2,6 +2,7 @@ import { Interaction } from "discord.js";
 import { SLASH_COMMAND } from "../../constants";
 import logger from "../../services/logger";
 import { HandlerProps } from "../../services/sentry";
+import { reset } from "./reset";
 import { athlete } from "./athlete";
 import { athletes } from "./athletes";
 import { delay } from "./delay";
@@ -26,6 +27,7 @@ const commandsMap = {
     [SLASH_COMMAND.commands.fresh.name]: fresh,
     [SLASH_COMMAND.commands.plus.name]: plus,
     [SLASH_COMMAND.commands.skip.name]: skip,
+    [SLASH_COMMAND.commands.reset.name]: reset,
 };
 
 export async function handleInteractionCreate({ args: [interaction], scope }: HandlerProps<[Interaction]>) {

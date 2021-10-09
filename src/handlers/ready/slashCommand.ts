@@ -65,6 +65,11 @@ const command: Omit<ChatInputApplicationCommandData, "name"> = {
         },
         {
             type: "SUB_COMMAND",
+            name: SLASH_COMMAND.commands.reset.name,
+            description: "Stops the timer and resets all configuration",
+        },
+        {
+            type: "SUB_COMMAND",
             name: SLASH_COMMAND.commands.athlete.name,
             description: "Set the time of a specific athlete",
             options: [
