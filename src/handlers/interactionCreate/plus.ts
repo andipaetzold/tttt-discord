@@ -8,7 +8,7 @@ export async function plus(interaction: CommandInteraction): Promise<void> {
     const guildId = interaction.guild!.id;
 
     const options = {
-        time: interaction.options.getInteger("time", true),
+        time: interaction.options.getNumber("time", true),
     };
     if (!isValidDelay(options.time)) {
         await interaction.reply(`"${options.time}" is not a valid time`);
