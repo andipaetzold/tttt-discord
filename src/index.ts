@@ -1,3 +1,5 @@
+import "source-map-support/register";
+
 import { DISCORD_TOKEN } from "./constants";
 import { client } from "./discord";
 import { handleDisconnect } from "./handlers/disconnect";
