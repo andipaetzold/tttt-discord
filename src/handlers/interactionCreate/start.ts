@@ -1,5 +1,6 @@
 import * as Sentry from "@sentry/node";
 import { CommandInteraction, GuildMember, TextChannel } from "discord.js";
+import { SLASH_COMMAND } from "../../constants";
 import { getConfig } from "../../persistence/config";
 import { timerExists } from "../../persistence/timer";
 import logger from "../../services/logger";
@@ -33,7 +34,7 @@ export async function start(interaction: CommandInteraction, scope: Sentry.Scope
 
     if (connection === undefined) {
         await interaction.reply({
-            content: `I don't know which voice channel to join. Join a voice channel and run \`/timer start\` again.`,
+            content: `I don't know which voice channel to join. Join a voice channel and run \`/${SLASH_COMMAND.name} start\` again.`,
             ephemeral: true,
         });
         return;

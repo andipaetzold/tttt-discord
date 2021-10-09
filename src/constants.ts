@@ -23,7 +23,7 @@ export const REDIS_URL = process.env.REDIS_URL;
 
 // Slash Commands
 export const SLASH_COMMAND = {
-    name: "timer",
+    name: `timer${MAIN_BOT ? "" : BOT_ID}`,
     commands: {
         start: "start",
         stop: "stop",

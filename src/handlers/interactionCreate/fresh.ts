@@ -15,7 +15,7 @@ export async function fresh(interaction: CommandInteraction) {
 
     const timer = await getTimer(guildId);
     if (!timer) {
-        await interaction.reply(`Start the timer first using \`/timer start\``);
+        await interaction.reply(`Start the timer first using \`/${SLASH_COMMAND.name} start\``);
         return;
     }
 

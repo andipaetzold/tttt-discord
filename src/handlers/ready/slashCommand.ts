@@ -34,7 +34,7 @@ export async function initCommands() {
 
 function getSlashCommand() {
     return {
-        name: `${SLASH_COMMAND.name}${MAIN_BOT ? "" : BOT_ID}`,
+        name: SLASH_COMMAND.name,
         ...command,
     };
 }

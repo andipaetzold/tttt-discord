@@ -1,4 +1,5 @@
 import { CommandInteraction } from "discord.js";
+import { SLASH_COMMAND } from "../../constants";
 import { timerExists } from "../../persistence/timer";
 import { addTimeToCurrentAthlete } from "../../services/timer";
 import { isValidDelay } from "../../util/isValidDelay";
@@ -15,7 +16,7 @@ export async function plus(interaction: CommandInteraction): Promise<void> {
     }
 
     if (!(await timerExists(guildId))) {
-        await interaction.reply(`Start the timer first using \`/timer start\``);
+        await interaction.reply(`Start the timer first using \`/${SLASH_COMMAND.name} start\``);
         return;
     }
 
