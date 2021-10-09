@@ -43,7 +43,7 @@ All functionality can be used using both approaches. Slash commands are recommen
 
 #### `/timer athlete <athlete> <time>`
 
-Set the lead time of an athlete. The user must be added to the athletes list before using the command above.
+Set the lead time of an athlete. The user must be added to the athletes list before using the `/timer athletes` command.
 You can also mention a user instead of typing their name.
 
 Example:
@@ -206,6 +206,23 @@ _Adds 15 seconds to the clock of the currently leading athlete_
 
 Shows the list of the athetes including lead times
 
+#### `!t athlete <name> <seconds>`
+
+Set the lead time of an athlete. The user must be added to the athletes list before using the `!t athletes` command.
+You can also mention a user instead of typing their name.
+
+Example:
+
+```bash
+!t athlete Andi 45
+
+// or
+
+!t athlete @Andi 45
+```
+
+_Sets the lead time of Andi to 45 seconds_
+
 #### `!t athletes <name>[:<time>] ...`
 
 Set the list of athletes in the team and their lead times. The lead times are optional and default to 30 seconds.
@@ -225,23 +242,6 @@ Examples:
 _The team now includes Andi and Victor. Andi leads for 45 seconds, Victor for 30._
 
 <img src="./docs/athletes.png" height="90">
-
-#### `!t athlete <name> <seconds>`
-
-Set the lead time of an athlete. The user must be added to the athletes list before using the command above.
-You can also mention a user instead of typing their name.
-
-Example:
-
-```bash
-!t athlete Andi 45
-
-// or
-
-!t athlete @Andi 45
-```
-
-_Sets the lead time of Andi to 45 seconds_
 
 #### `!t delay`
 
@@ -347,7 +347,7 @@ The bot automatically reacts with three emojis to this message. These can be use
 | ----- | --------------------------------- | ------------------------------- | ------------------------------------------------------------------------ |
 | ➕    | `/timer plus 10`                  | `!t +10`                        |
 | ⏭️    | `/timer skip`                     | `!t skip`                       |                                                                          |
-| ☠️    | `/timer toast` and `/timer fresh` | `!t toast` or `!t fresh`        | This only works if the user was mentioned when athletes were configures. |
+| ☠️    | `/timer toast` and `/timer fresh` | `!t toast` and `!t fresh`       | This only works if the user was mentioned when athletes were configures. |
 
 <img src="./docs/status-message.png" height="250">
 
