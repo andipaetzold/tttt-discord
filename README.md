@@ -31,7 +31,7 @@ There are two ways to use this bot:
 
 All functionality can be used using both approaches. Slash commands are recommended as they are less error prone and easier to use.
 
-### Documentation Syntax:
+### Documentation Syntax
 
 | Syntax               | Meaning                                                                                                                                                                          |
 | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
