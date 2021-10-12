@@ -67,12 +67,7 @@ export async function sendStatusMessage(channel: TextChannel, scope: Sentry.Scop
             },
         }));
     } catch (e) {
-        logger.error(
-            guildId,
-            // @ts-expect-error
-            new Error("Could not send status message", { cause: e }),
-            scope
-        );
+        logger.error(guildId, new Error(`Could not send status message\n${e}`), scope);
     }
 }
 
@@ -87,12 +82,7 @@ export async function updateStatusMessage(guildId: string, scope?: Sentry.Scope)
         const message = await channel.messages.fetch(timer.status.messageId);
         await message.edit({ embeds: [createStatusMessage(config, timer)] });
     } catch (e) {
-        logger.error(
-            guildId,
-            // @ts-expect-error
-            new Error("Could not update status message", { cause: e }),
-            scope
-        );
+        logger.error(guildId, new Error(`Could not update status message\n${e}`), scope);
 
         await updateTimer(timer.guildId, (t) => ({
             ...timer,
@@ -112,7 +102,6 @@ export async function deleteStatusMessage(guildId: string, scope: Sentry.Scope) 
         const message = await channel.messages.fetch(timer.status.messageId);
         await message.delete();
     } catch (e) {
-        // @ts-expect-error
-        logger.error(guildId, new Error("Could not delete status message", { cause: e }), scope);
+        logger.error(guildId, new Error(`Could not delete status message\n${e}`), scope);
     }
 }
