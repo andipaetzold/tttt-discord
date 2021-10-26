@@ -18,7 +18,7 @@
     "email": "github@andipaetzold.com"
   },
   "engines": {
-    "node": "16.10.0"
+    "node": "16.12.0"
   },
   "scripts": {
     "start": "node .",
@@ -32,7 +32,7 @@
     "@types/concurrently": "6.3.0",
     "@types/jest": "27.0.2",
     "@types/lodash": "4.14.176",
-    "@types/node": "16.10.2",
+    "@types/node": "16.11.6",
     "@types/object-hash": "2.2.1",
     "@types/redis": "2.8.32",
     "jest": "27.3.1",
