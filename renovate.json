@@ -3,5 +3,18 @@
   "dependencyDashboard": true,
   "lockFileMaintenance": {
     "enabled": true
-  }
+  },
+  "packageRules": [
+    {
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["patch", "minor"],
+      "groupName": "dev dependencies (non-major)",
+      "groupSlug": "dev-dependencies"
+    },
+    {
+      "matchPackageNames": ["@discordjs/opus", "@discordjs/voice", "discord-api-types", "discord.js"],
+      "groupName": "Discord",
+      "groupSlug": "discord"
+    }
+  ]
 }
