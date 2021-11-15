@@ -31,7 +31,7 @@
     "@tsconfig/node14": "1.0.1",
     "@types/concurrently": "6.4.0",
     "@types/jest": "27.0.2",
-    "@types/lodash": "4.14.176",
+    "@types/lodash": "4.14.177",
     "@types/node": "16.11.7",
     "@types/object-hash": "2.2.1",
     "@types/redis": "2.8.32",
