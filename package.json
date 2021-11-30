@@ -32,7 +32,7 @@
     "@types/concurrently": "6.4.0",
     "@types/jest": "27.0.3",
     "@types/lodash": "4.14.177",
-    "@types/node": "16.11.10",
+    "@types/node": "16.11.11",
     "@types/object-hash": "2.2.1",
     "@types/redis": "2.8.32",
     "jest": "27.4.0",
