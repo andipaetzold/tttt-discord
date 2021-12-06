@@ -45,7 +45,7 @@ export function createStatusMessage(config: Config, timer: Timer): MessageEmbed 
     return messageEmbed;
 }
 
-export async function sendStatusMessage(channel: TextChannel, scope: Sentry.Scope) {
+export async function sendStatusMessage(channel: TextChannel, _scope: Sentry.Scope) {
     const guildId = channel.guild.id;
     const [config, timer] = await Promise.all([getConfig(guildId), getTimer(guildId)]);
     if (timer === undefined) {
@@ -67,11 +67,11 @@ export async function sendStatusMessage(channel: TextChannel, scope: Sentry.Scop
             },
         }));
     } catch (e) {
-        logger.error(guildId, new Error(`Could not send status message\n${e}`), scope);
+        logger.warn(guildId, "Could not send status message");
     }
 }
 
-export async function updateStatusMessage(guildId: string, scope?: Sentry.Scope) {
+export async function updateStatusMessage(guildId: string, _scope?: Sentry.Scope) {
     const [config, timer] = await Promise.all([getConfig(guildId), getTimer(guildId)]);
     if (timer?.status === undefined) {
         return;
@@ -82,7 +82,7 @@ export async function updateStatusMessage(guildId: string, scope?: Sentry.Scope)
         const message = await channel.messages.fetch(timer.status.messageId);
         await message.edit({ embeds: [createStatusMessage(config, timer)] });
     } catch (e) {
-        logger.error(guildId, new Error(`Could not update status message\n${e}`), scope);
+        logger.warn(guildId, "Could not update status message");
 
         await updateTimer(timer.guildId, (t) => ({
             ...timer,
@@ -91,7 +91,7 @@ export async function updateStatusMessage(guildId: string, scope?: Sentry.Scope)
     }
 }
 
-export async function deleteStatusMessage(guildId: string, scope: Sentry.Scope) {
+export async function deleteStatusMessage(guildId: string, _scope: Sentry.Scope) {
     const timer = await getTimer(guildId);
     if (timer?.status === undefined) {
         return;
@@ -102,6 +102,6 @@ export async function deleteStatusMessage(guildId: string, scope: Sentry.Scope) 
         const message = await channel.messages.fetch(timer.status.messageId);
         await message.delete();
     } catch (e) {
-        logger.error(guildId, new Error(`Could not delete status message\n${e}`), scope);
+        logger.warn(guildId, "Could not delete status message");
     }
 }
