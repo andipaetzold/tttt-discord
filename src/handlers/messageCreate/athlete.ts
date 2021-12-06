@@ -17,6 +17,11 @@ export async function athlete(message: Message) {
 export async function handleAthleteCommand(args: string[], message: Message) {
     const config = await getConfig(message.guild!.id);
 
+    if (args.length === 0) {
+        await sendError("Provide an athlete name to get the configured time from", message);
+        return;
+    }
+
     const parsedUser = await parseUser(args[0], message.guild!);
 
     if (!config.athletes.some((a) => isSameAthlete(a, parsedUser))) {
