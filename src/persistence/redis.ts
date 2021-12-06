@@ -7,28 +7,12 @@ const client = createClient({
 
 export async function write<T = any>(key: string, value: T): Promise<void> {
     const stringified = JSON.stringify(value);
-
-    await new Promise((resolve, reject) => {
-        client.set(key, stringified, (err, reply) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(reply);
-            }
-        });
-    });
+    await client.set(key, stringified);
 }
 
 export async function read<T = any>(key: string): Promise<T | undefined> {
-    return await new Promise((resolve, reject) => {
-        client.get(key, (err, value) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(value ? JSON.parse(value) : undefined);
-            }
-        });
-    });
+    const value = await client.get(key);
+    return value ? JSON.parse(value) : undefined;
 }
 
 export async function readMany<T = any>(keys: string[]): Promise<(T | undefined)[]> {
@@ -36,49 +20,18 @@ export async function readMany<T = any>(keys: string[]): Promise<(T | undefined)
         return [];
     }
 
-    return await new Promise((resolve, reject) => {
-        client.mget(keys, (err, values) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(values.map((value) => (value ? JSON.parse(value) : undefined)));
-            }
-        });
-    });
+    const values = await client.mGet(keys);
+    return values.map((value) => (value ? JSON.parse(value) : undefined));
 }
 
 export async function keys(pattern: string): Promise<string[]> {
-    return await new Promise((resolve, reject) => {
-        client.keys(pattern, (err, value) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(value);
-            }
-        });
-    });
+    return await client.keys(pattern);
 }
 
 export async function remove(key: string): Promise<void> {
-    return await new Promise((resolve, reject) => {
-        client.del(key, (err) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve();
-            }
-        });
-    });
+    await client.del(key);
 }
 
 export async function exists(key: string): Promise<boolean> {
-    return await new Promise((resolve, reject) => {
-        client.exists(key, (err, reply) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(reply === 1);
-            }
-        });
-    });
+    return await client.exists(key);
 }
