@@ -35,7 +35,7 @@
     "@types/node": "16.11.12",
     "@types/object-hash": "2.2.1",
     "@types/redis": "2.8.32",
-    "jest": "27.4.3",
+    "jest": "27.4.4",
     "ts-jest": "27.1.1",
     "tsc-watch": "4.5.0",
     "typescript": "4.5.3"
