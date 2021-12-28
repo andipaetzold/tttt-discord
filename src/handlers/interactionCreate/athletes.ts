@@ -29,6 +29,15 @@ export async function athletes(interaction: CommandInteraction) {
         return;
     }
 
+    if (options.athletes.every((a) => a === null) && options.times.every((t) => t !== null)) {
+        await interaction.reply({
+            content:
+                "You must provide the names of all athletes. To only update the time of a single athlete, use `/timer athlete <name> <time>`.",
+            ephemeral: true,
+        });
+        return;
+    }
+
     const athletes = await Promise.all(
         options.athletes
             .map((athlete, i) => ({ athlete, time: options.times[i] ?? DEFAULT_TIME_PER_ATHLETE }))
@@ -39,6 +48,11 @@ export async function athletes(interaction: CommandInteraction) {
                 time,
             }))
     );
+
+    if (athletes.length === 0) {
+        await interaction.reply({ content: "Error updating the athletes", ephemeral: true });
+        return;
+    }
 
     await setConfig({
         ...config,
