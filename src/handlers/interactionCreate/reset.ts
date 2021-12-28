@@ -6,5 +6,5 @@ import * as Sentry from "@sentry/node";
 export async function reset(interaction: CommandInteraction, scope: Sentry.Scope) {
     const guildId = interaction.guild!.id;
 
-    await Promise.all([stopTimer(guildId, scope), removeConfig(guildId), interaction.reply("Bot was resetted")]);
+    await Promise.all([stopTimer(guildId, scope), removeConfig(guildId), interaction.reply("Bot was reset")]);
 }
