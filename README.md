@@ -27,9 +27,9 @@ You will be asked to grant multiple permissions:
 There are two ways to use this bot:
 
 -   [Slash Commands](#slash-commands)
--   [Chat Message Commands](#chat-message-commands)
+-   [Chat Message Commands](#chat-message-commands) (deprecated)
 
-All functionality can be used using both approaches. Slash commands are recommended as they are less error prone and easier to use.
+All functionality can be used using both approaches. Chat Message Commands will stop working on May 1, 2022.
 
 ### Documentation Syntax
 
@@ -179,6 +179,8 @@ Starts the timer. The bot joins your current voice channel or the channel from a
 Stops the timer and leaves the voice channel.
 
 ### Chat Message Commands
+
+Chat Message Commands will stop working on May 1, 2022. Please use [Slash Commands](#slash-commands) instead.
 
 -   All chat message commands are prefixed with `!t`. All other messages are ignore by the bot.
 -   If `!t` is already used by another bot, use `!tttt` as command prefix.

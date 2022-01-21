@@ -6,6 +6,7 @@ export interface Config {
     startDelay: number;
     athletes: Athlete[];
     languageKey: LanguageKey;
+    lastSlashCommandMigrationNotification?: number;
 }
 
 export interface Athlete {
