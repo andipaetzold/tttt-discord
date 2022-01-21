@@ -8,7 +8,7 @@ import logger from "./logger";
 import { getNextAthleteIndex } from "./timer";
 import * as Sentry from "@sentry/node";
 
-const DEFAULT_FOOTER = "Use `!t stop` to stop the timer.";
+const DEFAULT_FOOTER = "Use `/timer stop` to stop the timer.";
 
 export function createStatusMessage(config: Config, timer: Timer): MessageEmbed {
     const currentAthlete = config.athletes[timer.currentAthleteIndex];
