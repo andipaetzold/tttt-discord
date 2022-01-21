@@ -43,5 +43,6 @@ export async function remove(key: string): Promise<void> {
 
 export async function exists(key: string): Promise<boolean> {
     await connected;
-    return await client.exists(key);
+    const count = await client.exists(key);
+    return count > 0;
 }
