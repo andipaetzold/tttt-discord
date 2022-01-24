@@ -18,5 +18,6 @@ export async function stop(message: Message, scope: Sentry.Scope): Promise<void>
     if (connection !== undefined) {
         logger.info(guildId, `Disconnecting from VC:${connection.joinConfig.channelId}`);
         connection.disconnect();
+        connection.destroy();
     }
 }

@@ -22,6 +22,7 @@ export async function stop(interaction: CommandInteraction, scope: Sentry.Scope)
     if (connection !== undefined) {
         logger.info(guildId, `Disconnecting from VC:${connection.joinConfig.channelId}`);
         connection.disconnect();
+        connection.destroy();
     }
 
     await interaction.reply("Timer stopped");
