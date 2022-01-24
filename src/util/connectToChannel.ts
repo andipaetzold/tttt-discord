@@ -1,5 +1,5 @@
+import { entersState, joinVoiceChannel, VoiceConnection, VoiceConnectionStatus } from "@discordjs/voice";
 import { VoiceChannel } from "discord.js";
-import { joinVoiceChannel, entersState, VoiceConnectionStatus, VoiceConnection } from "@discordjs/voice";
 import { BOT_ID } from "../constants";
 import logger from "../services/logger";
 
@@ -11,6 +11,7 @@ export async function connectToChannel(channel: VoiceChannel): Promise<VoiceConn
     const connection = joinVoiceChannel({
         channelId: channel.id,
         guildId: channel.guild.id,
+        // @ts-expect-error Incompatible types, but compatible implementation
         adapterCreator: channel.guild.voiceAdapterCreator,
         group: BOT_ID,
     });
