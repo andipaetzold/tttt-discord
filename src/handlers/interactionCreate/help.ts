@@ -7,7 +7,7 @@ export async function help(interaction: CommandInteraction) {
         .addField("Full Documentation", "<https://andipaetzold.github.io/tttt-discord/>")
         .addField("Web App", "<https://andipaetzold.github.io/tttt/>")
         .addField("Support this project", "<https://paypal.me/andipaetzold>")
-        .setFooter("Made by Andi Pätzold");
+        .setFooter({ text: "Made by Andi Pätzold" });
 
     await interaction.reply({ embeds: [embed] });
 }

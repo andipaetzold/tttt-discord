@@ -19,6 +19,6 @@ export async function printConfig(channel: TextChannel): Promise<void> {
             config.athletes.map((athlete) => `• ${athleteToString(athlete)} (${athlete.time}s)`).join("\n")
         )
         .addField("Language", LANGUAGES.find((language) => language.key === config.languageKey)!.name)
-        .setFooter("Made by Andi Pätzold");
+        .setFooter({ text: "Made by Andi Pätzold" });
     await channel.send({ embeds: [embed] });
 }
