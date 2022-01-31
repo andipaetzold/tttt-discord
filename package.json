@@ -52,7 +52,7 @@
     "libsodium-wrappers": "0.7.9",
     "lodash": "4.17.21",
     "object-hash": "2.2.0",
-    "redis": "4.0.2",
+    "redis": "4.0.3",
     "source-map-support": "0.5.21"
   }
 }
