@@ -22,5 +22,5 @@ export async function delay(interaction: CommandInteraction) {
     }
 
     await setConfig({ ...config, startDelay: newStartDelay });
-    await interaction.reply(`Start delay: ${newStartDelay}`);
+    await interaction.reply(`Start delay: ${newStartDelay}s`);
 }
