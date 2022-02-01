@@ -46,5 +46,9 @@ export async function toast(interaction: CommandInteraction) {
     await setAthleteAsToast(guildId, athleteIndex);
     await updateStatusMessage(guildId);
 
-    await interaction.reply(`${athleteToString(user)} is now toasted`);
+    await interaction.reply(
+        `${athleteToString(user)} is now toasted. Use \`/timer fresh ${athleteToString(user)}\` when ${athleteToString(
+            user
+        )} is feeling good again.`
+    );
 }
