@@ -167,7 +167,7 @@ const command: Omit<ChatInputApplicationCommandData, "name"> = {
                 {
                     type: "NUMBER",
                     name: SLASH_COMMAND.commands.plus.time,
-                    description: "Time to add to the current user",
+                    description: "Time in seconds to add to the current user",
                     required: true,
                 },
             ],
