@@ -46,7 +46,7 @@
     "concurrently": "7.0.0",
     "discord-api-types": "0.26.1",
     "discord.js": "13.6.0",
-    "dotenv": "14.3.2",
+    "dotenv": "15.0.0",
     "ffmpeg-static": "4.4.1",
     "google-tts-api": "2.0.2",
     "libsodium-wrappers": "0.7.9",
