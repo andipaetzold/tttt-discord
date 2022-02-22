@@ -41,6 +41,7 @@ export async function toast(interaction: CommandInteraction) {
             content: options.athlete ? "The athlete is already toasted" : "You are already toasted",
             ephemeral: true,
         });
+        return;
     }
 
     await setAthleteAsToast(guildId, athleteIndex);
