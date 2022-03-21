@@ -47,7 +47,7 @@
     "discord-api-types": "0.29.0",
     "discord.js": "13.6.0",
     "dotenv": "16.0.0",
-    "ffmpeg-static": "4.4.1",
+    "ffmpeg-static": "5.0.0",
     "google-tts-api": "2.0.2",
     "libsodium-wrappers": "0.7.9",
     "lodash": "4.17.21",
