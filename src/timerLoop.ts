@@ -1,5 +1,5 @@
 import { VoiceConnection } from "@discordjs/voice";
-import { Scope } from "@sentry/hub";
+import { Scope } from "@sentry/node";
 import { VoiceChannel } from "discord.js";
 import { performance } from "perf_hooks";
 import { EMPTY_VC_TIMEOUT } from "./constants";
