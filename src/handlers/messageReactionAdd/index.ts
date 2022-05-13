@@ -14,7 +14,11 @@ export async function handleMessageReactionAdd({
     scope,
 }: HandlerProps<[MessageReaction, User | PartialUser]>) {
     if (messageReaction.partial) {
-        await messageReaction.fetch();
+        try {
+            await messageReaction.fetch();
+        } catch {
+            return;
+        }
     }
 
     if (user.id === client.user!.id) {
