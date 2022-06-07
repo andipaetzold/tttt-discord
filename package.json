@@ -44,7 +44,7 @@
     "@discordjs/voice": "0.10.0",
     "@sentry/node": "7.0.0",
     "concurrently": "7.2.1",
-    "discord-api-types": "0.33.4",
+    "discord-api-types": "0.33.5",
     "discord.js": "13.8.0",
     "dotenv": "16.0.1",
     "ffmpeg-static": "5.0.0",
