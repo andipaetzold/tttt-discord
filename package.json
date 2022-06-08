@@ -42,7 +42,7 @@
   "dependencies": {
     "@discordjs/opus": "0.7.0",
     "@discordjs/voice": "0.10.0",
-    "@sentry/node": "7.0.0",
+    "@sentry/node": "7.1.0",
     "concurrently": "7.2.1",
     "discord-api-types": "0.33.5",
     "discord.js": "13.8.0",
