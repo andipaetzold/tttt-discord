@@ -1,5 +1,5 @@
 import * as Sentry from "@sentry/node";
-import { CommandInteraction, GuildMember, TextChannel } from "discord.js";
+import { ChatInputCommandInteraction, GuildMember, TextChannel } from "discord.js";
 import { SLASH_COMMAND } from "../../constants";
 import { getConfig } from "../../persistence/config";
 import { timerExists } from "../../persistence/timer";
@@ -8,7 +8,7 @@ import { getInviteUrl, hasVoicePermissions } from "../../services/permissions";
 import { addTimer } from "../../services/timer";
 import { getVoiceConnection } from "../../util/getVoiceConnection";
 
-export async function start(interaction: CommandInteraction, scope: Sentry.Scope) {
+export async function start(interaction: ChatInputCommandInteraction, scope: Sentry.Scope) {
     const guild = interaction.guild!;
     const guildId = guild.id;
 

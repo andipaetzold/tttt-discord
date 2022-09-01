@@ -1,6 +1,6 @@
-import { CommandInteraction, EmbedBuilder } from "discord.js";
+import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 
-export async function help(interaction: CommandInteraction) {
+export async function help(interaction: ChatInputCommandInteraction) {
     const embed = new EmbedBuilder()
         .setTitle("Help")
         .addFields([

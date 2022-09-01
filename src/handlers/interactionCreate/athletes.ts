@@ -1,4 +1,4 @@
-import { CommandInteraction } from "discord.js";
+import { ChatInputCommandInteraction } from "discord.js";
 import { range } from "lodash";
 import { DEFAULT_TIME_PER_ATHLETE, SLASH_COMMAND } from "../../constants";
 import { getConfig, setConfig } from "../../persistence/config";
@@ -7,7 +7,7 @@ import { athleteToString } from "../../util/athleteToString";
 import { isValidDelay } from "../../util/isValidDelay";
 import parseUser from "../../util/parseUser";
 
-export async function athletes(interaction: CommandInteraction) {
+export async function athletes(interaction: ChatInputCommandInteraction) {
     const guild = interaction.guild!;
     const guildId = guild.id;
     const config = await getConfig(guild.id);

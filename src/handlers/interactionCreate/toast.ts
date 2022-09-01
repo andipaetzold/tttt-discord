@@ -1,4 +1,4 @@
-import { CommandInteraction } from "discord.js";
+import { ChatInputCommandInteraction } from "discord.js";
 import { SLASH_COMMAND } from "../../constants";
 import { getConfig } from "../../persistence/config";
 import { getTimer } from "../../persistence/timer";
@@ -9,7 +9,7 @@ import { athleteToString } from "../../util/athleteToString";
 import isSameAthlete from "../../util/isSameAthlete";
 import parseUser from "../../util/parseUser";
 
-export async function toast(interaction: CommandInteraction) {
+export async function toast(interaction: ChatInputCommandInteraction) {
     const guild = interaction.guild!;
     const guildId = guild.id;
 
