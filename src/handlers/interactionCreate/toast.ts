@@ -48,8 +48,8 @@ export async function toast(interaction: CommandInteraction) {
     await updateStatusMessage(guildId);
 
     await interaction.reply(
-        `${athleteToString(user)} is now toasted. Use \`/timer fresh ${athleteToString(user)}\` when ${athleteToString(
+        `${athleteToString(user)} is now toasted. Use \`/${SLASH_COMMAND["name"]} fresh ${athleteToString(
             user
-        )} is feeling good again.`
+        )}\` when ${athleteToString(user)} is feeling good again.`
     );
 }

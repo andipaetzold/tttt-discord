@@ -31,8 +31,7 @@ export async function athletes(interaction: CommandInteraction) {
 
     if (options.athletes.every((a) => a === null) && options.times.every((t) => t !== null)) {
         await interaction.reply({
-            content:
-                "You must provide the names of all athletes. To only update the time of a single athlete, use `/timer athlete <name> <time>`.",
+            content: `You must provide the names of all athletes. To only update the time of a single athlete, use \`/${SLASH_COMMAND["name"]} athlete <name> <time>\`.`,
             ephemeral: true,
         });
         return;

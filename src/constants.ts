@@ -5,9 +5,6 @@ dotenv.config();
 export const BOT_ID = process.env.BOT_ID ?? "1";
 export const MAIN_BOT = BOT_ID === "1";
 
-export const DEFAULT_PREFIX = MAIN_BOT ? "!t" : `!t${BOT_ID}`;
-export const PREFIXES = ["!t", "!tttt"].map((prefix) => (MAIN_BOT ? prefix : `${prefix}${BOT_ID}`));
-
 export const DEFAULT_ATHLETE_NAMES = ["Amelia", "Bowie", "Coco", "Dan", "Emma", "Finn", "Grace", "Henry", "Irene", "Jack"];
 
 export const DEFAULT_START_DELAY = 0;
