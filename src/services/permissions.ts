@@ -16,13 +16,13 @@ export function getInviteUrl(): string {
 }
 
 export function hasSendMessagePermission(guild: Guild) {
-    return guild.me?.permissions.has("SEND_MESSAGES") ?? false;
+    return guild.members.me?.permissions.has(PermissionFlagsBits.SendMessages) ?? false;
 }
 
 export function hasVoicePermissions(guild: Guild) {
-    return guild.me?.permissions.has(["CONNECT", "SPEAK"]) ?? false;
+    return guild.members.me?.permissions.has([PermissionFlagsBits.Connect, PermissionFlagsBits.Speak]) ?? false;
 }
 
 export function hasManageMessagesPermissions(guild: Guild) {
-    return guild.me?.permissions.has("MANAGE_MESSAGES") ?? false;
+    return guild.members.me?.permissions.has(PermissionFlagsBits.ManageMessages) ?? false;
 }
