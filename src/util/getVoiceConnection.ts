@@ -1,5 +1,5 @@
 import { getVoiceConnection as getActiveVoiceConnection, VoiceConnection, VoiceConnectionStatus } from "@discordjs/voice";
-import { GuildMember, VoiceChannel } from "discord.js";
+import { ChannelType, GuildMember, VoiceChannel } from "discord.js";
 import { BOT_ID } from "../constants";
 import { client } from "../discord";
 import { setConfig } from "../persistence/config";
@@ -7,16 +7,13 @@ import logger from "../services/logger";
 import { Config } from "../types";
 import { connectToChannel } from "./connectToChannel";
 
-export async function getVoiceConnection(
-    config: Config,
-    member?: GuildMember
-): Promise<VoiceConnection | undefined> {
-    const userVoiceChannel = member?.voice.channel?.type === "GUILD_VOICE" ? member.voice.channel : undefined;
+export async function getVoiceConnection(config: Config, member?: GuildMember): Promise<VoiceConnection | undefined> {
+    const userVoiceChannel = member?.voice.channel?.type === ChannelType.GuildVoice ? member.voice.channel : undefined;
 
     const guild = await client.guilds.fetch(config.guildId);
     const voiceChannels = guild.channels
         .valueOf()
-        .filter((channel): channel is VoiceChannel => channel.type === "GUILD_VOICE")
+        .filter((channel): channel is VoiceChannel => channel.type === ChannelType.GuildVoice)
         .filter((channel) => channel.joinable);
 
     let connection: VoiceConnection | undefined = undefined;
