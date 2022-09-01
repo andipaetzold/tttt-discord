@@ -1,10 +1,10 @@
-import { CommandInteraction } from "discord.js";
+import { ChatInputCommandInteraction } from "discord.js";
 import { SLASH_COMMAND } from "../../constants";
 import { getConfig, setConfig } from "../../persistence/config";
 import logger from "../../services/logger";
 import { isValidDelay } from "../../util/isValidDelay";
 
-export async function delay(interaction: CommandInteraction) {
+export async function delay(interaction: ChatInputCommandInteraction) {
     const guildId = interaction.guild!.id;
     const config = await getConfig(interaction.guild!.id);
 

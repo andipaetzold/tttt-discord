@@ -1,10 +1,10 @@
-import { CommandInteraction } from "discord.js";
+import { ChatInputCommandInteraction } from "discord.js";
 import { SLASH_COMMAND } from "../../constants";
 import { timerExists } from "../../persistence/timer";
 import { addTimeToCurrentAthlete } from "../../services/timer";
 import { isValidDelay } from "../../util/isValidDelay";
 
-export async function plus(interaction: CommandInteraction): Promise<void> {
+export async function plus(interaction: ChatInputCommandInteraction): Promise<void> {
     const guildId = interaction.guild!.id;
 
     const options = {

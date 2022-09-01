@@ -1,10 +1,10 @@
-import type { CommandInteraction } from "discord.js";
+import type { ChatInputCommandInteraction } from "discord.js";
 import { SLASH_COMMAND } from "../../constants";
 import { timerExists } from "../../persistence/timer";
 import { updateStatusMessage } from "../../services/statusMessage";
 import { skipCurrentAthlete } from "../../services/timer";
 
-export async function skip(interaction: CommandInteraction): Promise<void> {
+export async function skip(interaction: ChatInputCommandInteraction): Promise<void> {
     const guildId = interaction.guild!.id;
 
     if (!(await timerExists(guildId))) {

@@ -8,7 +8,7 @@ export async function handleGuildCreate({ args: [guild] }: HandlerProps<[Guild]>
 
     logger.info(guild.id, "Permissions:");
     for (const permission of REQUESTED_PERMISSIONS) {
-        const hasPermission = guild.me!.permissions.has(permission);
+        const hasPermission = guild.members.me!.permissions.has(permission);
         logger.info(guild.id, `${permission}: ${hasPermission ? "yes" : "no"}`);
     }
 }

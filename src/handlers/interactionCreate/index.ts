@@ -31,7 +31,7 @@ const commandsMap = {
 };
 
 export async function handleInteractionCreate({ args: [interaction], scope }: HandlerProps<[Interaction]>) {
-    if (!interaction.isCommand() || !interaction.inGuild()) {
+    if (!interaction.isChatInputCommand() || !interaction.inGuild()) {
         return;
     }
     const guildId = interaction.guildId;
