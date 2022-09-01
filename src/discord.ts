@@ -18,5 +18,5 @@ export const client = new Client({
         IntentsBitField.Flags.GuildVoiceStates,
         IntentsBitField.Flags.DirectMessages,
     ],
-    partials: [Partials.Reaction, Partials.Message],
+    partials: [Partials.Channel, Partials.Message, Partials.Reaction],
 });
