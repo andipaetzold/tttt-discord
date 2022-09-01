@@ -7,8 +7,9 @@ import { EMOJI_PLUS10, EMOJI_SKIP, EMOJI_TOAST } from "../util/emojis";
 import logger from "./logger";
 import { getNextAthleteIndex } from "./timer";
 import * as Sentry from "@sentry/node";
+import { SLASH_COMMAND } from "../constants";
 
-const DEFAULT_FOOTER = "Use `/timer stop` to stop the timer.";
+const DEFAULT_FOOTER = `Use \`/${SLASH_COMMAND['name']} stop\` to stop the timer.`;
 
 export function createStatusMessage(config: Config, timer: Timer): EmbedBuilder {
     const currentAthlete = config.athletes[timer.currentAthleteIndex];

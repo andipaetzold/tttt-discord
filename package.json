@@ -24,18 +24,14 @@
     "start": "node .",
     "start-multi": "node ./scripts/start-multi.js",
     "dev": "tsc-watch --onSuccess \"node .\"",
-    "build": "tsc",
-    "test": "jest"
+    "build": "tsc"
   },
   "devDependencies": {
     "@tsconfig/node16": "1.0.3",
     "@types/concurrently": "6.4.0",
-    "@types/jest": "28.1.8",
     "@types/lodash": "4.14.184",
     "@types/node": "16.11.56",
     "@types/object-hash": "2.2.1",
-    "jest": "28.1.3",
-    "ts-jest": "28.0.8",
     "tsc-watch": "5.0.3",
     "typescript": "4.8.2"
   },
