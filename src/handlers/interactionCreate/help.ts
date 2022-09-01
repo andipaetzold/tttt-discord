@@ -1,12 +1,26 @@
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 
-export async function help(interaction: CommandInteraction) {
-    const embed = new MessageEmbed()
+export async function help(interaction: ChatInputCommandInteraction) {
+    const embed = new EmbedBuilder()
         .setTitle("Help")
-        .addField("Discord Server (Questions/Feedback)", "<https://discord.gg/SUccRhqswq>")
-        .addField("Full Documentation", "<https://andipaetzold.github.io/tttt-discord/>")
-        .addField("Web App", "<https://andipaetzold.github.io/tttt/>")
-        .addField("Support this project", "<https://paypal.me/andipaetzold>")
+        .addFields([
+            {
+                name: "Discord Server (Questions/Feedback)",
+                value: "<https://discord.gg/SUccRhqswq>",
+            },
+            {
+                name: "Full Documentation",
+                value: "<https://andipaetzold.github.io/tttt-discord/>",
+            },
+            {
+                name: "Web App",
+                value: "<https://andipaetzold.github.io/tttt/>",
+            },
+            {
+                name: "Support this project",
+                value: "<https://paypal.me/andipaetzold>",
+            },
+        ])
         .setFooter({ text: "Made by Andi Pätzold" });
 
     await interaction.reply({ embeds: [embed] });

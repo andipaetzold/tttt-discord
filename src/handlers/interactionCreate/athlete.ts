@@ -1,4 +1,4 @@
-import { CommandInteraction } from "discord.js";
+import { ChatInputCommandInteraction } from "discord.js";
 import { SLASH_COMMAND } from "../../constants";
 import { getConfig, setConfig } from "../../persistence/config";
 import logger from "../../services/logger";
@@ -6,8 +6,8 @@ import { athleteToString } from "../../util/athleteToString";
 import isSameAthlete from "../../util/isSameAthlete";
 import parseUser from "../../util/parseUser";
 
-export async function athlete(interaction: CommandInteraction) {
-    const guild = interaction.guild!
+export async function athlete(interaction: ChatInputCommandInteraction) {
+    const guild = interaction.guild!;
     const guildId = guild.id;
     const config = await getConfig(guild.id);
 

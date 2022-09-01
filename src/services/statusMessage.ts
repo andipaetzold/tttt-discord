@@ -1,4 +1,4 @@
-import { Message, MessageEmbed, TextChannel } from "discord.js";
+import { EmbedBuilder, Message, TextChannel } from "discord.js";
 import { client } from "../discord";
 import { getConfig } from "../persistence/config";
 import { getTimer, updateTimer } from "../persistence/timer";
@@ -11,39 +11,42 @@ import { SLASH_COMMAND } from "../constants";
 
 const DEFAULT_FOOTER = `Use \`/${SLASH_COMMAND['name']} stop\` to stop the timer.`;
 
-export function createStatusMessage(config: Config, timer: Timer): MessageEmbed {
+export function createStatusMessage(config: Config, timer: Timer): EmbedBuilder {
     const currentAthlete = config.athletes[timer.currentAthleteIndex];
 
-    let messageEmbed: MessageEmbed;
+    let embedBuilder: EmbedBuilder;
     if (timer.started) {
         const nextAthlete = config.athletes[getNextAthleteIndex(config, timer)];
 
-        messageEmbed = new MessageEmbed()
+        embedBuilder = new EmbedBuilder()
             .setTitle(`${currentAthlete.name} (${currentAthlete.time}s)`)
-            .addField("Next athlete", `${nextAthlete.name} (${nextAthlete.time}s)`)
+            .addFields([{ name: "Next athlete", value: `${nextAthlete.name} (${nextAthlete.time}s)` }])
             .setFooter({
                 text: `Click ${EMOJI_PLUS10} to add 10 seconds and ${EMOJI_SKIP} to go to the next rider. Click ${EMOJI_TOAST} when you are dead.\n${DEFAULT_FOOTER}`,
             });
     } else {
-        messageEmbed = new MessageEmbed()
+        embedBuilder = new EmbedBuilder()
             .setTitle("Waiting for the start...")
-            .addField("First athlete", `${currentAthlete.name} (${currentAthlete.time}s)`)
+            .addFields([{ name: "First athlete", value: `${currentAthlete.name} (${currentAthlete.time}s)` }])
             .setFooter({
                 text: `Click ${EMOJI_PLUS10} to add 10 seconds and ${EMOJI_SKIP} to start. Click ${EMOJI_TOAST} when you are dead.\n${DEFAULT_FOOTER}`,
             });
     }
 
-    messageEmbed.addField(
-        "Toasted athletes",
-        timer.disabledAthletes.length === 0
-            ? "*Everybody's still fresh*"
-            : config.athletes
-                  .filter((_, ai) => timer.disabledAthletes.includes(ai))
-                  .map((a) => `• ${a.name}`)
-                  .join("\n")
-    );
+    embedBuilder.addFields([
+        {
+            name: "Toasted athletes",
+            value:
+                timer.disabledAthletes.length === 0
+                    ? "*Everybody's still fresh*"
+                    : config.athletes
+                          .filter((_, ai) => timer.disabledAthletes.includes(ai))
+                          .map((a) => `• ${a.name}`)
+                          .join("\n"),
+        },
+    ]);
 
-    return messageEmbed;
+    return embedBuilder;
 }
 
 export async function sendStatusMessage(channel: TextChannel, _scope: Sentry.Scope) {

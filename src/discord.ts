@@ -1,4 +1,4 @@
-import { Client } from "discord.js";
+import { ActivityType, Client, IntentsBitField, Partials } from "discord.js";
 
 export const client = new Client({
     presence: {
@@ -6,11 +6,17 @@ export const client = new Client({
         activities: [
             {
                 name: "WTRL on Zwift",
-                type: "COMPETING",
+                type: ActivityType.Competing,
             },
         ],
         status: "online",
     },
-    intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_MESSAGE_REACTIONS", "GUILD_VOICE_STATES", "DIRECT_MESSAGES"],
-    partials: ["REACTION", "MESSAGE"],
+    intents: [
+        IntentsBitField.Flags.Guilds,
+        IntentsBitField.Flags.GuildMessages,
+        IntentsBitField.Flags.GuildMessageReactions,
+        IntentsBitField.Flags.GuildVoiceStates,
+        IntentsBitField.Flags.DirectMessages,
+    ],
+    partials: [Partials.Reaction, Partials.Message],
 });

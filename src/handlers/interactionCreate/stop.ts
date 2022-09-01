@@ -1,12 +1,12 @@
 import { getVoiceConnection } from "@discordjs/voice";
 import * as Sentry from "@sentry/node";
-import { CommandInteraction } from "discord.js";
+import { ChatInputCommandInteraction } from "discord.js";
 import { BOT_ID } from "../../constants";
 import { timerExists } from "../../persistence/timer";
 import logger from "../../services/logger";
 import { stopTimer } from "../../services/timer";
 
-export async function stop(interaction: CommandInteraction, scope: Sentry.Scope): Promise<void> {
+export async function stop(interaction: ChatInputCommandInteraction, scope: Sentry.Scope): Promise<void> {
     const guildId = interaction.guildId!;
 
     if (!(await timerExists(guildId))) {
