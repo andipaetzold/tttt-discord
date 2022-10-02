@@ -1,4 +1,4 @@
-app = "prod-2"
+app = "prod-1"
 
 [build]
 builder = "heroku/buildpacks:20"
