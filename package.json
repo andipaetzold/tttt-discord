@@ -22,7 +22,6 @@
   },
   "scripts": {
     "start": "node .",
-    "start-multi": "node ./scripts/start-multi.js",
     "dev": "tsc-watch --onSuccess \"node .\"",
     "build": "tsc"
   },

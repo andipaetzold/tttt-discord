@@ -1,0 +1,12 @@
+app = "prod-2"
+
+[build]
+builder = "heroku/buildpacks:20"
+
+[build.args]
+NODE_VERSION = "16"
+
+[env]
+BOT_ID = 1
+LOG_SPEAK = false
+SENTRY_ENVIRONMENT = "production"
