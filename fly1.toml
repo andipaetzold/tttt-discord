@@ -1,7 +1,7 @@
 app = "prod-1"
 
 [build]
-builder = "heroku/buildpacks:22"
+builder = "heroku/buildpacks:20"
 
 [build.args]
 NODE_VERSION = "16"
