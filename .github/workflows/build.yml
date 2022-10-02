@@ -2,9 +2,12 @@ name: Build
 
 on: [push]
 
+env:
+    FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
 jobs:
     build:
-        runs-on: ubuntu-20.04
+        runs-on: ubuntu-22.04
 
         steps:
             - uses: actions/checkout@v3
@@ -15,3 +18,27 @@ jobs:
               run: npm ci
             - name: Build
               run: npm run build
+
+    deploy-fly-1:
+        runs-on: ubuntu-22.04
+        needs: build
+        if: github.ref == 'refs/heads/fly'
+
+        steps:
+            - uses: actions/checkout@v3
+            - uses: superfly/flyctl-actions/setup-flyctl@master
+            - run: |
+                  cp fly1.toml fly.toml
+                  flyctl deploy --remote-only
+
+    deploy-fly-2:
+        runs-on: ubuntu-22.04
+        needs: build
+        if: github.ref == 'refs/heads/fly'
+
+        steps:
+            - uses: actions/checkout@v3
+            - uses: superfly/flyctl-actions/setup-flyctl@master
+            - run: |
+                  cp fly2.toml fly.toml
+                  flyctl deploy --remote-only
