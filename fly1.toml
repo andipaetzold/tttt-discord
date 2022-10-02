@@ -4,6 +4,7 @@ app = "prod-1"
 builder = "heroku/buildpacks:20"
 
 [build.args]
+NODE_ENV = "production"
 NODE_VERSION = "16"
 
 [env]
