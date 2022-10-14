@@ -29,14 +29,17 @@ export async function fresh(interaction: ChatInputCommandInteraction) {
     const user = options.athlete
         ? await parseUser(options.athlete, guild)
         : { name: interaction.member!.user.username, userId: interaction.member!.user.id };
-    const athleteIndex = config.athletes.findIndex((athlete) => isSameAthlete(athlete, user));
 
-    if (athleteIndex === -1) {
+    const athleteToFresh = options.athlete
+        ? await parseUser(options.athlete, guild)
+        : { name: interaction.member!.user.username, userId: interaction.member!.user.id };
+
+    if (!config.athletes.find((athlete) => isSameAthlete(athlete, athleteToFresh))) {
         await interaction.reply({ content: "I am not sure who is feeling fresh again", ephemeral: true });
         return;
     }
 
-    if (!timer.disabledAthletes.includes(athleteIndex)) {
+    if (!timer.disabledAthletes.find((disabledAthlete) => isSameAthlete(disabledAthlete, athleteToFresh))) {
         await interaction.reply({
             content: options.athlete ? "The athlete is already fresh" : "You are already fresh",
             ephemeral: true,
@@ -44,7 +47,7 @@ export async function fresh(interaction: ChatInputCommandInteraction) {
         return;
     }
 
-    await setAthleteAsFresh(guildId, athleteIndex);
+    await setAthleteAsFresh(guildId, athleteToFresh);
     await updateStatusMessage(guildId);
 
     await interaction.reply(`${athleteToString(user)} is now fresh`);

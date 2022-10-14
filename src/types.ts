@@ -23,6 +23,6 @@ export interface Timer {
         channelId: string;
         messageId: string;
     };
-    disabledAthletes: number[];
+    disabledAthletes: Pick<Athlete, "name" | "userId">[];
     voiceChannelEmptySince?: number;
 }

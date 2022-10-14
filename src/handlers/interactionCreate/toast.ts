@@ -26,17 +26,16 @@ export async function toast(interaction: ChatInputCommandInteraction) {
 
     const config = await getConfig(guild.id);
 
-    const user = options.athlete
+    const athleteToToast = options.athlete
         ? await parseUser(options.athlete, guild)
         : { name: interaction.member!.user.username, userId: interaction.member!.user.id };
-    const athleteIndex = config.athletes.findIndex((athlete) => isSameAthlete(athlete, user));
 
-    if (athleteIndex === -1) {
+    if (!config.athletes.find((athlete) => isSameAthlete(athlete, athleteToToast))) {
         await interaction.reply({ content: "I am not sure who is feeling toasted", ephemeral: true });
         return;
     }
 
-    if (timer.disabledAthletes.includes(athleteIndex)) {
+    if (timer.disabledAthletes.find((disabledAthlete) => isSameAthlete(disabledAthlete, athleteToToast))) {
         await interaction.reply({
             content: options.athlete ? "The athlete is already toasted" : "You are already toasted",
             ephemeral: true,
@@ -44,12 +43,12 @@ export async function toast(interaction: ChatInputCommandInteraction) {
         return;
     }
 
-    await setAthleteAsToast(guildId, athleteIndex);
+    await setAthleteAsToast(guildId, athleteToToast);
     await updateStatusMessage(guildId);
 
     await interaction.reply(
-        `${athleteToString(user)} is now toasted. Use \`/${SLASH_COMMAND["name"]} fresh ${athleteToString(
-            user
-        )}\` when ${athleteToString(user)} is feeling good again.`
+        `${athleteToString(athleteToToast)} is now toasted. Use \`/${SLASH_COMMAND["name"]} fresh ${athleteToString(
+            athleteToToast
+        )}\` when ${athleteToString(athleteToToast)} is feeling good again.`
     );
 }

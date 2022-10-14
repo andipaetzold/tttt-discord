@@ -2,11 +2,12 @@ import { TextChannel } from "discord.js";
 import { getConfig } from "../persistence/config";
 import { getTimer, removeTimer, setTimer, timerExists, updateTimer } from "../persistence/timer";
 import { speakCommand } from "../speak";
-import { Config, Timer } from "../types";
+import { Athlete, Config, Timer } from "../types";
 import { getVoiceConnection } from "../util/getVoiceConnection";
 import { getTime } from "../util/time";
 import { deleteStatusMessage, sendStatusMessage } from "./statusMessage";
 import * as Sentry from "@sentry/node";
+import isSameAthlete from "../util/isSameAthlete";
 
 export async function skipCurrentAthlete(guildId: string): Promise<void> {
     const [timer, config] = await Promise.all([getTimer(guildId), getConfig(guildId)]);
@@ -29,18 +30,21 @@ export async function skipCurrentAthlete(guildId: string): Promise<void> {
 }
 
 export function getNextAthleteIndex(config: Config, timer: Timer): number {
-    if (config.athletes.every((_, i) => timer.disabledAthletes.includes(i))) {
+    // All toasted?
+    if (config.athletes.every((athlete) => isDisabledAthlete(timer, athlete))) {
+        console.log("A");
         return timer.currentAthleteIndex;
     }
 
+    // Who is first?
     if (!timer.started) {
-        return config.athletes.findIndex((_a, ai) => !timer.disabledAthletes.includes(ai));
+        return config.athletes.findIndex((athlete) => !isDisabledAthlete(timer, athlete));
     }
 
-    const indexes = config.athletes.map((_, index) => index);
-    return [...indexes.slice(timer.currentAthleteIndex + 1), ...indexes].filter(
-        (ai) => !timer.disabledAthletes.includes(ai)
-    )[0];
+    const athletesWithIndex = config.athletes.map((athlete, index) => ({ ...athlete, index }));
+    return [...athletesWithIndex.slice(timer.currentAthleteIndex + 1), ...athletesWithIndex].find(
+        (athlete) => !isDisabledAthlete(timer, athlete)
+    )?.index!;
 }
 
 export async function addTimeToCurrentAthlete(guildId: string, time: number) {
@@ -50,21 +54,25 @@ export async function addTimeToCurrentAthlete(guildId: string, time: number) {
     }));
 }
 
-export async function setAthleteAsToast(guildId: string, athleteIndex: number) {
+export async function setAthleteAsToast(guildId: string, athleteToToast: Pick<Athlete, "name" | "userId">) {
     const timer = await updateTimer(guildId, (t) => ({
         ...t,
-        disabledAthletes: [...t.disabledAthletes, athleteIndex],
+        disabledAthletes: [...t.disabledAthletes, athleteToToast],
     }));
 
-    if (timer !== undefined && timer.currentAthleteIndex === athleteIndex) {
-        await skipCurrentAthlete(guildId);
+    if (timer !== undefined) {
+        const config = await getConfig(guildId);
+        const currentAthlete = config.athletes[timer.currentAthleteIndex];
+        if (isSameAthlete(currentAthlete, athleteToToast)) {
+            await skipCurrentAthlete(guildId);
+        }
     }
 }
 
-export async function setAthleteAsFresh(guildId: string, athleteIndex: number) {
+export async function setAthleteAsFresh(guildId: string, athleteToFresh: Pick<Athlete, "name" | "userId">) {
     await updateTimer(guildId, (t) => ({
         ...t,
-        disabledAthletes: t.disabledAthletes.filter((ai) => ai !== athleteIndex),
+        disabledAthletes: t.disabledAthletes.filter((disabledAthlete) => !isSameAthlete(disabledAthlete, athleteToFresh)),
     }));
 }
 
@@ -91,4 +99,8 @@ export async function addTimer(guildId: string, channel: TextChannel, scope: Sen
 export async function stopTimer(guildId: string, scope: Sentry.Scope): Promise<void> {
     await deleteStatusMessage(guildId, scope);
     await removeTimer(guildId);
+}
+
+export function isDisabledAthlete(timer: Timer, athlete: Pick<Athlete, "name" | "userId">): boolean {
+    return !!timer.disabledAthletes.find((disabledAthlete) => isSameAthlete(athlete, disabledAthlete));
 }

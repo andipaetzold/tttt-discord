@@ -1,15 +1,16 @@
+import * as Sentry from "@sentry/node";
 import { EmbedBuilder, Message, TextChannel } from "discord.js";
+import { SLASH_COMMAND } from "../constants";
 import { client } from "../discord";
 import { getConfig } from "../persistence/config";
 import { getTimer, updateTimer } from "../persistence/timer";
 import type { Config, Timer } from "../types";
 import { EMOJI_PLUS10, EMOJI_SKIP, EMOJI_TOAST } from "../util/emojis";
+import isSameAthlete from "../util/isSameAthlete";
 import logger from "./logger";
-import { getNextAthleteIndex } from "./timer";
-import * as Sentry from "@sentry/node";
-import { SLASH_COMMAND } from "../constants";
+import { getNextAthleteIndex, isDisabledAthlete } from "./timer";
 
-const DEFAULT_FOOTER = `Use \`/${SLASH_COMMAND['name']} stop\` to stop the timer.`;
+const DEFAULT_FOOTER = `Use \`/${SLASH_COMMAND["name"]} stop\` to stop the timer.`;
 
 export function createStatusMessage(config: Config, timer: Timer): EmbedBuilder {
     const currentAthlete = config.athletes[timer.currentAthleteIndex];
@@ -39,8 +40,10 @@ export function createStatusMessage(config: Config, timer: Timer): EmbedBuilder 
             value:
                 timer.disabledAthletes.length === 0
                     ? "*Everybody's still fresh*"
-                    : config.athletes
-                          .filter((_, ai) => timer.disabledAthletes.includes(ai))
+                    : timer.disabledAthletes
+                          .filter((disabledAthlete) =>
+                              config.athletes.find((athlete) => isSameAthlete(disabledAthlete, athlete))
+                          )
                           .map((a) => `• ${a.name}`)
                           .join("\n"),
         },

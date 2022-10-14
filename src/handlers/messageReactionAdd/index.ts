@@ -64,14 +64,14 @@ export async function handleMessageReactionAdd({
 
         case EMOJI_TOAST: {
             const config = await getConfig(guildId);
-            const athleteIndex = config.athletes.findIndex((a) => a.userId === user.id);
+            const athlete = config.athletes.find((a) => a.userId === user.id);
 
-            if (athleteIndex === -1) {
+            if (!athlete) {
                 await removeReaction(messageReaction, user);
                 return;
             }
 
-            await setAthleteAsToast(guildId, athleteIndex);
+            await setAthleteAsToast(guildId, athlete);
             await updateStatusMessage(guildId, scope);
             break;
         }
