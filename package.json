@@ -37,7 +37,7 @@
     "@discordjs/opus": "0.8.0",
     "@discordjs/voice": "0.13.0",
     "@sentry/node": "7.15.0",
-    "discord-api-types": "0.37.12",
+    "discord-api-types": "0.37.13",
     "discord.js": "14.6.0",
     "dotenv": "16.0.3",
     "ffmpeg-static": "5.1.0",
