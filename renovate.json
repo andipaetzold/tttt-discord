@@ -4,6 +4,7 @@
   "lockFileMaintenance": {
     "enabled": true
   },
+  "stabilityDays": 3,
   "packageRules": [
     {
       "matchDepTypes": ["devDependencies"],
