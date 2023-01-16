@@ -1,13 +1,20 @@
 import { createClient } from "redis";
 import { REDIS_URL } from "../constants";
+import logger from "../services/logger";
 
 const client = createClient({
     url: REDIS_URL,
 });
-const connected = (async () => {
+
+async function connect() {
+    logger.info(undefined, "Connecting to redis");
     await client.connect();
+    logger.info(undefined, "Pinging redis");
     await client.ping();
-})();
+    logger.info(undefined, "Redis connection established");
+}
+
+const connected = connect();
 
 export async function write<T = any>(key: string, value: T): Promise<void> {
     const stringified = JSON.stringify(value);
