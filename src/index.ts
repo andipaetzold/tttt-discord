@@ -12,20 +12,26 @@ import { handleMessageReactionAdd } from "./handlers/messageReactionAdd";
 import { handleMessageReactionRemove } from "./handlers/messageReactionRemove";
 import { handleReady } from "./handlers/ready";
 import { handleReconnecting } from "./handlers/reconnecting";
+import { waitForConnection as waitForRedisConnection } from "./persistence/redis";
 import logger from "./services/logger";
 import { wrapHandler } from "./services/sentry";
 
-logger.info(undefined, "Initializing...");
+async function main() {
+    logger.info(undefined, "Initializing...");
+    await waitForRedisConnection();
 
-client.once(...wrapHandler("ready", handleReady));
-client.once(...wrapHandler("reconnecting", handleReconnecting));
-client.once(...wrapHandler("disconnect", handleDisconnect));
-client.on(...wrapHandler("error", handleError));
-client.on(...wrapHandler("messageCreate", handleMessageCreate));
-client.on(...wrapHandler("messageReactionAdd", handleMessageReactionAdd));
-client.on(...wrapHandler("messageReactionRemove", handleMessageReactionRemove));
-client.on(...wrapHandler("guildCreate", handleGuildCreate));
-client.on(...wrapHandler("guildDelete", handleGuildDelete));
-client.on(...wrapHandler("interactionCreate", handleInteractionCreate));
+    client.once(...wrapHandler("ready", handleReady));
+    client.once(...wrapHandler("reconnecting", handleReconnecting));
+    client.once(...wrapHandler("disconnect", handleDisconnect));
+    client.on(...wrapHandler("error", handleError));
+    client.on(...wrapHandler("messageCreate", handleMessageCreate));
+    client.on(...wrapHandler("messageReactionAdd", handleMessageReactionAdd));
+    client.on(...wrapHandler("messageReactionRemove", handleMessageReactionRemove));
+    client.on(...wrapHandler("guildCreate", handleGuildCreate));
+    client.on(...wrapHandler("guildDelete", handleGuildDelete));
+    client.on(...wrapHandler("interactionCreate", handleInteractionCreate));
 
-client.login(DISCORD_TOKEN);
+    client.login(DISCORD_TOKEN);
+}
+
+main();

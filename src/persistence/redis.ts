@@ -13,8 +13,11 @@ async function connect() {
     await client.ping();
     logger.info(undefined, "Redis connection established");
 }
-
 const connected = connect();
+
+export async function waitForConnection() {
+    await connected;
+}
 
 export async function write<T = any>(key: string, value: T): Promise<void> {
     const stringified = JSON.stringify(value);
