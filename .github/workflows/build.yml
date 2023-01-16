@@ -26,7 +26,7 @@ jobs:
 
         steps:
             - uses: actions/checkout@v3
-            - uses: superfly/flyctl-actions/setup-flyctl@master
+            - uses: superfly/flyctl-actions/setup-flyctl@v1.3
             - run: |
                   cp fly1.toml fly.toml
                   flyctl deploy --local-only
@@ -38,7 +38,7 @@ jobs:
 
         steps:
             - uses: actions/checkout@v3
-            - uses: superfly/flyctl-actions/setup-flyctl@master
+            - uses: superfly/flyctl-actions/setup-flyctl@v1.3
             - run: |
                   cp fly2.toml fly.toml
                   flyctl deploy --local-only
