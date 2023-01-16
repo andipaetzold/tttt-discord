@@ -29,7 +29,7 @@ jobs:
             - uses: superfly/flyctl-actions/setup-flyctl@master
             - run: |
                   cp fly1.toml fly.toml
-                  flyctl deploy --remote-only
+                  flyctl deploy --local-only
 
     deploy-fly-2:
         runs-on: ubuntu-22.04
@@ -41,4 +41,4 @@ jobs:
             - uses: superfly/flyctl-actions/setup-flyctl@master
             - run: |
                   cp fly2.toml fly.toml
-                  flyctl deploy --remote-only
+                  flyctl deploy --local-only
