@@ -40,7 +40,7 @@
     "discord-api-types": "0.37.53",
     "discord.js": "14.12.1",
     "dotenv": "16.3.1",
-    "ffmpeg-static": "5.1.0",
+    "ffmpeg-static": "5.2.0",
     "google-tts-api": "2.0.2",
     "lodash": "4.17.21",
     "object-hash": "3.0.0",
