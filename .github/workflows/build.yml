@@ -10,7 +10,7 @@ jobs:
         runs-on: ubuntu-22.04
 
         steps:
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v4
             - name: Switch node version
               shell: bash -l {0}
               run: nvm install
@@ -25,7 +25,7 @@ jobs:
         if: github.ref == 'refs/heads/main'
 
         steps:
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v4
             - uses: superfly/flyctl-actions/setup-flyctl@master
             - run: |
                   cp fly1.toml fly.toml
@@ -37,7 +37,7 @@ jobs:
         if: github.ref == 'refs/heads/main'
 
         steps:
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v4
             - uses: superfly/flyctl-actions/setup-flyctl@master
             - run: |
                   cp fly2.toml fly.toml
