@@ -1,6 +1,6 @@
 import { BOT_ID } from "../constants";
 import type { Timer } from "../types";
-import { redisClient } from "./redis";
+import { redisClient } from "./redis-with-cache";
 
 function createTimerKey(guildId: string): string {
     return `timer:${guildId}:${BOT_ID}`;

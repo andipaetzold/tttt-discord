@@ -2,7 +2,7 @@ import { createClient } from "redis";
 import { REDIS_URL } from "../constants";
 import logger from "../services/logger";
 
-class RedisClient {
+export class RedisClient {
     #client = createClient({
         url: REDIS_URL,
     });
@@ -62,5 +62,3 @@ class RedisClient {
         return count > 0;
     }
 }
-
-export const redisClient = new RedisClient();

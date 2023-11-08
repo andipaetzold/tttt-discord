@@ -12,7 +12,7 @@ import { handleMessageReactionAdd } from "./handlers/messageReactionAdd";
 import { handleMessageReactionRemove } from "./handlers/messageReactionRemove";
 import { handleReady } from "./handlers/ready";
 import { handleReconnecting } from "./handlers/reconnecting";
-import { redisClient } from "./persistence/redis";
+import { redisClient } from "./persistence/redis-with-cache";
 import logger from "./services/logger";
 import { wrapHandler } from "./services/sentry";
 

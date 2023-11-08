@@ -1,5 +1,5 @@
 import { BOT_ID, DEFAULT_ATHLETE_NAMES, DEFAULT_START_DELAY, DEFAULT_TIME_PER_ATHLETE, MAIN_BOT } from "../constants";
-import { redisClient } from "./redis";
+import { redisClient } from "./redis-with-cache";
 import type { Config } from "../types";
 
 const DEFAULT_CONFIG: Omit<Config, "guildId"> = {
