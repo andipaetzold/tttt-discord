@@ -12,13 +12,13 @@ import { handleMessageReactionAdd } from "./handlers/messageReactionAdd";
 import { handleMessageReactionRemove } from "./handlers/messageReactionRemove";
 import { handleReady } from "./handlers/ready";
 import { handleReconnecting } from "./handlers/reconnecting";
-import { waitForConnection as waitForRedisConnection } from "./persistence/redis";
+import { redisClient } from "./persistence/redis";
 import logger from "./services/logger";
 import { wrapHandler } from "./services/sentry";
 
 async function main() {
     logger.info(undefined, "Initializing...");
-    await waitForRedisConnection();
+    await redisClient.waitForConnection();
 
     client.once(...wrapHandler("ready", handleReady));
     client.once(...wrapHandler("reconnecting", handleReconnecting));

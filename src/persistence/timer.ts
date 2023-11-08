@@ -1,17 +1,17 @@
 import { BOT_ID } from "../constants";
 import type { Timer } from "../types";
-import { exists, keys, read, readMany, remove, write } from "./redis";
+import { redisClient } from "./redis";
 
 function createTimerKey(guildId: string): string {
     return `timer:${guildId}:${BOT_ID}`;
 }
 
 export async function getTimer(guildId: string): Promise<Timer | undefined> {
-    return await read(createTimerKey(guildId));
+    return await redisClient.read(createTimerKey(guildId));
 }
 
 export async function setTimer(timer: Timer): Promise<void> {
-    await write(createTimerKey(timer.guildId), timer);
+    await redisClient.write(createTimerKey(timer.guildId), timer);
 }
 
 export async function updateTimer(
@@ -35,17 +35,17 @@ export async function updateTimer(
 }
 
 export async function timerExists(guildId: string): Promise<boolean> {
-    return await exists(createTimerKey(guildId));
+    return await redisClient.exists(createTimerKey(guildId));
 }
 
 export async function removeTimer(guildId: string): Promise<void> {
-    return await remove(createTimerKey(guildId));
+    return await redisClient.remove(createTimerKey(guildId));
 }
 
 export async function getAllTimerKeys(): Promise<string[]> {
-    return await keys(createTimerKey("*"));
+    return await redisClient.keys(createTimerKey("*"));
 }
 
 export async function getAllTimers(): Promise<(Timer | undefined)[]> {
-    return await readMany<Timer>(await getAllTimerKeys());
+    return await redisClient.readMany<Timer>(await getAllTimerKeys());
 }

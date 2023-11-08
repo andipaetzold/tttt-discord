@@ -1,5 +1,5 @@
 import { BOT_ID, DEFAULT_ATHLETE_NAMES, DEFAULT_START_DELAY, DEFAULT_TIME_PER_ATHLETE, MAIN_BOT } from "../constants";
-import { exists, read, remove, write } from "./redis";
+import { redisClient } from "./redis";
 import type { Config } from "../types";
 
 const DEFAULT_CONFIG: Omit<Config, "guildId"> = {
@@ -16,7 +16,7 @@ function createConfigKey(guildId: string): string {
 }
 
 export async function getConfig(guildId: string): Promise<Config> {
-    const config = await read(createConfigKey(guildId));
+    const config = await redisClient.read(createConfigKey(guildId));
     return {
         ...DEFAULT_CONFIG,
         ...(config ? config : {}),
@@ -25,13 +25,13 @@ export async function getConfig(guildId: string): Promise<Config> {
 }
 
 export async function setConfig(config: Config): Promise<void> {
-    await write(createConfigKey(config.guildId), config);
+    await redisClient.write(createConfigKey(config.guildId), config);
 }
 
 export async function configExists(guildId: string): Promise<boolean> {
-    return await exists(createConfigKey(guildId));
+    return await redisClient.exists(createConfigKey(guildId));
 }
 
 export async function removeConfig(guildId: string): Promise<void> {
-    return await remove(createConfigKey(guildId));
+    return await redisClient.remove(createConfigKey(guildId));
 }

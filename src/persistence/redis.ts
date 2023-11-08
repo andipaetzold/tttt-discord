@@ -2,57 +2,65 @@ import { createClient } from "redis";
 import { REDIS_URL } from "../constants";
 import logger from "../services/logger";
 
-const client = createClient({
-    url: REDIS_URL,
-});
+class RedisClient {
+    #client = createClient({
+        url: REDIS_URL,
+    });
+    #connected: Promise<void>;
 
-async function connect() {
-    logger.info(undefined, "Connecting to redis");
-    await client.connect();
-    logger.info(undefined, "Pinging redis");
-    await client.ping();
-    logger.info(undefined, "Redis connection established");
-}
-const connected = connect();
-
-export async function waitForConnection() {
-    await connected;
-}
-
-export async function write<T = any>(key: string, value: T): Promise<void> {
-    const stringified = JSON.stringify(value);
-    await connected;
-    await client.set(key, stringified);
-}
-
-export async function read<T = any>(key: string): Promise<T | undefined> {
-    await connected;
-    const value = await client.get(key);
-    return value ? JSON.parse(value) : undefined;
-}
-
-export async function readMany<T = any>(keys: string[]): Promise<(T | undefined)[]> {
-    if (keys.length === 0) {
-        return [];
+    constructor() {
+        this.#connected = this.#connect();
     }
 
-    await connected;
-    const values = await client.mGet(keys);
-    return values.map((value) => (value ? JSON.parse(value) : undefined));
+    async #connect() {
+        logger.info(undefined, "Connecting to redis");
+        await this.#client.connect();
+        logger.info(undefined, "Pinging redis");
+        await this.#client.ping();
+        logger.info(undefined, "Redis connection established");
+    }
+
+    async waitForConnection() {
+        await this.#connected;
+    }
+
+    async write<T = any>(key: string, value: T): Promise<void> {
+        const stringified = JSON.stringify(value);
+        await this.#connected;
+        await this.#client.set(key, stringified);
+    }
+
+    async read<T = any>(key: string): Promise<T | undefined> {
+        await this.#connected;
+        const value = await this.#client.get(key);
+        return value ? JSON.parse(value) : undefined;
+    }
+
+    async readMany<T = any>(keys: string[]): Promise<(T | undefined)[]> {
+        if (keys.length === 0) {
+            return [];
+        }
+
+        await this.#connected;
+        const values = await this.#client.mGet(keys);
+        return values.map((value) => (value ? JSON.parse(value) : undefined));
+    }
+
+    async keys(pattern: string): Promise<string[]> {
+        await this.#connected;
+        return await this.#client.keys(pattern);
+    }
+
+    async remove(key: string): Promise<void> {
+        await this.#connected;
+        await this.#client.del(key);
+    }
+
+    async exists(key: string): Promise<boolean> {
+        await this.#connected;
+        const count = await this.#client.exists(key);
+        return count > 0;
+    }
 }
 
-export async function keys(pattern: string): Promise<string[]> {
-    await connected;
-    return await client.keys(pattern);
-}
-
-export async function remove(key: string): Promise<void> {
-    await connected;
-    await client.del(key);
-}
-
-export async function exists(key: string): Promise<boolean> {
-    await connected;
-    const count = await client.exists(key);
-    return count > 0;
-}
+export const redisClient = new RedisClient();
