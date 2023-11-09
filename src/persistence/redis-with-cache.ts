@@ -27,7 +27,7 @@ class RedisClientWithDataCache extends RedisClient {
     async readMany<T = any>(keys: string[]): Promise<(T | undefined)[]> {
         const cachedValues = keys.map((key) => this.#dataCache.get(key));
         if (cachedValues.every((value) => value !== undefined)) {
-            return cachedValues.map(([, value]) => value);
+            return cachedValues;
         }
 
         const redisResults = await super.readMany<T>(keys);
