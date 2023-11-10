@@ -29,7 +29,7 @@
     "@tsconfig/node18": "18.2.2",
     "@types/lodash": "4.14.200",
     "@types/node": "18.18.8",
-    "@types/object-hash": "3.0.5",
+    "@types/object-hash": "3.0.6",
     "tsc-watch": "6.0.4",
     "typescript": "5.2.2"
   },
