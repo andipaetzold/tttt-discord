@@ -20,7 +20,7 @@ export function createStatusMessage(config: Config, timer: Timer): EmbedBuilder 
         const nextAthlete = config.athletes[getNextAthleteIndex(config, timer)];
 
         embedBuilder = new EmbedBuilder()
-            .setTitle(`${currentAthlete.name} (${currentAthlete.time}s)`)
+            .setTitle(`${currentAthlete.name} (${Math.round(timer.nextChangeTime -  Date.now() / 1000)}s)`)
             .addFields([{ name: "Next athlete", value: `${nextAthlete.name} (${nextAthlete.time}s)` }])
             .setFooter({
                 text: `Click ${EMOJI_PLUS10} to add 10 seconds and ${EMOJI_SKIP} to go to the next rider. Click ${EMOJI_TOAST} when you are dead.\n${DEFAULT_FOOTER}`,
