@@ -20,14 +20,14 @@ export function createStatusMessage(config: Config, timer: Timer): EmbedBuilder 
         const nextAthlete = config.athletes[getNextAthleteIndex(config, timer)];
 
         embedBuilder = new EmbedBuilder()
-            .setTitle(`${currentAthlete.name} (${currentAthlete.time}s)`)
+            .setTitle(`${currentAthlete.name} (change <t:${timer.nextChangeTime}:R>)`)
             .addFields([{ name: "Next athlete", value: `${nextAthlete.name} (${nextAthlete.time}s)` }])
             .setFooter({
                 text: `Click ${EMOJI_PLUS10} to add 10 seconds and ${EMOJI_SKIP} to go to the next rider. Click ${EMOJI_TOAST} when you are dead.\n${DEFAULT_FOOTER}`,
             });
     } else {
         embedBuilder = new EmbedBuilder()
-            .setTitle("Waiting for the start...")
+            .setTitle(`Waiting for the start <t:${timer.nextChangeTime}:R>`)
             .addFields([{ name: "First athlete", value: `${currentAthlete.name} (${currentAthlete.time}s)` }])
             .setFooter({
                 text: `Click ${EMOJI_PLUS10} to add 10 seconds and ${EMOJI_SKIP} to start. Click ${EMOJI_TOAST} when you are dead.\n${DEFAULT_FOOTER}`,
