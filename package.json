@@ -28,7 +28,7 @@
   "devDependencies": {
     "@tsconfig/node18": "18.2.2",
     "@types/lodash": "4.14.202",
-    "@types/node": "20.11.1",
+    "@types/node": "20.11.2",
     "@types/object-hash": "3.0.6",
     "tsc-watch": "6.0.4",
     "typescript": "5.3.3"
