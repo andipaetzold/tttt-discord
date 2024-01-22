@@ -39,7 +39,7 @@
     "@sentry/node": "7.94.1",
     "discord-api-types": "0.37.67",
     "discord.js": "14.14.1",
-    "dotenv": "16.3.1",
+    "dotenv": "16.3.2",
     "ffmpeg-static": "5.2.0",
     "google-tts-api": "2.0.2",
     "lodash": "4.17.21",
