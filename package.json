@@ -36,7 +36,7 @@
   "dependencies": {
     "@discordjs/opus": "0.9.0",
     "@discordjs/voice": "0.16.1",
-    "@sentry/node": "7.94.1",
+    "@sentry/node": "7.95.0",
     "discord-api-types": "0.37.67",
     "discord.js": "14.14.1",
     "dotenv": "16.3.2",
