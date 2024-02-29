@@ -1,7 +1,8 @@
 app = "prod-2"
 
 [build]
-builder = "heroku/buildpacks:22"
+builder = "paketobuildpacks/builder:base"
+buildpacks = ["gcr.io/paketo-buildpacks/nodejs"]
 
 [build.args]
 NODE_ENV = "production"
