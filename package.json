@@ -44,6 +44,7 @@
     "lodash": "4.17.21",
     "object-hash": "3.0.0",
     "redis": "4.6.13",
+    "sodium-native": "4.0.10",
     "source-map-support": "0.5.21"
   }
 }
