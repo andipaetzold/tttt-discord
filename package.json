@@ -30,7 +30,7 @@
     "@types/lodash": "4.17.0",
     "@types/node": "20.11.30",
     "@types/object-hash": "3.0.6",
-    "tsc-watch": "6.1.0",
+    "tsc-watch": "6.2.0",
     "typescript": "5.4.3"
   },
   "dependencies": {
