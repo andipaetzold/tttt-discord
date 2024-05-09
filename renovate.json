@@ -19,7 +19,7 @@
     },
     {
       "matchPackageNames": ["node"],
-      "stabilityDays": 14
+      "stabilityDays": 30
     }
   ]
 }
