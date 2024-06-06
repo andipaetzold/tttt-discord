@@ -37,7 +37,7 @@
     "@discordjs/voice": "0.17.0",
     "@sentry/node": "7.116.0",
     "discord-api-types": "0.37.86",
-    "discord.js": "14.15.2",
+    "discord.js": "14.15.3",
     "dotenv": "16.4.5",
     "ffmpeg-static": "5.2.0",
     "google-tts-api": "2.0.2",
