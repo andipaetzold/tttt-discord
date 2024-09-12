@@ -1,4 +1,4 @@
-import * as Sentry from "@sentry/node";
+import { type Scope } from "@sentry/node";
 import { EmbedBuilder, Message, TextChannel } from "discord.js";
 import { SLASH_COMMAND } from "../constants";
 import { client } from "../discord";
@@ -52,7 +52,7 @@ export function createStatusMessage(config: Config, timer: Timer): EmbedBuilder 
     return embedBuilder;
 }
 
-export async function sendStatusMessage(channel: TextChannel, _scope: Sentry.Scope) {
+export async function sendStatusMessage(channel: TextChannel, _scope: Scope) {
     const guildId = channel.guild.id;
     const [config, timer] = await Promise.all([getConfig(guildId), getTimer(guildId)]);
     if (timer === undefined) {
@@ -78,7 +78,7 @@ export async function sendStatusMessage(channel: TextChannel, _scope: Sentry.Sco
     }
 }
 
-export async function updateStatusMessage(guildId: string, _scope?: Sentry.Scope) {
+export async function updateStatusMessage(guildId: string, _scope?: Scope) {
     const [config, timer] = await Promise.all([getConfig(guildId), getTimer(guildId)]);
     if (timer?.status === undefined) {
         return;
@@ -98,7 +98,7 @@ export async function updateStatusMessage(guildId: string, _scope?: Sentry.Scope
     }
 }
 
-export async function deleteStatusMessage(guildId: string, _scope: Sentry.Scope) {
+export async function deleteStatusMessage(guildId: string, _scope: Scope) {
     const timer = await getTimer(guildId);
     if (timer?.status === undefined) {
         return;

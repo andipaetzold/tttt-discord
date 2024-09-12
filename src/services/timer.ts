@@ -6,7 +6,7 @@ import { Athlete, Config, Timer } from "../types";
 import { getVoiceConnection } from "../util/getVoiceConnection";
 import { getTime } from "../util/time";
 import { deleteStatusMessage, sendStatusMessage } from "./statusMessage";
-import * as Sentry from "@sentry/node";
+import { type Scope } from "@sentry/node";
 import isSameAthlete from "../util/isSameAthlete";
 
 export async function skipCurrentAthlete(guildId: string): Promise<void> {
@@ -76,7 +76,7 @@ export async function setAthleteAsFresh(guildId: string, athleteToFresh: Pick<At
     }));
 }
 
-export async function addTimer(guildId: string, channel: TextChannel, scope: Sentry.Scope): Promise<void> {
+export async function addTimer(guildId: string, channel: TextChannel, scope: Scope): Promise<void> {
     if (await timerExists(guildId)) {
         return;
     }
@@ -96,7 +96,7 @@ export async function addTimer(guildId: string, channel: TextChannel, scope: Sen
     await sendStatusMessage(channel, scope);
 }
 
-export async function stopTimer(guildId: string, scope: Sentry.Scope): Promise<void> {
+export async function stopTimer(guildId: string, scope: Scope): Promise<void> {
     await deleteStatusMessage(guildId, scope);
     await removeTimer(guildId);
 }

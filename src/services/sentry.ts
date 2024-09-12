@@ -1,20 +1,20 @@
-import * as Sentry from "@sentry/node";
+import { type Scope, init, setTags, withScope } from "@sentry/node";
 import { BOT_ID, MAIN_BOT, SENTRY_DSN, SENTRY_ENVIRONMENT } from "../constants";
 import logger from "./logger";
 
 export interface HandlerProps<Args extends any[]> {
     args: Args;
-    scope: Sentry.Scope;
+    scope: Scope;
 }
 
-Sentry.init({
+init({
     dsn: SENTRY_DSN,
     enabled: SENTRY_DSN !== undefined,
     tracesSampleRate: 1.0,
     environment: SENTRY_ENVIRONMENT,
 });
 
-Sentry.setTags({
+setTags({
     mainBot: MAIN_BOT,
     botId: BOT_ID,
 });
@@ -26,7 +26,7 @@ export function wrapHandler<T extends (props: HandlerProps<any>) => Promise<void
     func: T
 ): [string, (...args: Parameters<T>) => Promise<void>] {
     const wrappedFunction = async (...args: Parameters<T>) => {
-        Sentry.withScope(async (scope) => {
+        withScope(async (scope) => {
             scope.setTag("handler", handler);
             try {
                 return await func({ args, scope });
