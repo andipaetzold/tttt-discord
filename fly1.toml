@@ -11,3 +11,6 @@ NODE_ENV = "production"
 BOT_ID = 1
 LOG_SPEAK = false
 SENTRY_ENVIRONMENT = "production"
+
+[[restart]]
+policy = "always"
