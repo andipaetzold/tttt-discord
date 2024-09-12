@@ -1,6 +1,6 @@
 name: Build
 
-on: [push]
+on: [push, workflow_dispatch]
 
 env:
     FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
@@ -14,8 +14,8 @@ jobs:
             - name: Setup node
               uses: actions/setup-node@v4.0.3
               with:
-                node-version-file: ".nvmrc"
-                cache: "npm"
+                  node-version-file: ".nvmrc"
+                  cache: "npm"
             - name: Install
               run: npm ci
             - name: Build
