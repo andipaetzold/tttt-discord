@@ -21,5 +21,6 @@
       "matchPackageNames": ["node"],
       "stabilityDays": 30
     }
-  ]
+  ],
+  "ignoreDeps": ["sodium-native"]
 }
