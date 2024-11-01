@@ -16,11 +16,7 @@
       "matchPackageNames": ["@discordjs/opus", "@discordjs/voice", "discord-api-types", "discord.js"],
       "groupName": "Discord",
       "groupSlug": "discord"
-    },
-    {
-      "matchPackageNames": ["node"],
-      "stabilityDays": 30
     }
   ],
-  "ignoreDeps": ["sodium-native"]
+  "ignoreDeps": ["sodium-native", "node"]
 }
