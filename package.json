@@ -34,10 +34,10 @@
     "typescript": "5.6.3"
   },
   "dependencies": {
-    "@discordjs/voice": "0.17.0",
+    "@discordjs/voice": "0.18.0",
     "@sentry/node": "8.38.0",
-    "discord-api-types": "0.37.101",
-    "discord.js": "14.16.2",
+    "discord-api-types": "0.37.105",
+    "discord.js": "14.16.3",
     "dotenv": "16.4.5",
     "ffmpeg-static": "5.2.0",
     "google-tts-api": "2.0.2",
