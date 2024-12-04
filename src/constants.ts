@@ -18,6 +18,15 @@ export const SENTRY_ENVIRONMENT = process.env.SENTRY_ENVIRONMENT ?? "production"
 export const LOG_SPEAK = process.env.LOG_SPEAK === "true";
 export const REDIS_URL = process.env.REDIS_URL;
 
+// validate environment variables
+if (!DISCORD_TOKEN) {
+    throw new Error("DISCORD_TOKEN is required");
+}
+
+if (!REDIS_URL) {
+    throw new Error("REDIS_URL is required");
+}
+
 // Slash Commands
 export const SLASH_COMMAND = {
     name: `timer${MAIN_BOT ? "" : BOT_ID}`,
