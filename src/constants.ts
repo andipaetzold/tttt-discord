@@ -1,7 +1,3 @@
-import dotenv from "dotenv";
-
-dotenv.config();
-
 export const BOT_ID = process.env.BOT_ID ?? "1";
 export const MAIN_BOT = BOT_ID === "1";
 
