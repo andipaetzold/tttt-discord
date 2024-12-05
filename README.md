@@ -229,6 +229,8 @@ services:
     redis:
         image: redis:latest
         restart: always
+        volumes:
+            - redis_data:/data
 
     tttt-discord:
         image: andipaetzold/tttt-discord:latest
@@ -236,8 +238,6 @@ services:
         environment:
             - DISCORD_TOKEN=<token>
             - REDIS_URL=redis://redis:6379
-        volumes:
-            - redis_data:/data
         links:
             - redis
         depends_on:
