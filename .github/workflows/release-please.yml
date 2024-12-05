@@ -8,7 +8,7 @@ permissions:
     pull-requests: write
 
 env:
-    IMAGE_NAME: ${{ github.repository }}
+    IMAGE_NAME: andipaetzold/tttt-discord
 
 name: release-please
 
