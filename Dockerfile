@@ -1,4 +1,4 @@
-#syntax=docker/dockerfile:1.10
+#syntax=docker/dockerfile:1.12
 FROM node:20.18.1-alpine3.19 AS base
 
 # DEPS
