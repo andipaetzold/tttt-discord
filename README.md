@@ -215,6 +215,35 @@ All code is publicly available on [Github](https://github.com/andipaetzold/tttt-
 | The ➕ and ⏭️ button stay clicked                   | The bot requires the "Manage Messages" permission to remove your reaction from the status message in order to provide a button-like behaviour |
 | The timer doesn't react ti any chat message command | Make sure the bot has permission to read and write messages in your channel. Without those permissions, the bot cannot be used                |
 
+## Docker
+
+The application is pushed to [Docker Hub](https://hub.docker.com/repository/docker/andipaetzold/tttt-discord).
+
+You can spin up your own instance of the bot using the following docker compose configuration:
+
+```yaml
+volumes:
+    redis_data:
+
+services:
+    redis:
+        image: redis:latest
+        restart: always
+        volumes:
+            - redis_data:/data
+
+    tttt-discord:
+        image: andipaetzold/tttt-discord:latest
+        restart: always
+        environment:
+            - DISCORD_TOKEN=<token>
+            - REDIS_URL=redis://redis:6379
+        links:
+            - redis
+        depends_on:
+            - redis
+```
+
 ## Need help?
 
 Join the [TTT-Timer Discord server](https://discord.gg/SUccRhqswq) or [send an E-mail](mailto:tttt-discord@andipaetzold.com)
