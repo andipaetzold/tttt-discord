@@ -1,9 +1,9 @@
 import type { ApplicationCommandData } from "discord.js";
 import objectHash from "object-hash";
-import { BOT_ID } from "../constants";
+import { environment } from "../environment";
 import { redisClient } from "./redis-with-cache";
 
-const key = `slash-command-hash:${BOT_ID}`;
+const key = `slash-command-hash:${environment.botId}`;
 
 export async function setSlashCommandHash(command: ApplicationCommandData) {
     const hash = objectHash(command);

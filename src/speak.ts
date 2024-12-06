@@ -1,13 +1,13 @@
 import { createAudioPlayer, createAudioResource, VoiceConnection } from "@discordjs/voice";
 import { getAudioUrl } from "google-tts-api";
-import { LOG_SPEAK } from "./constants";
+import { environment } from "./environment";
 import { LANGUAGES } from "./languages";
 import { LanguageKey, Locale } from "./languages/types";
 import logger from "./services/logger";
 import { download } from "./util/download";
 
 export async function speak(text: string, locale: Locale, connection: VoiceConnection): Promise<void> {
-    if (LOG_SPEAK) {
+    if (environment.logging.speak) {
         logger.info(connection.joinConfig.guildId, `Speak: "${text}"`);
     }
 

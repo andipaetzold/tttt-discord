@@ -1,6 +1,7 @@
-import { BOT_ID, DEFAULT_ATHLETE_NAMES, DEFAULT_START_DELAY, DEFAULT_TIME_PER_ATHLETE, MAIN_BOT } from "../constants";
-import { redisClient } from "./redis-with-cache";
+import { DEFAULT_ATHLETE_NAMES, DEFAULT_START_DELAY, DEFAULT_TIME_PER_ATHLETE } from "../constants";
+import { environment } from "../environment";
 import type { Config } from "../types";
+import { redisClient } from "./redis-with-cache";
 
 const DEFAULT_CONFIG: Omit<Config, "guildId"> = {
     startDelay: DEFAULT_START_DELAY,
@@ -12,7 +13,7 @@ const DEFAULT_CONFIG: Omit<Config, "guildId"> = {
 };
 
 function createConfigKey(guildId: string): string {
-    return MAIN_BOT ? `config:${guildId}` : `config:${guildId}:${BOT_ID}`;
+    return environment.mainBot ? `config:${guildId}` : `config:${guildId}:${environment.botId}`;
 }
 
 export async function getConfig(guildId: string): Promise<Config> {

@@ -1,4 +1,4 @@
-import { BOT_ID, MAIN_BOT } from "../../constants";
+import { environment } from "../../environment";
 import { client } from "../../discord";
 import { getAllTimerKeys } from "../../persistence/timer";
 import logger from "../../services/logger";
@@ -8,8 +8,8 @@ import { initCommands } from "./slashCommand";
 export async function handleReady() {
     startTimerLoop();
 
-    logger.info(undefined, `Main Bot: ${MAIN_BOT}`);
-    logger.info(undefined, `Bot Id: ${BOT_ID}`);
+    logger.info(undefined, `Main Bot: ${environment.mainBot}`);
+    logger.info(undefined, `Bot Id: ${environment.botId}`);
 
     const guilds = client.guilds.valueOf();
     logger.info(undefined, `Member of ${guilds.size} server(s)`);

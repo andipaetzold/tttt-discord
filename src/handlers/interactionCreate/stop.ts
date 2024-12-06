@@ -1,7 +1,7 @@
 import { getVoiceConnection } from "@discordjs/voice";
 import { type Scope } from "@sentry/node";
 import { ChatInputCommandInteraction } from "discord.js";
-import { BOT_ID } from "../../constants";
+import { environment } from "../../environment";
 import { timerExists } from "../../persistence/timer";
 import logger from "../../services/logger";
 import { stopTimer } from "../../services/timer";
@@ -18,7 +18,7 @@ export async function stop(interaction: ChatInputCommandInteraction, scope: Scop
     logger.info(guildId, "Stopping timer");
     await stopTimer(guildId, scope);
 
-    const connection = getVoiceConnection(guildId, BOT_ID);
+    const connection = getVoiceConnection(guildId, environment.botId);
     if (connection !== undefined) {
         logger.info(guildId, `Disconnecting from VC:${connection.joinConfig.channelId}`);
         connection.disconnect();

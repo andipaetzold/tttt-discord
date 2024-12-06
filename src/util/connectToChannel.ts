@@ -1,6 +1,6 @@
 import { entersState, joinVoiceChannel, VoiceConnection, VoiceConnectionStatus } from "@discordjs/voice";
 import { VoiceChannel } from "discord.js";
-import { BOT_ID } from "../constants";
+import { environment } from "../environment";
 import logger from "../services/logger";
 
 export async function connectToChannel(channel: VoiceChannel): Promise<VoiceConnection | undefined> {
@@ -12,7 +12,7 @@ export async function connectToChannel(channel: VoiceChannel): Promise<VoiceConn
         channelId: channel.id,
         guildId: channel.guild.id,
         adapterCreator: channel.guild.voiceAdapterCreator,
-        group: BOT_ID,
+        group: environment.botId,
     });
 
     try {

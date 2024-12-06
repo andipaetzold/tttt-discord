@@ -1,9 +1,9 @@
-import { BOT_ID } from "../constants";
+import { environment } from "../environment";
 import type { Timer } from "../types";
 import { redisClient } from "./redis-with-cache";
 
 function createTimerKey(guildId: string): string {
-    return `timer:${guildId}:${BOT_ID}`;
+    return `timer:${guildId}:${environment.botId}`;
 }
 
 export async function getTimer(guildId: string): Promise<Timer | undefined> {

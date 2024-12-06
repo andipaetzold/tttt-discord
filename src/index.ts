@@ -1,4 +1,4 @@
-import { DISCORD_TOKEN } from "./constants";
+import { environment } from "./environment";
 import { client } from "./discord";
 import { handleDisconnect } from "./handlers/disconnect";
 import { handleError } from "./handlers/error";
@@ -29,7 +29,7 @@ async function main() {
     client.on(...wrapHandler("guildDelete", handleGuildDelete));
     client.on(...wrapHandler("interactionCreate", handleInteractionCreate));
 
-    client.login(DISCORD_TOKEN);
+    client.login(environment.discord.token);
 }
 
 main();

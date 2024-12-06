@@ -1,5 +1,5 @@
 import { type Scope, init, setTags, withScope } from "@sentry/node";
-import { BOT_ID, MAIN_BOT, SENTRY_DSN, SENTRY_ENVIRONMENT } from "../constants";
+import { environment } from "../environment";
 import logger from "./logger";
 
 export interface HandlerProps<Args extends any[]> {
@@ -8,18 +8,18 @@ export interface HandlerProps<Args extends any[]> {
 }
 
 init({
-    dsn: SENTRY_DSN,
-    enabled: SENTRY_DSN !== undefined,
+    dsn: environment.sentry.dsn,
+    enabled: environment.sentry.dsn !== undefined,
     tracesSampleRate: 1.0,
-    environment: SENTRY_ENVIRONMENT,
+    environment: environment.sentry.environment,
 });
 
 setTags({
-    mainBot: MAIN_BOT,
-    botId: BOT_ID,
+    mainBot: environment.mainBot,
+    botId: environment.botId,
 });
 
-logger.info(undefined, `Sentry environment: ${SENTRY_ENVIRONMENT}`);
+logger.info(undefined, `Sentry environment: ${environment.sentry.environment}`);
 
 export function wrapHandler<T extends (props: HandlerProps<any>) => Promise<void>>(
     handler: string,
