@@ -2,9 +2,6 @@ name: Build
 
 on: [push, workflow_dispatch]
 
-env:
-    FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-
 jobs:
     build:
         runs-on: ubuntu-24.04
@@ -20,27 +17,3 @@ jobs:
               run: npm ci
             - name: Build
               run: npm run build
-
-    deploy-fly-1:
-        runs-on: ubuntu-24.04
-        needs: build
-        if: github.ref == 'refs/heads/main'
-
-        steps:
-            - uses: actions/checkout@v4
-            - uses: superfly/flyctl-actions/setup-flyctl@master
-            - run: |
-                  cp fly1.toml fly.toml
-                  flyctl deploy --local-only
-
-    deploy-fly-2:
-        runs-on: ubuntu-24.04
-        needs: build
-        if: github.ref == 'refs/heads/main'
-
-        steps:
-            - uses: actions/checkout@v4
-            - uses: superfly/flyctl-actions/setup-flyctl@master
-            - run: |
-                  cp fly2.toml fly.toml
-                  flyctl deploy --local-only
