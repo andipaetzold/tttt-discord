@@ -18,5 +18,5 @@
       "groupSlug": "discord"
     }
   ],
-  "ignoreDeps": ["sodium-native", "node"]
+  "ignoreDeps": ["sodium-native"]
 }
