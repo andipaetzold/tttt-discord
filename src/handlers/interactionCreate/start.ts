@@ -20,12 +20,10 @@ export async function start(interaction: ChatInputCommandInteraction, scope: Sco
 
     if (!hasVoicePermissions(guild)) {
         const invite = getInviteUrl();
-        await Promise.all([
-            interaction.reply({
-                content: `I don't have enough permissions to join the voice channel. Please use this link to grant more permissions: <${invite}>.`,
-                ephemeral: true,
-            }),
-        ]);
+        await interaction.reply({
+            content: `I don't have enough permissions to join the voice channel. Please use this link to grant more permissions: <${invite}>.`,
+            ephemeral: true,
+        });
         return;
     }
 
