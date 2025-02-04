@@ -11,7 +11,10 @@ export async function stop(interaction: ChatInputCommandInteraction, scope: Scop
 
     if (!(await timerExists(guildId))) {
         logger.info(guildId, "Timer is not running");
-        await interaction.reply({ content: "Timer is not running", ephemeral: true });
+        await interaction.reply({
+            content: "Timer is not running",
+            flags: ["Ephemeral"],
+        });
         return;
     }
 

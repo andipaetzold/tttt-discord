@@ -35,14 +35,17 @@ export async function fresh(interaction: ChatInputCommandInteraction) {
         : { name: interaction.member!.user.username, userId: interaction.member!.user.id };
 
     if (!config.athletes.find((athlete) => isSameAthlete(athlete, athleteToFresh))) {
-        await interaction.reply({ content: "I am not sure who is feeling fresh again", ephemeral: true });
+        await interaction.reply({
+            content: "I am not sure who is feeling fresh again",
+            flags: ["Ephemeral"],
+        });
         return;
     }
 
     if (!timer.disabledAthletes.find((disabledAthlete) => isSameAthlete(disabledAthlete, athleteToFresh))) {
         await interaction.reply({
             content: options.athlete ? "The athlete is already fresh" : "You are already fresh",
-            ephemeral: true,
+            flags: ["Ephemeral"],
         });
         return;
     }

@@ -32,7 +32,7 @@ export async function athletes(interaction: ChatInputCommandInteraction) {
     if (options.athletes.every((a) => a === null) && options.times.every((t) => t !== null)) {
         await interaction.reply({
             content: `You must provide the names of all athletes. To only update the time of a single athlete, use \`/${SLASH_COMMAND["name"]} athlete <name> <time>\`.`,
-            ephemeral: true,
+            flags: ["Ephemeral"],
         });
         return;
     }
@@ -49,7 +49,10 @@ export async function athletes(interaction: ChatInputCommandInteraction) {
     );
 
     if (athletes.length === 0) {
-        await interaction.reply({ content: "Error updating the athletes", ephemeral: true });
+        await interaction.reply({
+            content: "Error updating the athletes",
+            flags: ["Ephemeral"],
+        });
         return;
     }
 

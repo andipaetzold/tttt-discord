@@ -14,7 +14,10 @@ export async function start(interaction: ChatInputCommandInteraction, scope: Sco
 
     if (await timerExists(guildId)) {
         logger.info(guildId, "Timer is already running");
-        await interaction.reply({ content: "Timer is already running", ephemeral: true });
+        await interaction.reply({
+            content: "Timer is already running",
+            flags: ["Ephemeral"],
+        });
         return;
     }
 
@@ -22,7 +25,7 @@ export async function start(interaction: ChatInputCommandInteraction, scope: Sco
         const invite = getInviteUrl();
         await interaction.reply({
             content: `I don't have enough permissions to join the voice channel. Please use this link to grant more permissions: <${invite}>.`,
-            ephemeral: true,
+            flags: ["Ephemeral"],
         });
         return;
     }
@@ -33,7 +36,7 @@ export async function start(interaction: ChatInputCommandInteraction, scope: Sco
     if (connection === undefined) {
         await interaction.reply({
             content: `I don't know which voice channel to join. Join a voice channel and run \`/${SLASH_COMMAND.name} start\` again.`,
-            ephemeral: true,
+            flags: ["Ephemeral"],
         });
         return;
     }

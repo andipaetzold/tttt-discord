@@ -31,14 +31,17 @@ export async function toast(interaction: ChatInputCommandInteraction) {
         : { name: interaction.member!.user.username, userId: interaction.member!.user.id };
 
     if (!config.athletes.find((athlete) => isSameAthlete(athlete, athleteToToast))) {
-        await interaction.reply({ content: "I am not sure who is feeling toasted", ephemeral: true });
+        await interaction.reply({
+            content: "I am not sure who is feeling toasted",
+            flags: ["Ephemeral"],
+        });
         return;
     }
 
     if (timer.disabledAthletes.find((disabledAthlete) => isSameAthlete(disabledAthlete, athleteToToast))) {
         await interaction.reply({
             content: options.athlete ? "The athlete is already toasted" : "You are already toasted",
-            ephemeral: true,
+            flags: ["Ephemeral"],
         });
         return;
     }

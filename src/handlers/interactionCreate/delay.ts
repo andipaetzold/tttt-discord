@@ -17,7 +17,10 @@ export async function delay(interaction: ChatInputCommandInteraction) {
     }
 
     if (!isValidDelay(newStartDelay)) {
-        await interaction.reply({ content: "Invalid delay", ephemeral: true });
+        await interaction.reply({
+            content: "Invalid delay",
+            flags: ["Ephemeral"],
+        });
         return;
     }
 
