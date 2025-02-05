@@ -1,7 +1,7 @@
 import { MessageReaction, PartialUser, User } from "discord.js";
 import { client } from "../../discord";
 import { getConfig } from "../../persistence/config";
-import { getTimer } from "../../persistence/timer";
+import { timerRepo } from "../../persistence/timer";
 import logger from "../../services/logger";
 import { HandlerProps } from "../../services/sentry";
 import { updateStatusMessage } from "../../services/statusMessage";
@@ -30,7 +30,7 @@ export async function handleMessageReactionRemove({
 
     const guildId = messageReaction.message.guild!.id;
 
-    const timer = await getTimer(guildId);
+    const timer = await timerRepo.get(guildId);
     if (!timer) {
         return;
     }

@@ -5,7 +5,7 @@ import { performance } from "perf_hooks";
 import { EMPTY_VC_TIMEOUT } from "./constants";
 import { client } from "./discord";
 import { getConfig } from "./persistence/config";
-import { getAllTimers, removeTimer, updateTimer } from "./persistence/timer";
+import { timerRepo } from "./persistence/timer";
 import logger from "./services/logger";
 import { hasVoicePermissions } from "./services/permissions";
 import { updateStatusMessage } from "./services/statusMessage";
@@ -43,7 +43,7 @@ let prevTickTime: number | undefined;
 async function tick() {
     const time = getTime();
     if (time !== prevTickTime) {
-        const timers = await getAllTimers();
+        const timers = await timerRepo.getAll();
         timers.filter((timer): timer is Timer => timer !== undefined).forEach((timer) => tickTimer(timer, time));
     }
     prevTickTime = time;
@@ -90,10 +90,10 @@ async function tickTimer(timer: Timer, now: number): Promise<void> {
                 }
             } else {
                 logger.info(timer.guildId, "Empty voice channel");
-                await updateTimer(timer.guildId, (t) => ({ ...t, voiceChannelEmptySince: now }));
+                await timerRepo.update(timer.guildId, (t) => ({ ...t, voiceChannelEmptySince: now }));
             }
         } else if (timer.voiceChannelEmptySince) {
-            await updateTimer(timer.guildId, (t) => ({ ...t, voiceChannelEmptySince: undefined }));
+            await timerRepo.update(timer.guildId, (t) => ({ ...t, voiceChannelEmptySince: undefined }));
         }
 
         const nextAthleteIndex = getNextAthleteIndex(config, timer);
@@ -101,7 +101,7 @@ async function tickTimer(timer: Timer, now: number): Promise<void> {
 
         const remainingSeconds = Math.max(timer.nextChangeTime - now, 0);
         if (remainingSeconds === 0) {
-            await updateTimer(timer.guildId, (t) => ({
+            await timerRepo.update(timer.guildId, (t) => ({
                 ...t,
                 currentAthleteIndex: nextAthleteIndex,
                 nextChangeTime: now + config.athletes[nextAthleteIndex].time,
@@ -118,7 +118,7 @@ async function tickTimer(timer: Timer, now: number): Promise<void> {
         );
     } catch (e) {
         logger.error(timer.guildId, new Error(`Stopping timer due to an error\n${e}`), scope);
-        await removeTimer(timer.guildId);
+        await timerRepo.remove(timer.guildId);
 
         try {
             connection?.destroy();

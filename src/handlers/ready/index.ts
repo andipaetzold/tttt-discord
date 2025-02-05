@@ -1,6 +1,6 @@
 import { environment } from "../../environment";
 import { client } from "../../discord";
-import { getAllTimerKeys } from "../../persistence/timer";
+import { timerRepo } from "../../persistence/timer";
 import logger from "../../services/logger";
 import { startTimerLoop } from "../../timerLoop";
 import { initCommands } from "./slashCommand";
@@ -14,7 +14,7 @@ export async function handleReady() {
     const guilds = client.guilds.valueOf();
     logger.info(undefined, `Member of ${guilds.size} server(s)`);
 
-    const timerKeys = await getAllTimerKeys();
+    const timerKeys = await timerRepo.getAll();
     logger.info(undefined, `${timerKeys.length} running timer(s)`);
 
     await initCommands();

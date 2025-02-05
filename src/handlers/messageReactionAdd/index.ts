@@ -1,7 +1,7 @@
-import { Message, MessageReaction, PartialMessageReaction, PartialUser, User } from "discord.js";
+import { MessageReaction, PartialUser, User } from "discord.js";
 import { client } from "../../discord";
 import { getConfig } from "../../persistence/config";
-import { getTimer } from "../../persistence/timer";
+import { timerRepo } from "../../persistence/timer";
 import logger from "../../services/logger";
 import { hasManageMessagesPermissions } from "../../services/permissions";
 import { HandlerProps } from "../../services/sentry";
@@ -31,7 +31,7 @@ export async function handleMessageReactionAdd({
 
     const guildId = messageReaction.message.guild!.id;
 
-    const timer = await getTimer(guildId);
+    const timer = await timerRepo.get(guildId);
     if (!timer) {
         return;
     }

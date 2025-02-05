@@ -1,6 +1,6 @@
 import { ChatInputCommandInteraction } from "discord.js";
 import { SLASH_COMMAND } from "../../constants";
-import { timerExists } from "../../persistence/timer";
+import { timerRepo } from "../../persistence/timer";
 import { addTimeToCurrentAthlete } from "../../services/timer";
 import { isValidDelay } from "../../util/isValidDelay";
 import { updateStatusMessage } from "../../services/statusMessage";
@@ -16,7 +16,7 @@ export async function plus(interaction: ChatInputCommandInteraction): Promise<vo
         return;
     }
 
-    if (!(await timerExists(guildId))) {
+    if (!(await timerRepo.exists(guildId))) {
         await interaction.reply(`Start the timer first using \`/${SLASH_COMMAND.name} start\``);
         return;
     }

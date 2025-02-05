@@ -1,6 +1,6 @@
 import { TextChannel } from "discord.js";
 import { getConfig } from "../persistence/config";
-import { getTimer, removeTimer, setTimer, timerExists, updateTimer } from "../persistence/timer";
+import { timerRepo } from "../persistence/timer";
 import { speakCommand } from "../speak";
 import { Athlete, Config, Timer } from "../types";
 import { getVoiceConnection } from "../util/getVoiceConnection";
@@ -10,13 +10,13 @@ import { type Scope } from "@sentry/node";
 import isSameAthlete from "../util/isSameAthlete";
 
 export async function skipCurrentAthlete(guildId: string): Promise<void> {
-    const [timer, config] = await Promise.all([getTimer(guildId), getConfig(guildId)]);
+    const [timer, config] = await Promise.all([timerRepo.get(guildId), getConfig(guildId)]);
     if (timer === undefined || config === undefined) {
         return;
     }
 
     const nextAthleteIndex = getNextAthleteIndex(config, timer);
-    await updateTimer(guildId, (t) => ({
+    await timerRepo.update(guildId, (t) => ({
         ...t,
         nextChangeTime: getTime() + config.athletes[nextAthleteIndex].time,
         currentAthleteIndex: nextAthleteIndex,
@@ -48,14 +48,14 @@ export function getNextAthleteIndex(config: Config, timer: Timer): number {
 }
 
 export async function addTimeToCurrentAthlete(guildId: string, time: number) {
-    await updateTimer(guildId, (t) => ({
+    await timerRepo.update(guildId, (t) => ({
         ...t,
         nextChangeTime: t.nextChangeTime + time,
     }));
 }
 
 export async function setAthleteAsToast(guildId: string, athleteToToast: Pick<Athlete, "name" | "userId">) {
-    const timer = await updateTimer(guildId, (t) => ({
+    const timer = await timerRepo.update(guildId, (t) => ({
         ...t,
         disabledAthletes: [...t.disabledAthletes, athleteToToast],
     }));
@@ -70,14 +70,14 @@ export async function setAthleteAsToast(guildId: string, athleteToToast: Pick<At
 }
 
 export async function setAthleteAsFresh(guildId: string, athleteToFresh: Pick<Athlete, "name" | "userId">) {
-    await updateTimer(guildId, (t) => ({
+    await timerRepo.update(guildId, (t) => ({
         ...t,
         disabledAthletes: t.disabledAthletes.filter((disabledAthlete) => !isSameAthlete(disabledAthlete, athleteToFresh)),
     }));
 }
 
 export async function addTimer(guildId: string, channel: TextChannel, scope: Scope): Promise<void> {
-    if (await timerExists(guildId)) {
+    if (await timerRepo.exists(guildId)) {
         return;
     }
 
@@ -92,13 +92,13 @@ export async function addTimer(guildId: string, channel: TextChannel, scope: Sco
         disabledAthletes: [],
     };
 
-    await setTimer(timer);
+    await timerRepo.set(timer);
     await sendStatusMessage(channel, scope);
 }
 
 export async function stopTimer(guildId: string, scope: Scope): Promise<void> {
     await deleteStatusMessage(guildId, scope);
-    await removeTimer(guildId);
+    await timerRepo.remove(guildId);
 }
 
 export function isDisabledAthlete(timer: Timer, athlete: Pick<Athlete, "name" | "userId">): boolean {

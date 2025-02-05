@@ -1,7 +1,7 @@
 import { ChatInputCommandInteraction } from "discord.js";
 import { SLASH_COMMAND } from "../../constants";
 import { getConfig } from "../../persistence/config";
-import { getTimer } from "../../persistence/timer";
+import { timerRepo } from "../../persistence/timer";
 import logger from "../../services/logger";
 import { updateStatusMessage } from "../../services/statusMessage";
 import { setAthleteAsToast } from "../../services/timer";
@@ -13,7 +13,7 @@ export async function toast(interaction: ChatInputCommandInteraction) {
     const guild = interaction.guild!;
     const guildId = guild.id;
 
-    const timer = await getTimer(guildId);
+    const timer = await timerRepo.get(guildId);
     if (!timer) {
         await interaction.reply(`Start the timer first using \`/${SLASH_COMMAND.name} start\``);
         return;

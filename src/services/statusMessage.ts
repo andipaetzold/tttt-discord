@@ -3,7 +3,7 @@ import { EmbedBuilder, Message, TextChannel } from "discord.js";
 import { SLASH_COMMAND } from "../constants";
 import { client } from "../discord";
 import { getConfig } from "../persistence/config";
-import { getTimer, updateTimer } from "../persistence/timer";
+import { timerRepo } from "../persistence/timer";
 import type { Config, Timer } from "../types";
 import { EMOJI_PLUS10, EMOJI_SKIP, EMOJI_TOAST } from "../util/emojis";
 import isSameAthlete from "../util/isSameAthlete";
@@ -54,7 +54,7 @@ export function createStatusMessage(config: Config, timer: Timer): EmbedBuilder 
 
 export async function sendStatusMessage(channel: TextChannel, _scope: Scope) {
     const guildId = channel.guild.id;
-    const [config, timer] = await Promise.all([getConfig(guildId), getTimer(guildId)]);
+    const [config, timer] = await Promise.all([getConfig(guildId), timerRepo.get(guildId)]);
     if (timer === undefined) {
         return;
     }
@@ -66,7 +66,7 @@ export async function sendStatusMessage(channel: TextChannel, _scope: Scope) {
         message.react(EMOJI_SKIP);
         message.react(EMOJI_TOAST);
 
-        await updateTimer(guildId, (t) => ({
+        await timerRepo.update(guildId, (t) => ({
             ...t,
             status: {
                 channelId: channel.id,
@@ -79,7 +79,7 @@ export async function sendStatusMessage(channel: TextChannel, _scope: Scope) {
 }
 
 export async function updateStatusMessage(guildId: string, _scope?: Scope) {
-    const [config, timer] = await Promise.all([getConfig(guildId), getTimer(guildId)]);
+    const [config, timer] = await Promise.all([getConfig(guildId), timerRepo.get(guildId)]);
     if (timer?.status === undefined) {
         return;
     }
@@ -91,15 +91,15 @@ export async function updateStatusMessage(guildId: string, _scope?: Scope) {
     } catch (e) {
         logger.warn(guildId, "Could not update status message");
 
-        await updateTimer(timer.guildId, (t) => ({
-            ...timer,
+        await timerRepo.update(timer.guildId, (t) => ({
+            ...t,
             status: undefined,
         }));
     }
 }
 
 export async function deleteStatusMessage(guildId: string, _scope: Scope) {
-    const timer = await getTimer(guildId);
+    const timer = await timerRepo.get(guildId);
     if (timer?.status === undefined) {
         return;
     }

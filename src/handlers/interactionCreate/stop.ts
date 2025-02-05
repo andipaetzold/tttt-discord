@@ -2,14 +2,14 @@ import { getVoiceConnection } from "@discordjs/voice";
 import { type Scope } from "@sentry/node";
 import { ChatInputCommandInteraction } from "discord.js";
 import { environment } from "../../environment";
-import { timerExists } from "../../persistence/timer";
+import { timerRepo } from "../../persistence/timer";
 import logger from "../../services/logger";
 import { stopTimer } from "../../services/timer";
 
 export async function stop(interaction: ChatInputCommandInteraction, scope: Scope): Promise<void> {
     const guildId = interaction.guildId!;
 
-    if (!(await timerExists(guildId))) {
+    if (!(await timerRepo.exists(guildId))) {
         logger.info(guildId, "Timer is not running");
         await interaction.reply({
             content: "Timer is not running",

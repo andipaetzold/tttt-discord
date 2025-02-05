@@ -2,7 +2,7 @@ import { type Scope } from "@sentry/node";
 import { ChatInputCommandInteraction, GuildMember, TextChannel } from "discord.js";
 import { SLASH_COMMAND } from "../../constants";
 import { getConfig } from "../../persistence/config";
-import { timerExists } from "../../persistence/timer";
+import { timerRepo } from "../../persistence/timer";
 import logger from "../../services/logger";
 import { getInviteUrl, hasVoicePermissions } from "../../services/permissions";
 import { addTimer } from "../../services/timer";
@@ -12,7 +12,7 @@ export async function start(interaction: ChatInputCommandInteraction, scope: Sco
     const guild = interaction.guild!;
     const guildId = guild.id;
 
-    if (await timerExists(guildId)) {
+    if (await timerRepo.exists(guildId)) {
         logger.info(guildId, "Timer is already running");
         await interaction.reply({
             content: "Timer is already running",
