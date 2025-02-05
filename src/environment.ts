@@ -12,7 +12,7 @@ export const environment = {
         speak: process.env.LOG_SPEAK === "true",
     },
     redis: {
-        url: process.env.REDIS_URL,
+        url: process.env.REDIS_URL!,
     },
 };
 

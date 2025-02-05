@@ -1,8 +1,8 @@
 import { type Scope } from "@sentry/node";
 import { ChatInputCommandInteraction, GuildMember, TextChannel } from "discord.js";
 import { SLASH_COMMAND } from "../../constants";
-import { configRepo } from "../../persistence/config";
-import { timerRepo } from "../../persistence/timer";
+import { configRepo } from "../../persistence";
+import { timerRepo } from "../../persistence";
 import logger from "../../services/logger";
 import { getInviteUrl, hasVoicePermissions } from "../../services/permissions";
 import { addTimer } from "../../services/timer";

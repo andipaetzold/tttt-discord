@@ -2,7 +2,7 @@ import { getVoiceConnection } from "@discordjs/voice";
 import { type Scope } from "@sentry/node";
 import { ChatInputCommandInteraction } from "discord.js";
 import { environment } from "../../environment";
-import { timerRepo } from "../../persistence/timer";
+import { timerRepo } from "../../persistence";
 import logger from "../../services/logger";
 import { stopTimer } from "../../services/timer";
 

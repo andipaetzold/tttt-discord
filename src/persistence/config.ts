@@ -2,7 +2,6 @@ import { DEFAULT_ATHLETE_NAMES, DEFAULT_START_DELAY, DEFAULT_TIME_PER_ATHLETE } 
 import { environment } from "../environment";
 import type { Config } from "../types";
 import { RedisClient } from "./redis";
-import { redisClient } from "./redis-with-cache";
 
 const DEFAULT_CONFIG: Omit<Config, "guildId"> = {
     startDelay: DEFAULT_START_DELAY,
@@ -13,7 +12,7 @@ const DEFAULT_CONFIG: Omit<Config, "guildId"> = {
     languageKey: "en",
 };
 
-class ConfigRepository {
+export class ConfigRepository {
     #redisClient: RedisClient;
 
     constructor(redisClient: RedisClient) {
@@ -49,5 +48,3 @@ class ConfigRepository {
         await this.#redisClient.remove(key);
     }
 }
-
-export const configRepo = new ConfigRepository(redisClient);

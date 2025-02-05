@@ -1,6 +1,6 @@
 import { Guild } from "discord.js";
-import { configRepo } from "../../persistence/config";
-import { timerRepo } from "../../persistence/timer";
+import { configRepo } from "../../persistence";
+import { timerRepo } from "../../persistence";
 import logger from "../../services/logger";
 import { HandlerProps } from "../../services/sentry";
 

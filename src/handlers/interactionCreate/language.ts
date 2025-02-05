@@ -2,7 +2,7 @@ import { ChatInputCommandInteraction } from "discord.js";
 import { SLASH_COMMAND } from "../../constants";
 import { LANGUAGES } from "../../languages";
 import { LanguageKey } from "../../languages/types";
-import { configRepo } from "../../persistence/config";
+import { configRepo } from "../../persistence";
 import logger from "../../services/logger";
 
 export async function language(interaction: ChatInputCommandInteraction) {

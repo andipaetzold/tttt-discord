@@ -1,9 +1,8 @@
 import { environment } from "../environment";
 import type { Timer } from "../types";
 import { RedisClient } from "./redis";
-import { redisClient } from "./redis-with-cache";
 
-class TimerRepository {
+export class TimerRepository {
     #redisClient: RedisClient;
 
     constructor(redisClient: RedisClient) {
@@ -16,7 +15,7 @@ class TimerRepository {
 
     async #getAllKeys(): Promise<string[]> {
         const key = this.#createRedisKey("*");
-        return await redisClient.keys(key);
+        return await this.#redisClient.keys(key);
     }
 
     async exists(guildId: string): Promise<boolean> {
@@ -60,5 +59,3 @@ class TimerRepository {
         return newTimer;
     }
 }
-
-export const timerRepo = new TimerRepository(redisClient);

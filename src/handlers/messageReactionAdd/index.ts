@@ -1,7 +1,7 @@
 import { MessageReaction, PartialUser, User } from "discord.js";
 import { client } from "../../discord";
-import { configRepo } from "../../persistence/config";
-import { timerRepo } from "../../persistence/timer";
+import { configRepo } from "../../persistence";
+import { timerRepo } from "../../persistence";
 import logger from "../../services/logger";
 import { hasManageMessagesPermissions } from "../../services/permissions";
 import { HandlerProps } from "../../services/sentry";

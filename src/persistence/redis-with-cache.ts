@@ -77,4 +77,4 @@ class RedisClientWithKeysCache extends RedisClientWithDataCache {
     }
 }
 
-export const redisClient = new RedisClientWithKeysCache();
+export const RedisClientWithCache = RedisClientWithKeysCache;

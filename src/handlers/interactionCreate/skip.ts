@@ -1,6 +1,6 @@
 import type { ChatInputCommandInteraction } from "discord.js";
 import { SLASH_COMMAND } from "../../constants";
-import { timerRepo } from "../../persistence/timer";
+import { timerRepo } from "../../persistence";
 import { updateStatusMessage } from "../../services/statusMessage";
 import { skipCurrentAthlete } from "../../services/timer";
 

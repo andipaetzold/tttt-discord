@@ -1,6 +1,6 @@
 import { environment } from "../../environment";
 import { client } from "../../discord";
-import { timerRepo } from "../../persistence/timer";
+import { timerRepo } from "../../persistence";
 import logger from "../../services/logger";
 import { startTimerLoop } from "../../timerLoop";
 import { initCommands } from "./slashCommand";

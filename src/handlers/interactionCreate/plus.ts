@@ -1,6 +1,6 @@
 import { ChatInputCommandInteraction } from "discord.js";
 import { SLASH_COMMAND } from "../../constants";
-import { timerRepo } from "../../persistence/timer";
+import { timerRepo } from "../../persistence";
 import { addTimeToCurrentAthlete } from "../../services/timer";
 import { isValidDelay } from "../../util/isValidDelay";
 import { updateStatusMessage } from "../../services/statusMessage";

@@ -1,6 +1,6 @@
 import { TextChannel } from "discord.js";
-import { configRepo } from "../persistence/config";
-import { timerRepo } from "../persistence/timer";
+import { configRepo } from "../persistence";
+import { timerRepo } from "../persistence";
 import { speakCommand } from "../speak";
 import { Athlete, Config, Timer } from "../types";
 import { getVoiceConnection } from "../util/getVoiceConnection";

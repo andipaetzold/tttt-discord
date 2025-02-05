@@ -1,13 +1,13 @@
 import { ChatInputCommandInteraction } from "discord.js";
 import { SLASH_COMMAND } from "../../constants";
-import { configRepo } from "../../persistence/config";
+import { configRepo } from "../../persistence";
 import logger from "../../services/logger";
 import { updateStatusMessage } from "../../services/statusMessage";
 import { setAthleteAsFresh } from "../../services/timer";
 import { athleteToString } from "../../util/athleteToString";
 import isSameAthlete from "../../util/isSameAthlete";
 import parseUser from "../../util/parseUser";
-import { timerRepo } from "../../persistence/timer";
+import { timerRepo } from "../../persistence";
 
 export async function fresh(interaction: ChatInputCommandInteraction) {
     const guild = interaction.guild!;

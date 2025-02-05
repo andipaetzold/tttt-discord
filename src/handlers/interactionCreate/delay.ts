@@ -1,6 +1,6 @@
 import { ChatInputCommandInteraction } from "discord.js";
 import { SLASH_COMMAND } from "../../constants";
-import { configRepo } from "../../persistence/config";
+import { configRepo } from "../../persistence";
 import logger from "../../services/logger";
 import { isValidDelay } from "../../util/isValidDelay";
 

@@ -1,14 +1,12 @@
 import { createClient } from "redis";
-import { environment } from "../environment";
 import logger from "../services/logger";
 
 export class RedisClient {
-    #client = createClient({
-        url: environment.redis.url,
-    });
+    #client: ReturnType<typeof createClient>;
     #connected: Promise<void>;
 
-    constructor() {
+    constructor(url: string) {
+        this.#client = createClient({ url });
         this.#connected = this.#connect();
     }
 

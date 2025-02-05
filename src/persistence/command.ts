@@ -1,15 +1,22 @@
 import type { ApplicationCommandData } from "discord.js";
 import objectHash from "object-hash";
-import { environment } from "../environment";
-import { redisClient } from "./redis-with-cache";
+import { RedisClient } from "./redis";
 
-const key = `slash-command-hash:${environment.botId}`;
+export class SlashCommandHashRepository {
+    #redisClient: RedisClient;
+    #key: string;
 
-export async function setSlashCommandHash(command: ApplicationCommandData) {
-    const hash = objectHash(command);
-    await redisClient.write<string>(key, hash);
-}
+    constructor(redisClient: RedisClient, botId: string) {
+        this.#redisClient = redisClient;
+        this.#key = `slash-command-hash:${botId}`;
+    }
 
-export async function getSlashCommandHash(): Promise<string | undefined> {
-    return await redisClient.read<string>(key);
+    async set(command: ApplicationCommandData) {
+        const hash = objectHash(command);
+        await this.#redisClient.write<string>(this.#key, hash);
+    }
+
+    async get(): Promise<string | undefined> {
+        return await this.#redisClient.read<string>(this.#key);
+    }
 }

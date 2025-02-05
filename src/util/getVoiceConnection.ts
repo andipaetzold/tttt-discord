@@ -2,7 +2,7 @@ import { getVoiceConnection as getActiveVoiceConnection, VoiceConnection, VoiceC
 import { ChannelType, GuildMember, VoiceChannel } from "discord.js";
 import { environment } from "../environment";
 import { client } from "../discord";
-import { configRepo } from "../persistence/config";
+import { configRepo } from "../persistence";
 import logger from "../services/logger";
 import { Config } from "../types";
 import { connectToChannel } from "./connectToChannel";

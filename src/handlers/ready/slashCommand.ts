@@ -4,7 +4,7 @@ import hash from "object-hash";
 import { SLASH_COMMAND } from "../../constants";
 import { client } from "../../discord";
 import { LANGUAGES } from "../../languages";
-import { getSlashCommandHash, setSlashCommandHash } from "../../persistence/command";
+import { slashCommandHashRepo } from "../../persistence";
 import logger from "../../services/logger";
 
 export async function initCommands() {
@@ -15,7 +15,7 @@ export async function initCommands() {
     const existingCommand = existingCommands.find((cmd) => cmd.name === command.name);
 
     if (existingCommand) {
-        const existingHash = await getSlashCommandHash();
+        const existingHash = await slashCommandHashRepo.get();
         const commandHash = hash(command);
 
         if (existingHash === commandHash) {
@@ -29,7 +29,7 @@ export async function initCommands() {
         await applicationCommands.create(command);
     }
 
-    await setSlashCommandHash(command);
+    await slashCommandHashRepo.set(command);
 }
 
 function getSlashCommand() {

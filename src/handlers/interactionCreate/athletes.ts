@@ -1,7 +1,7 @@
 import { ChatInputCommandInteraction } from "discord.js";
 import { range } from "lodash";
 import { DEFAULT_TIME_PER_ATHLETE, SLASH_COMMAND } from "../../constants";
-import { configRepo } from "../../persistence/config";
+import { configRepo } from "../../persistence";
 import logger from "../../services/logger";
 import { athleteToString } from "../../util/athleteToString";
 import { isValidDelay } from "../../util/isValidDelay";

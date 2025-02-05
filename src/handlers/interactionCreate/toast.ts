@@ -1,7 +1,7 @@
 import { ChatInputCommandInteraction } from "discord.js";
 import { SLASH_COMMAND } from "../../constants";
-import { configRepo } from "../../persistence/config";
-import { timerRepo } from "../../persistence/timer";
+import { configRepo } from "../../persistence";
+import { timerRepo } from "../../persistence";
 import logger from "../../services/logger";
 import { updateStatusMessage } from "../../services/statusMessage";
 import { setAthleteAsToast } from "../../services/timer";
