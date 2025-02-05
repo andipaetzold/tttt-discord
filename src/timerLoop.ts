@@ -4,7 +4,7 @@ import { VoiceChannel } from "discord.js";
 import { performance } from "perf_hooks";
 import { EMPTY_VC_TIMEOUT } from "./constants";
 import { client } from "./discord";
-import { getConfig } from "./persistence/config";
+import { configRepo } from "./persistence/config";
 import { timerRepo } from "./persistence/timer";
 import logger from "./services/logger";
 import { hasVoicePermissions } from "./services/permissions";
@@ -58,7 +58,7 @@ async function tickTimer(timer: Timer, now: number): Promise<void> {
 
     let connection: VoiceConnection | undefined;
     try {
-        const config = await getConfig(timer.guildId);
+        const config = await configRepo.get(timer.guildId);
         connection = await getVoiceConnection(config);
 
         if (connection === undefined) {

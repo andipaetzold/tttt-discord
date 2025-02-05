@@ -1,5 +1,5 @@
 import { TextChannel } from "discord.js";
-import { getConfig } from "../persistence/config";
+import { configRepo } from "../persistence/config";
 import { timerRepo } from "../persistence/timer";
 import { speakCommand } from "../speak";
 import { Athlete, Config, Timer } from "../types";
@@ -10,7 +10,7 @@ import { type Scope } from "@sentry/node";
 import isSameAthlete from "../util/isSameAthlete";
 
 export async function skipCurrentAthlete(guildId: string): Promise<void> {
-    const [timer, config] = await Promise.all([timerRepo.get(guildId), getConfig(guildId)]);
+    const [timer, config] = await Promise.all([timerRepo.get(guildId), configRepo.get(guildId)]);
     if (timer === undefined || config === undefined) {
         return;
     }
@@ -61,7 +61,7 @@ export async function setAthleteAsToast(guildId: string, athleteToToast: Pick<At
     }));
 
     if (timer !== undefined) {
-        const config = await getConfig(guildId);
+        const config = await configRepo.get(guildId);
         const currentAthlete = config.athletes[timer.currentAthleteIndex];
         if (isSameAthlete(currentAthlete, athleteToToast)) {
             await skipCurrentAthlete(guildId);
@@ -81,7 +81,7 @@ export async function addTimer(guildId: string, channel: TextChannel, scope: Sco
         return;
     }
 
-    const config = await getConfig(guildId);
+    const config = await configRepo.get(guildId);
     const now = getTime();
 
     const timer: Timer = {

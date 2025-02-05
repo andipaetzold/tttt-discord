@@ -1,6 +1,6 @@
 import { MessageReaction, PartialUser, User } from "discord.js";
 import { client } from "../../discord";
-import { getConfig } from "../../persistence/config";
+import { configRepo } from "../../persistence/config";
 import { timerRepo } from "../../persistence/timer";
 import logger from "../../services/logger";
 import { HandlerProps } from "../../services/sentry";
@@ -46,7 +46,7 @@ export async function handleMessageReactionRemove({
 
     switch (messageReaction.emoji.name) {
         case EMOJI_TOAST: {
-            const config = await getConfig(guildId);
+            const config = await configRepo.get(guildId);
             const athlete = config.athletes.find((a) => a.userId === user.id);
 
             if (!athlete) {

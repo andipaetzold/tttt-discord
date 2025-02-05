@@ -1,7 +1,7 @@
 import { ChatInputCommandInteraction } from "discord.js";
 import { range } from "lodash";
 import { DEFAULT_TIME_PER_ATHLETE, SLASH_COMMAND } from "../../constants";
-import { getConfig, setConfig } from "../../persistence/config";
+import { configRepo } from "../../persistence/config";
 import logger from "../../services/logger";
 import { athleteToString } from "../../util/athleteToString";
 import { isValidDelay } from "../../util/isValidDelay";
@@ -10,7 +10,7 @@ import parseUser from "../../util/parseUser";
 export async function athletes(interaction: ChatInputCommandInteraction) {
     const guild = interaction.guild!;
     const guildId = guild.id;
-    const config = await getConfig(guild.id);
+    const config = await configRepo.get(guild.id);
 
     const options = {
         athletes: range(1, SLASH_COMMAND.commands.athletes.athletesCount + 1).map((i) =>
@@ -56,7 +56,7 @@ export async function athletes(interaction: ChatInputCommandInteraction) {
         return;
     }
 
-    await setConfig({
+    await configRepo.set({
         ...config,
         athletes,
     });

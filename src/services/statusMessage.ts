@@ -2,7 +2,7 @@ import { type Scope } from "@sentry/node";
 import { EmbedBuilder, Message, TextChannel } from "discord.js";
 import { SLASH_COMMAND } from "../constants";
 import { client } from "../discord";
-import { getConfig } from "../persistence/config";
+import { configRepo } from "../persistence/config";
 import { timerRepo } from "../persistence/timer";
 import type { Config, Timer } from "../types";
 import { EMOJI_PLUS10, EMOJI_SKIP, EMOJI_TOAST } from "../util/emojis";
@@ -54,7 +54,7 @@ export function createStatusMessage(config: Config, timer: Timer): EmbedBuilder 
 
 export async function sendStatusMessage(channel: TextChannel, _scope: Scope) {
     const guildId = channel.guild.id;
-    const [config, timer] = await Promise.all([getConfig(guildId), timerRepo.get(guildId)]);
+    const [config, timer] = await Promise.all([configRepo.get(guildId), timerRepo.get(guildId)]);
     if (timer === undefined) {
         return;
     }
@@ -79,7 +79,7 @@ export async function sendStatusMessage(channel: TextChannel, _scope: Scope) {
 }
 
 export async function updateStatusMessage(guildId: string, _scope?: Scope) {
-    const [config, timer] = await Promise.all([getConfig(guildId), timerRepo.get(guildId)]);
+    const [config, timer] = await Promise.all([configRepo.get(guildId), timerRepo.get(guildId)]);
     if (timer?.status === undefined) {
         return;
     }

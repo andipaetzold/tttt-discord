@@ -1,6 +1,6 @@
 import { ChatInputCommandInteraction } from "discord.js";
 import { SLASH_COMMAND } from "../../constants";
-import { getConfig } from "../../persistence/config";
+import { configRepo } from "../../persistence/config";
 import logger from "../../services/logger";
 import { updateStatusMessage } from "../../services/statusMessage";
 import { setAthleteAsFresh } from "../../services/timer";
@@ -24,7 +24,7 @@ export async function fresh(interaction: ChatInputCommandInteraction) {
     };
     logger.info(guildId, `Options: ${JSON.stringify(options)}`);
 
-    const config = await getConfig(guild.id);
+    const config = await configRepo.get(guild.id);
 
     const user = options.athlete
         ? await parseUser(options.athlete, guild)

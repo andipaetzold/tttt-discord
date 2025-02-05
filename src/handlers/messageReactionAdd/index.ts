@@ -1,6 +1,6 @@
 import { MessageReaction, PartialUser, User } from "discord.js";
 import { client } from "../../discord";
-import { getConfig } from "../../persistence/config";
+import { configRepo } from "../../persistence/config";
 import { timerRepo } from "../../persistence/timer";
 import logger from "../../services/logger";
 import { hasManageMessagesPermissions } from "../../services/permissions";
@@ -63,7 +63,7 @@ export async function handleMessageReactionAdd({
         }
 
         case EMOJI_TOAST: {
-            const config = await getConfig(guildId);
+            const config = await configRepo.get(guildId);
             const athlete = config.athletes.find((a) => a.userId === user.id);
 
             if (!athlete) {

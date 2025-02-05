@@ -1,6 +1,6 @@
 import { ChatInputCommandInteraction } from "discord.js";
 import { SLASH_COMMAND } from "../../constants";
-import { getConfig, setConfig } from "../../persistence/config";
+import { configRepo } from "../../persistence/config";
 import logger from "../../services/logger";
 import { athleteToString } from "../../util/athleteToString";
 import isSameAthlete from "../../util/isSameAthlete";
@@ -9,7 +9,7 @@ import parseUser from "../../util/parseUser";
 export async function athlete(interaction: ChatInputCommandInteraction) {
     const guild = interaction.guild!;
     const guildId = guild.id;
-    const config = await getConfig(guild.id);
+    const config = await configRepo.get(guild.id);
 
     const options = {
         athlete: interaction.options.getString(SLASH_COMMAND.commands.athlete.athlete, true),
@@ -28,7 +28,7 @@ export async function athlete(interaction: ChatInputCommandInteraction) {
         return;
     }
 
-    await setConfig({
+    await configRepo.set({
         ...config,
         athletes: config.athletes.map((a) =>
             isSameAthlete(a, parsedUser)

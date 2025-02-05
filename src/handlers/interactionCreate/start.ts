@@ -1,7 +1,7 @@
 import { type Scope } from "@sentry/node";
 import { ChatInputCommandInteraction, GuildMember, TextChannel } from "discord.js";
 import { SLASH_COMMAND } from "../../constants";
-import { getConfig } from "../../persistence/config";
+import { configRepo } from "../../persistence/config";
 import { timerRepo } from "../../persistence/timer";
 import logger from "../../services/logger";
 import { getInviteUrl, hasVoicePermissions } from "../../services/permissions";
@@ -30,7 +30,7 @@ export async function start(interaction: ChatInputCommandInteraction, scope: Sco
         return;
     }
 
-    const config = await getConfig(guildId);
+    const config = await configRepo.get(guildId);
     const connection = await getVoiceConnection(config, interaction.member as GuildMember);
 
     if (connection === undefined) {

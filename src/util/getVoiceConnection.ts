@@ -2,7 +2,7 @@ import { getVoiceConnection as getActiveVoiceConnection, VoiceConnection, VoiceC
 import { ChannelType, GuildMember, VoiceChannel } from "discord.js";
 import { environment } from "../environment";
 import { client } from "../discord";
-import { setConfig } from "../persistence/config";
+import { configRepo } from "../persistence/config";
 import logger from "../services/logger";
 import { Config } from "../types";
 import { connectToChannel } from "./connectToChannel";
@@ -52,7 +52,7 @@ export async function getVoiceConnection(config: Config, member?: GuildMember): 
             logger.info(connection.joinConfig.guildId, `Connected to VC:${connection.joinConfig.channelId}`);
         }
 
-        await setConfig({ ...config, voiceChannelId: connection?.joinConfig.channelId ?? undefined });
+        await configRepo.set({ ...config, voiceChannelId: connection?.joinConfig.channelId ?? undefined });
     }
 
     return connection;

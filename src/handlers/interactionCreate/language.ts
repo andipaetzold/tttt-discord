@@ -2,12 +2,12 @@ import { ChatInputCommandInteraction } from "discord.js";
 import { SLASH_COMMAND } from "../../constants";
 import { LANGUAGES } from "../../languages";
 import { LanguageKey } from "../../languages/types";
-import { getConfig, setConfig } from "../../persistence/config";
+import { configRepo } from "../../persistence/config";
 import logger from "../../services/logger";
 
 export async function language(interaction: ChatInputCommandInteraction) {
     const guildId = interaction.guild!.id;
-    const config = await getConfig(guildId);
+    const config = await configRepo.get(guildId);
 
     const newLanguageKey = interaction.options.getString(
         SLASH_COMMAND.commands.language.language,
@@ -21,7 +21,7 @@ export async function language(interaction: ChatInputCommandInteraction) {
         return;
     }
 
-    await setConfig({ ...config, languageKey: newLanguageKey });
+    await configRepo.set({ ...config, languageKey: newLanguageKey });
 
     const language = LANGUAGES.find((language) => language.key === newLanguageKey)!;
     await interaction.reply(`Language: ${language.name}`);
