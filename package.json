@@ -27,11 +27,11 @@
   },
   "devDependencies": {
     "@tsconfig/node22": "22.0.0",
-    "@types/lodash": "4.17.15",
-    "@types/node": "22.13.5",
+    "@types/lodash": "4.17.16",
+    "@types/node": "22.13.8",
     "@types/object-hash": "3.0.6",
     "tsc-watch": "6.2.1",
-    "typescript": "5.7.3"
+    "typescript": "5.8.2"
   },
   "dependencies": {
     "@discordjs/voice": "0.18.0",
