@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@discordjs/voice": "0.18.0",
-    "@sentry/node": "9.6.1",
+    "@sentry/node": "9.7.0",
     "discord-api-types": "0.37.119",
     "discord.js": "14.18.0",
     "ffmpeg-static": "5.2.0",
