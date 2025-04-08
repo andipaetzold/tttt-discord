@@ -31,7 +31,7 @@
     "@types/node": "22.14.0",
     "@types/object-hash": "3.0.6",
     "tsc-watch": "6.2.1",
-    "typescript": "5.8.2"
+    "typescript": "5.8.3"
   },
   "dependencies": {
     "@discordjs/voice": "0.18.0",
