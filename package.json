@@ -42,7 +42,7 @@
     "google-tts-api": "2.0.2",
     "lodash": "4.17.21",
     "object-hash": "3.0.0",
-    "redis": "4.7.0",
+    "redis": "4.7.1",
     "sodium-native": "4.1.1"
   }
 }
