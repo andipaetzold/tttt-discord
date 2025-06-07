@@ -36,7 +36,7 @@
   "dependencies": {
     "@discordjs/voice": "0.18.0",
     "@sentry/node": "9.25.1",
-    "discord-api-types": "0.38.10",
+    "discord-api-types": "0.38.11",
     "discord.js": "14.19.3",
     "ffmpeg-static": "5.2.0",
     "google-tts-api": "2.0.2",
