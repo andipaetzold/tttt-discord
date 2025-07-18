@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.2](https://github.com/andipaetzold/tttt-discord/compare/v1.1.1...v1.1.2) (2025-07-18)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @sentry/node to v9.39.0 ([#1281](https://github.com/andipaetzold/tttt-discord/issues/1281)) ([6bf872c](https://github.com/andipaetzold/tttt-discord/commit/6bf872c1844cf2bc19b49c59e3d6418e96467b8f))
+* **deps:** update dependency discord-api-types to v0.38.16 ([#1277](https://github.com/andipaetzold/tttt-discord/issues/1277)) ([bdb763b](https://github.com/andipaetzold/tttt-discord/commit/bdb763bc18c5828ec5faa8581e703bfe1a12ae75))
+
 ## [1.1.1](https://github.com/andipaetzold/tttt-discord/compare/v1.1.0...v1.1.1) (2025-07-14)
 
 
