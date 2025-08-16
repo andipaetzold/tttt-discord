@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.1.2](https://github.com/andipaetzold/tttt-discord/compare/v1.1.1...v1.1.2) (2025-08-16)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @sentry/node to v9.39.0 ([#1281](https://github.com/andipaetzold/tttt-discord/issues/1281)) ([6bf872c](https://github.com/andipaetzold/tttt-discord/commit/6bf872c1844cf2bc19b49c59e3d6418e96467b8f))
+* **deps:** update dependency @sentry/node to v9.40.0 ([#1282](https://github.com/andipaetzold/tttt-discord/issues/1282)) ([9ae7f56](https://github.com/andipaetzold/tttt-discord/commit/9ae7f564a8733cf78255b4f44d507267e67f1fcb))
+* **deps:** update dependency @sentry/node to v9.41.0 ([#1284](https://github.com/andipaetzold/tttt-discord/issues/1284)) ([62a65c5](https://github.com/andipaetzold/tttt-discord/commit/62a65c52e69c7987047391ccfe33fbc97bab8370))
+* **deps:** update dependency @sentry/node to v9.42.0 ([#1286](https://github.com/andipaetzold/tttt-discord/issues/1286)) ([f879130](https://github.com/andipaetzold/tttt-discord/commit/f879130d5fc565fbd4b08c639bc07f94a47700b7))
+* **deps:** update dependency @sentry/node to v9.44.2 ([#1290](https://github.com/andipaetzold/tttt-discord/issues/1290)) ([a1d7e4d](https://github.com/andipaetzold/tttt-discord/commit/a1d7e4d1272ecfd44365a9d6a4cbbbc33d8f7120))
+* **deps:** update dependency @sentry/node to v9.45.0 ([#1293](https://github.com/andipaetzold/tttt-discord/issues/1293)) ([362bd73](https://github.com/andipaetzold/tttt-discord/commit/362bd733e15513685ee016ea8a5af64281725aaa))
+* **deps:** update dependency @sentry/node to v9.46.0 ([#1297](https://github.com/andipaetzold/tttt-discord/issues/1297)) ([c797edd](https://github.com/andipaetzold/tttt-discord/commit/c797eddda231d82820aa382d3fb35a6d467ddade))
+* **deps:** update dependency discord-api-types to v0.38.16 ([#1277](https://github.com/andipaetzold/tttt-discord/issues/1277)) ([bdb763b](https://github.com/andipaetzold/tttt-discord/commit/bdb763bc18c5828ec5faa8581e703bfe1a12ae75))
+* **deps:** update dependency discord-api-types to v0.38.17 ([#1285](https://github.com/andipaetzold/tttt-discord/issues/1285)) ([1ab32ed](https://github.com/andipaetzold/tttt-discord/commit/1ab32ed691baa14954515c15279b5a6aed357034))
+* **deps:** update dependency discord-api-types to v0.38.18 ([#1287](https://github.com/andipaetzold/tttt-discord/issues/1287)) ([0a4db18](https://github.com/andipaetzold/tttt-discord/commit/0a4db18325a4870d09b299297778a8ba2fff096c))
+* **deps:** update dependency discord-api-types to v0.38.19 ([#1296](https://github.com/andipaetzold/tttt-discord/issues/1296)) ([90f139e](https://github.com/andipaetzold/tttt-discord/commit/90f139e7f5a895856f900970e8e9f18deb5e06b8))
+
 ## [1.1.1](https://github.com/andipaetzold/tttt-discord/compare/v1.1.0...v1.1.1) (2025-07-14)
 
 
