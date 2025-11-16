@@ -26,7 +26,7 @@
     "build": "tsc"
   },
   "devDependencies": {
-    "@tsconfig/node22": "22.0.2",
+    "@tsconfig/node22": "22.0.3",
     "@types/lodash": "4.17.20",
     "@types/node": "22.19.1",
     "@types/object-hash": "3.0.6",
