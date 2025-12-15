@@ -26,7 +26,7 @@ jobs:
             # Do the following steps after a release was created
             #
 
-            - uses: actions/checkout@v5
+            - uses: actions/checkout@v6
               if: ${{ steps.release.outputs.release_created }}
 
             - name: Set up QEMU
