@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@discordjs/voice": "0.19.0",
-    "@sentry/node": "10.32.1",
+    "@sentry/node": "10.33.0",
     "@snazzah/davey": "0.1.9",
     "discord-api-types": "0.38.37",
     "discord.js": "14.25.1",
