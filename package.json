@@ -18,7 +18,7 @@
     "email": "github@andipaetzold.com"
   },
   "engines": {
-    "node": "22.22.0"
+    "node": "24.13.1"
   },
   "scripts": {
     "start": "node .",
@@ -28,7 +28,7 @@
   "devDependencies": {
     "@tsconfig/node22": "22.0.5",
     "@types/lodash": "4.17.23",
-    "@types/node": "22.19.11",
+    "@types/node": "24.10.13",
     "@types/object-hash": "3.0.6",
     "tsc-watch": "7.2.0",
     "typescript": "5.9.3"
