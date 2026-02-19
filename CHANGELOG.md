@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.1.5](https://github.com/andipaetzold/tttt-discord/compare/v1.1.4...v1.1.5) (2026-02-19)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @sentry/node to v10.33.0 ([#1390](https://github.com/andipaetzold/tttt-discord/issues/1390)) ([d250e0d](https://github.com/andipaetzold/tttt-discord/commit/d250e0d94cb5a9e77c34a3551650977bfe90f279))
+* **deps:** update dependency @sentry/node to v10.34.0 ([#1393](https://github.com/andipaetzold/tttt-discord/issues/1393)) ([8bca5c5](https://github.com/andipaetzold/tttt-discord/commit/8bca5c579d83aa6d4093fa7b91f023db9c68b10b))
+* **deps:** update dependency @sentry/node to v10.35.0 ([#1397](https://github.com/andipaetzold/tttt-discord/issues/1397)) ([7f939ce](https://github.com/andipaetzold/tttt-discord/commit/7f939ce7522117102cb6c68058acfd4fc8f39a65))
+* **deps:** update dependency @sentry/node to v10.36.0 ([#1398](https://github.com/andipaetzold/tttt-discord/issues/1398)) ([a74ce8f](https://github.com/andipaetzold/tttt-discord/commit/a74ce8fd54def1bdcbd0d5c349d6191599017fcb))
+* **deps:** update dependency @sentry/node to v10.37.0 ([#1400](https://github.com/andipaetzold/tttt-discord/issues/1400)) ([260f654](https://github.com/andipaetzold/tttt-discord/commit/260f6544a9052c83edf57bbe7ccd0ddc6a74449a))
+* **deps:** update dependency @sentry/node to v10.38.0 ([#1402](https://github.com/andipaetzold/tttt-discord/issues/1402)) ([3f0cc6e](https://github.com/andipaetzold/tttt-discord/commit/3f0cc6e19d596e01999136f16284896493381262))
+* **deps:** update dependency @sentry/node to v10.39.0 ([#1408](https://github.com/andipaetzold/tttt-discord/issues/1408)) ([80102b4](https://github.com/andipaetzold/tttt-discord/commit/80102b4e77fbb96660b212608eeec9d26c64736f))
+* **deps:** update dependency discord-api-types to v0.38.38 ([#1401](https://github.com/andipaetzold/tttt-discord/issues/1401)) ([68b06e4](https://github.com/andipaetzold/tttt-discord/commit/68b06e42275e5ce0ef3b4e6e9f342623d168af24))
+* **deps:** update dependency discord-api-types to v0.38.39 ([#1407](https://github.com/andipaetzold/tttt-discord/issues/1407)) ([d12c154](https://github.com/andipaetzold/tttt-discord/commit/d12c154b55095a11dcec7cffa3b1ad12755f192c))
+* **deps:** update dependency lodash to v4.17.23 [security] ([#1396](https://github.com/andipaetzold/tttt-discord/issues/1396)) ([5d5b5d0](https://github.com/andipaetzold/tttt-discord/commit/5d5b5d0dfad0d6a0d656a193789d7bb4c42bad12))
+
 ## [1.1.4](https://github.com/andipaetzold/tttt-discord/compare/v1.1.3...v1.1.4) (2025-12-23)
 
 
