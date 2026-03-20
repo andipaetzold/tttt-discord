@@ -34,7 +34,7 @@
     "typescript": "5.9.3"
   },
   "dependencies": {
-    "@discordjs/voice": "0.19.1",
+    "@discordjs/voice": "0.19.2",
     "@sentry/node": "10.44.0",
     "@snazzah/davey": "0.1.10",
     "discord-api-types": "0.38.42",
