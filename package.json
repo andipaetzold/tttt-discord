@@ -38,7 +38,7 @@
     "@sentry/node": "10.47.0",
     "@snazzah/davey": "0.1.11",
     "discord-api-types": "0.38.44",
-    "discord.js": "14.26.0",
+    "discord.js": "14.26.2",
     "ffmpeg-static": "5.3.0",
     "google-tts-api": "2.0.2",
     "lodash": "4.18.1",
