@@ -18,7 +18,7 @@
     "email": "github@andipaetzold.com"
   },
   "engines": {
-    "node": "22.22.3"
+    "node": "22.23.2"
   },
   "scripts": {
     "start": "node .",
