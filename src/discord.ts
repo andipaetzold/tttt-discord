@@ -13,7 +13,6 @@ export const client = new Client({
     },
     intents: [
         IntentsBitField.Flags.Guilds,
-        IntentsBitField.Flags.GuildMessages,
         IntentsBitField.Flags.GuildMessageReactions,
         IntentsBitField.Flags.GuildVoiceStates,
         IntentsBitField.Flags.DirectMessages,
