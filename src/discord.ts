@@ -51,7 +51,7 @@ export const client = new Client({
     ],
     partials: [Partials.Channel, Partials.Message, Partials.Reaction, Partials.User],
     sweepers: {
-        ...Options.DefaultSweeperSettings,
+        ...Options.DefaultSweeperSettings, // Every hour, removes archived threads older than 4 hours.
         guildMembers: {
             interval: CACHE_SWEEP_INTERVAL, // 5 minutes
             filter: () => (member) => !isClientUser(member) && member.voice.channelId === null,
