@@ -23,7 +23,8 @@
   "scripts": {
     "start": "node .",
     "dev": "tsc-watch --onSuccess \"node .\"",
-    "build": "tsc"
+    "build": "tsc",
+    "test": "npm run build && node --test"
   },
   "devDependencies": {
     "@tsconfig/node22": "22.0.6",

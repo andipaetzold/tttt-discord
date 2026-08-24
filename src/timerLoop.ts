@@ -12,6 +12,7 @@ import { updateStatusMessage } from "./services/statusMessage";
 import { getNextAthleteIndex, stopTimer } from "./services/timer";
 import { speakCommand } from "./speak";
 import { Timer } from "./types";
+import { ExclusiveTaskRunner } from "./util/exclusiveTaskRunner";
 import { getVoiceConnection } from "./util/getVoiceConnection";
 import { getTime } from "./util/time";
 
@@ -40,13 +41,22 @@ async function scheduleTick() {
 }
 
 let prevTickTime: number | undefined;
+const timerTickRunner = new ExclusiveTaskRunner<string>();
+
 async function tick() {
     const time = getTime();
     if (time !== prevTickTime) {
         const timers = await timerRepo.getAll();
-        timers.filter((timer): timer is Timer => timer !== undefined).forEach((timer) => tickTimer(timer, time));
+        timers.filter((timer): timer is Timer => timer !== undefined).forEach((timer) => scheduleTimerTick(timer, time));
     }
     prevTickTime = time;
+}
+
+function scheduleTimerTick(timer: Timer, now: number): void {
+    const timerTick = timerTickRunner.run(timer.guildId, () => tickTimer(timer, now));
+    void timerTick?.catch((error) => {
+        logger.error(timer.guildId, new Error(`Timer tick failed\n${error}`));
+    });
 }
 
 /**
