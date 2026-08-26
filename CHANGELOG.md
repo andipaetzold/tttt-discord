@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.6](https://github.com/andipaetzold/tttt-discord/compare/v1.1.5...v1.1.6) (2026-08-26)
+
+
+### Bug Fixes
+
+* **timer:** prevent overlapping guild ticks ([#1476](https://github.com/andipaetzold/tttt-discord/issues/1476)) ([553abd8](https://github.com/andipaetzold/tttt-discord/commit/553abd8050b3168ce2647671daffd4ddb205dee8))
+
 ## [1.1.5](https://github.com/andipaetzold/tttt-discord/compare/v1.1.4...v1.1.5) (2026-08-24)
 
 
