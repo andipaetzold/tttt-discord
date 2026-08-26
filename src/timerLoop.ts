@@ -47,16 +47,24 @@ async function tick() {
     const time = getTime();
     if (time !== prevTickTime) {
         const timers = await timerRepo.getAll();
-        timers.filter((timer): timer is Timer => timer !== undefined).forEach((timer) => scheduleTimerTick(timer, time));
+        timers
+            .filter((timer): timer is Timer => timer !== undefined)
+            .forEach((timer) => void scheduleTimerTick(timer, time));
     }
     prevTickTime = time;
 }
 
-function scheduleTimerTick(timer: Timer, now: number): void {
+async function scheduleTimerTick(timer: Timer, now: number): Promise<void> {
     const timerTick = timerTickRunner.run(timer.guildId, () => tickTimer(timer, now));
-    void timerTick?.catch((error) => {
+    if (timerTick === undefined) {
+        return;
+    }
+
+    try {
+        await timerTick;
+    } catch (error) {
         logger.error(timer.guildId, new Error(`Timer tick failed\n${error}`));
-    });
+    }
 }
 
 /**

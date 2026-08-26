@@ -9,10 +9,16 @@ export class ExclusiveTaskRunner<Key> {
         const taskToken = Symbol();
         this.#activeTasks.set(key, taskToken);
 
-        return Promise.resolve().then(task).finally(() => {
+        return this.#runTask(key, taskToken, task);
+    }
+
+    async #runTask(key: Key, taskToken: symbol, task: () => Promise<void>): Promise<void> {
+        try {
+            await task();
+        } finally {
             if (this.#activeTasks.get(key) === taskToken) {
                 this.#activeTasks.delete(key);
             }
-        });
+        }
     }
 }
