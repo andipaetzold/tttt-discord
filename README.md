@@ -244,21 +244,6 @@ services:
             - redis
 ```
 
-### Audio cache
-
-Spoken phrases are downloaded and converted to Ogg Opus once, then reused without
-transcoding on subsequent plays. Concurrent requests for the same phrase share one
-conversion within each bot process.
-
-The cache defaults to `tttt-discord-audio` inside the system temporary directory
-(`/tmp/tttt-discord-audio` in Docker). Set `AUDIO_CACHE_DIR` to use another directory.
-To retain cached audio when replacing a container, mount a persistent volume at
-that path. The directory must be writable by the container user (UID/GID `1001`).
-Use a separate cache volume for each bot instance.
-
-Cached files have no automatic expiry. They can be removed while the bot is stopped
-and will be recreated as needed.
-
 ## Need help?
 
 Join the [TTT-Timer Discord server](https://discord.gg/SUccRhqswq) or [send an E-mail](mailto:tttt-discord@andipaetzold.com)
