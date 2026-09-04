@@ -1,4 +1,4 @@
-import { MessageReaction, PartialUser, User } from "discord.js";
+import { MessageReaction, PartialMessageReaction, PartialUser, User } from "discord.js";
 import { client } from "../../discord";
 import { configRepo } from "../../persistence";
 import { timerRepo } from "../../persistence";
@@ -12,15 +12,7 @@ import { EMOJI_PLUS10, EMOJI_SKIP, EMOJI_TOAST } from "../../util/emojis";
 export async function handleMessageReactionAdd({
     args: [messageReaction, user],
     scope,
-}: HandlerProps<[MessageReaction, User | PartialUser]>) {
-    if (messageReaction.partial) {
-        try {
-            await messageReaction.fetch();
-        } catch {
-            return;
-        }
-    }
-
+}: HandlerProps<[MessageReaction | PartialMessageReaction, User | PartialUser]>) {
     if (user.id === client.user!.id) {
         return;
     }
@@ -83,7 +75,7 @@ export async function handleMessageReactionAdd({
     }
 }
 
-async function removeReaction(messageReaction: MessageReaction, user: User | PartialUser) {
+async function removeReaction(messageReaction: MessageReaction | PartialMessageReaction, user: User | PartialUser) {
     if (hasManageMessagesPermissions(messageReaction.message.guild!)) {
         try {
             await messageReaction.users.remove(user.id);

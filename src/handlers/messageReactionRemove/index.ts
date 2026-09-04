@@ -1,4 +1,4 @@
-import { MessageReaction, PartialUser, User } from "discord.js";
+import { MessageReaction, PartialMessageReaction, PartialUser, User } from "discord.js";
 import { client } from "../../discord";
 import { configRepo } from "../../persistence";
 import { timerRepo } from "../../persistence";
@@ -11,15 +11,7 @@ import { EMOJI_TOAST } from "../../util/emojis";
 export async function handleMessageReactionRemove({
     args: [messageReaction, user],
     scope,
-}: HandlerProps<[MessageReaction, User | PartialUser]>) {
-    if (messageReaction.partial) {
-        try {
-            await messageReaction.fetch();
-        } catch {
-            return;
-        }
-    }
-
+}: HandlerProps<[MessageReaction | PartialMessageReaction, User | PartialUser]>) {
     if (user.id === client.user!.id) {
         return;
     }
