@@ -1,28 +1,29 @@
-import { createAudioPlayer, createAudioResource, VoiceConnection } from "@discordjs/voice";
+import { createAudioPlayer, createAudioResource, StreamType, VoiceConnection } from "@discordjs/voice";
+import { createReadStream } from "node:fs";
 import { getAudioUrl } from "google-tts-api";
 import { environment } from "./environment";
 import { LANGUAGES } from "./languages";
 import { LanguageKey, Locale } from "./languages/types";
 import logger from "./services/logger";
-import { download } from "./util/download";
+import { opusAudioCache } from "./util/opusAudioCache";
 
 export async function speak(text: string, locale: Locale, connection: VoiceConnection): Promise<void> {
     if (environment.logging.speak) {
         logger.info(connection.joinConfig.guildId, `Speak: "${text}"`);
     }
 
-    await new Promise<void>(async (resolve, reject) => {
-        const url = getAudioUrl(text, {
-            lang: locale,
-            slow: false,
-            host: "https://translate.google.com",
-        });
+    const url = getAudioUrl(text, {
+        lang: locale,
+        slow: false,
+        host: "https://translate.google.com",
+    });
+    const filename = await opusAudioCache.get(url);
 
+    await new Promise<void>((resolve, reject) => {
         const player = createAudioPlayer();
         const subscription = connection.subscribe(player);
 
-        const filename = await download(url);
-        const resource = createAudioResource(filename);
+        const resource = createAudioResource(createReadStream(filename), { inputType: StreamType.OggOpus });
 
         player.play(resource);
         player.on("error", reject);
