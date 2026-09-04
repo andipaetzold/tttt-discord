@@ -12,14 +12,6 @@ export async function handleMessageReactionRemove({
     args: [messageReaction, user],
     scope,
 }: HandlerProps<[MessageReaction, User | PartialUser]>) {
-    if (messageReaction.partial) {
-        try {
-            await messageReaction.fetch();
-        } catch {
-            return;
-        }
-    }
-
     if (user.id === client.user!.id) {
         return;
     }
@@ -40,6 +32,15 @@ export async function handleMessageReactionRemove({
         timer.status?.messageId !== messageReaction.message.id
     ) {
         return;
+    }
+
+    // Only fetch reactions for the active timer's status message.
+    if (messageReaction.partial) {
+        try {
+            await messageReaction.fetch();
+        } catch {
+            return;
+        }
     }
 
     logger.info(messageReaction.message.guild!.id, `Message Reaction Remove: ${messageReaction.emoji.name}`);
