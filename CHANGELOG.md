@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.1.7](https://github.com/andipaetzold/tttt-discord/compare/v1.1.6...v1.1.7) (2026-09-04)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @sentry/node to v10.71.0 ([#1479](https://github.com/andipaetzold/tttt-discord/issues/1479)) ([c7ca8b9](https://github.com/andipaetzold/tttt-discord/commit/c7ca8b9ff31961f391a472b68162b9c8fbd1bff1))
+* **deps:** update dependency @sentry/node to v10.72.0 ([#1483](https://github.com/andipaetzold/tttt-discord/issues/1483)) ([a82bc1c](https://github.com/andipaetzold/tttt-discord/commit/a82bc1cede88457bfd4833426db724e3778ae4fe))
+* **deps:** update dependency @sentry/node to v10.73.0 ([#1484](https://github.com/andipaetzold/tttt-discord/issues/1484)) ([f49fece](https://github.com/andipaetzold/tttt-discord/commit/f49fece980170e464be4601f4b6468a1485101c4))
+* **deps:** update dependency discord-api-types to v0.38.54 ([#1482](https://github.com/andipaetzold/tttt-discord/issues/1482)) ([e578d8c](https://github.com/andipaetzold/tttt-discord/commit/e578d8c6aa92b9b33f018b9d621ef3dbadd92c90))
+* **voice:** release audio players after playback finishes ([#1487](https://github.com/andipaetzold/tttt-discord/issues/1487)) ([173ad9b](https://github.com/andipaetzold/tttt-discord/commit/173ad9b7b29f86f346ec7266eec5db885b65e79a))
+
 ## [1.1.6](https://github.com/andipaetzold/tttt-discord/compare/v1.1.5...v1.1.6) (2026-08-26)
 
 
