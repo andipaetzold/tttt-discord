@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.8](https://github.com/andipaetzold/tttt-discord/compare/v1.1.7...v1.1.8) (2026-09-06)
+
+
+### Bug Fixes
+
+* **deps:** update dependency discord-api-types to v0.38.55 ([#1490](https://github.com/andipaetzold/tttt-discord/issues/1490)) ([78b683c](https://github.com/andipaetzold/tttt-discord/commit/78b683cf9faaffede59716076cb6347dcaad450e))
+* **discord:** avoid fetching partial reactions ([#1486](https://github.com/andipaetzold/tttt-discord/issues/1486)) ([cfeee4b](https://github.com/andipaetzold/tttt-discord/commit/cfeee4b1b8f055ed9c42b5296ded21d613078bcc))
+
 ## [1.1.7](https://github.com/andipaetzold/tttt-discord/compare/v1.1.6...v1.1.7) (2026-09-04)
 
 
