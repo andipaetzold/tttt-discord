@@ -29,7 +29,7 @@
   "devDependencies": {
     "@tsconfig/node22": "22.0.6",
     "@types/lodash": "4.17.25",
-    "@types/node": "24.13.3",
+    "@types/node": "24.13.4",
     "@types/object-hash": "3.0.6",
     "tsc-watch": "7.2.1",
     "typescript": "5.9.3"
