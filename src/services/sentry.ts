@@ -1,4 +1,4 @@
-import { type Scope, init, setTags, withScope } from "@sentry/node";
+import { type Scope, init, setAttributes, setTags, withScope } from "@sentry/node";
 import { environment } from "../environment";
 import logger from "./logger";
 
@@ -12,12 +12,30 @@ init({
     enabled: environment.sentry.dsn !== undefined,
     tracesSampleRate: 1.0,
     environment: environment.sentry.environment,
+    attachStacktrace: false,
+    dataCollection: {
+        userInfo: false,
+        cookies: false,
+        httpHeaders: {
+            request: { deny: ["forwarded", "-ip", "remote-", "via", "-user"] },
+            response: { deny: ["forwarded", "-ip", "remote-", "via", "-user"] },
+        },
+        httpBodies: [],
+        urlQueryParams: { deny: ["forwarded", "-ip", "remote-", "via", "-user"] },
+        genAI: { inputs: false, outputs: false },
+        databaseQueryData: false,
+        graphQL: { document: false, variables: false },
+        frameContextLines: 7,
+    },
 });
 
-setTags({
+const botContext = {
     mainBot: environment.mainBot,
     botId: environment.botId,
-});
+};
+
+setTags(botContext);
+setAttributes(botContext);
 
 logger.info(undefined, `Sentry environment: ${environment.sentry.environment}`);
 
@@ -28,6 +46,7 @@ export function wrapHandler<T extends (props: HandlerProps<any>) => Promise<void
     const wrappedFunction = async (...args: Parameters<T>) => {
         withScope(async (scope) => {
             scope.setTag("handler", handler);
+            scope.setAttribute("handler", handler);
             try {
                 return await func({ args, scope });
             } catch (e: any) {
