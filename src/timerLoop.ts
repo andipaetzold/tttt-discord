@@ -1,6 +1,5 @@
 import { VoiceConnection } from "@discordjs/voice";
 import { Scope } from "@sentry/node";
-import { VoiceChannel } from "discord.js";
 import { performance } from "perf_hooks";
 import { EMPTY_VC_TIMEOUT } from "./constants";
 import { client } from "./discord";
@@ -87,13 +86,12 @@ async function tickTimer(timer: Timer, now: number): Promise<void> {
             throw new Error("Could not get voice channel");
         }
 
-        const voiceChannel = (await client.channels.fetch(connection.joinConfig.channelId!)) as VoiceChannel | undefined;
-        if (!voiceChannel) {
+        const voiceChannel = await client.channels.fetch(connection.joinConfig.channelId);
+        if (!voiceChannel?.isVoiceBased()) {
             throw new Error("Could not get voice channel");
         }
 
-        const guild = await client.guilds.fetch(timer.guildId);
-        if (!hasVoicePermissions(guild)) {
+        if (!hasVoicePermissions(voiceChannel)) {
             throw new Error("Missing voice permissions");
         }
 
