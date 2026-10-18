@@ -5,8 +5,15 @@ import { LANGUAGES } from "./languages";
 import { LanguageKey, Locale } from "./languages/types";
 import logger from "./services/logger";
 import { download } from "./util/download";
+import { client } from "./discord";
+import { canSpeakInStage } from "./util/stageVoice";
 
 export async function speak(text: string, locale: Locale, connection: VoiceConnection): Promise<void> {
+    const channelId = connection.joinConfig.channelId;
+    const channel = channelId ? await client.channels.fetch(channelId) : undefined;
+    if (!channel?.isVoiceBased() || !canSpeakInStage(channel)) {
+        return;
+    }
     if (environment.logging.speak) {
         logger.info(connection.joinConfig.guildId, `Speak: "${text}"`);
     }
@@ -17,6 +24,9 @@ export async function speak(text: string, locale: Locale, connection: VoiceConne
         host: "https://translate.google.com",
     });
     const filename = await download(url);
+    if (!canSpeakInStage(channel)) {
+        return;
+    }
     const player = createAudioPlayer();
     const subscription = connection.subscribe(player);
     let timeout: ReturnType<typeof setTimeout> | undefined;

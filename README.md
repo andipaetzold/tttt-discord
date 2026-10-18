@@ -6,7 +6,7 @@ This is a follow-up project of the [TTT-Timer Web App](https://andipaetzold.gith
 
 ## Installation
 
-Click [here](https://discord.com/api/oauth2/authorize?client_id=806979974594560060&permissions=3155968&scope=bot+applications.commands) to install the bot to your server
+Click [here](https://discord.com/api/oauth2/authorize?client_id=806979974594560060&permissions=4298123264&scope=bot+applications.commands) to install the bot to your server
 
 You will be asked to grant multiple permissions:
 
@@ -15,6 +15,7 @@ You will be asked to grant multiple permissions:
 | Send Messages   | Allows the bot to send messages to a text channels                                                                                                         |
 | Manage Messages | Allows the bot to update other users messages. This is used to create a button-like behavior when clicking on the emojis below the timer's status message. |
 | Connect         | Allows the bot to join a voice channel                                                                                                                     |
+| Request to Speak | Optional: allows the bot to request speaker approval in Stage channels. A moderator can also promote the bot manually. |
 | Speak           | Allows the bot to send audio / voice to a voice channel                                                                                                    |
 
 <img src="./docs/authorize.png" height="500">
@@ -165,7 +166,9 @@ If the timer hasn't started yet and is still waiting for the start delay to tick
 
 #### `/timer start`
 
-Starts the timer. The bot joins your current voice channel or the channel from a previous start.
+Starts the timer. The bot joins your current voice or Stage channel, or the channel from a previous start.
+
+For Stage channels, start the Stage session yourself first. If the bot joins as an audience member, it requests to speak when permitted. A Stage moderator must approve the request or promote the bot manually. The timer and status updates continue while waiting, but announcements remain silent until the bot becomes a speaker. Missed announcements are not replayed. The bot does not need Mute Members permission.
 
 #### `/timer stop`
 
@@ -195,8 +198,8 @@ Discord does not allow a bot to join multiple voice call at a time. To run multi
 
 | Slash Command | Install Link                                                                                                                               |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| `/timer`      | [Install Bot 1](https://discord.com/api/oauth2/authorize?client_id=806979974594560060&permissions=3155968&scope=bot+applications.commands) |
-| `/timer2`     | [Install Bot 2](https://discord.com/api/oauth2/authorize?client_id=894298274343837696&permissions=3155968&scope=bot+applications.commands) |
+| `/timer`      | [Install Bot 1](https://discord.com/api/oauth2/authorize?client_id=806979974594560060&permissions=4298123264&scope=bot+applications.commands) |
+| `/timer2`     | [Install Bot 2](https://discord.com/api/oauth2/authorize?client_id=894298274343837696&permissions=4298123264&scope=bot+applications.commands) |
 
 ## Data Privacy
 
