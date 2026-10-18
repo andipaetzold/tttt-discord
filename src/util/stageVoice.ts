@@ -1,15 +1,6 @@
 import { ChannelType, VoiceBasedChannel, PermissionFlagsBits } from "discord.js";
 import logger from "../services/logger";
 
-export function canSpeakInStage(channel: VoiceBasedChannel): boolean {
-    if (channel.type !== ChannelType.GuildStageVoice) {
-        return true;
-    }
-
-    const voice = channel.guild.members.me?.voice;
-    return voice?.channelId === channel.id && voice.suppress === false && voice.serverMute === false;
-}
-
 export async function requestStageSpeaker(channel: VoiceBasedChannel): Promise<void> {
     if (channel.type !== ChannelType.GuildStageVoice) {
         return;

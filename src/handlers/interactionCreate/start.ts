@@ -1,5 +1,5 @@
 import { type Scope } from "@sentry/node";
-import { ChatInputCommandInteraction, GuildMember, TextChannel } from "discord.js";
+import { ChannelType, ChatInputCommandInteraction, GuildMember, TextChannel } from "discord.js";
 import { SLASH_COMMAND } from "../../constants";
 import { configRepo } from "../../persistence";
 import { timerRepo } from "../../persistence";
@@ -7,7 +7,7 @@ import logger from "../../services/logger";
 import { getInviteUrl, hasVoicePermissions } from "../../services/permissions";
 import { addTimer } from "../../services/timer";
 import { getVoiceConnection } from "../../util/getVoiceConnection";
-import { canSpeakInStage } from "../../util/stageVoice";
+import { canSpeak } from "../../util/canSpeak";
 
 export async function start(interaction: ChatInputCommandInteraction, scope: Scope) {
     const guild = interaction.guild!;
@@ -46,10 +46,14 @@ export async function start(interaction: ChatInputCommandInteraction, scope: Sco
         return;
     }
 
-    await interaction.reply(
-        canSpeakInStage(voiceChannel)
-            ? "Timer started"
-            : "Timer started. A Stage moderator must promote me to speaker before announcements can be heard."
-    );
+    let message = "Timer started";
+    if (!canSpeak(voiceChannel)) {
+        if (voiceChannel.type === ChannelType.GuildStageVoice && guild.members.me?.voice.suppress !== false) {
+            message = "Timer started. A Stage moderator must promote me to speaker before announcements can be heard.";
+        } else {
+            message = "Timer started. I am currently muted or unable to speak, so announcements cannot be heard.";
+        }
+    }
+    await interaction.reply(message);
     await addTimer(guildId, interaction.channel as TextChannel, scope);
 }
