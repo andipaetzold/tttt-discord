@@ -1,4 +1,4 @@
-import { Guild, OAuth2Scopes, PermissionFlagsBits } from "discord.js";
+import { ChannelType, Guild, VoiceBasedChannel, OAuth2Scopes, PermissionFlagsBits } from "discord.js";
 import { client } from "../discord";
 
 export const REQUESTED_PERMISSIONS = [
@@ -6,6 +6,7 @@ export const REQUESTED_PERMISSIONS = [
     PermissionFlagsBits.ManageMessages,
     PermissionFlagsBits.Connect,
     PermissionFlagsBits.Speak,
+    PermissionFlagsBits.RequestToSpeak,
 ] as const;
 
 export function getInviteUrl(): string {
@@ -19,8 +20,16 @@ export function hasSendMessagePermission(guild: Guild) {
     return guild.members.me?.permissions.has(PermissionFlagsBits.SendMessages) ?? false;
 }
 
-export function hasVoicePermissions(guild: Guild) {
-    return guild.members.me?.permissions.has([PermissionFlagsBits.Connect, PermissionFlagsBits.Speak]) ?? false;
+export function hasVoicePermissions(channel: VoiceBasedChannel) {
+    const member = channel.guild.members.me;
+    if (!member) {
+        return false;
+    }
+    const required =
+        channel.type === ChannelType.GuildStageVoice
+            ? [PermissionFlagsBits.Connect]
+            : [PermissionFlagsBits.Connect, PermissionFlagsBits.Speak];
+    return channel.permissionsFor(member)?.has(required) ?? false;
 }
 
 export function hasManageMessagesPermissions(guild: Guild) {
